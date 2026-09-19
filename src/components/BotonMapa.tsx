@@ -5,7 +5,7 @@ type BotonMapaProps = {
   label?: string
 }
 
-export function BotonMapa({ query, label = 'Ver mapa' }: BotonMapaProps) {
+export function BotonMapa({ query, label = 'Ver ubicación' }: BotonMapaProps) {
   const handleClick = () => {
     if (isMobileMapsDevice()) {
       window.location.assign(googleMapsMobileUrl(query))

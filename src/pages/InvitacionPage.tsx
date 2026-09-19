@@ -231,7 +231,7 @@ export function InvitacionPage({
         {sobreListo ? (
           <div className="inv-sep-foto inv-sep-foto--hero-countdown" aria-hidden>
             <img
-              src="/decor/separadores/divisor-hojas-separador.png?v=8"
+              src="/decor/separadores/hojas-largas.png?v=4"
               alt=""
               loading="lazy"
               decoding="async"

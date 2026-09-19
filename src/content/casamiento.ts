@@ -79,6 +79,14 @@ export const CASAMIENTO = {
     direccion: 'Paraguay 3901, Palermo, CABA',
     /** Basílica del Espíritu Santo — misma parroquia, pin correcto en Google Maps. */
     mapsQuery: 'Basílica del Espíritu Santo, Paraguay 3901, Palermo, CABA',
+    calendar: {
+      title: 'Ceremonia — Vanesa y Augusto',
+      start: '20261219T114500',
+      end: '20261219T130000',
+      timezone: 'America/Argentina/Buenos_Aires',
+      location: 'Parroquia Nuestra Señora de Guadalupe, Paraguay 3901, Palermo, CABA',
+      details: 'Ceremonia religiosa del casamiento de Vanesa y Augusto.',
+    },
   },
 
   fiesta: {
@@ -87,6 +95,14 @@ export const CASAMIENTO = {
     direccion: 'Parana 1048, Recoleta, CABA',
     mapsQuery: 'Parana 1048, Recoleta, CABA',
     fotos: ['/millon/d.jpg', '/millon/h.jpg', '/millon/j.jpg', '/millon/l.jpg'],
+    calendar: {
+      title: 'Fiesta — Vanesa y Augusto',
+      start: '20261219T133000',
+      end: '20261219T230000',
+      timezone: 'America/Argentina/Buenos_Aires',
+      location: 'Milión, Parana 1048, Recoleta, CABA',
+      details: 'Celebración del casamiento de Vanesa y Augusto en Milión.',
+    },
   },
 
   vestimenta: {

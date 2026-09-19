@@ -26,6 +26,18 @@
   }
 }
 
+.inv-acciones-lugar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+}
+
+.inv-acciones-lugar .inv-mapa-btn {
+  margin-top: 0;
+}
+
 .inv-mapa-btn {
   margin-top: 0.85rem;
 }
@@ -338,6 +350,11 @@
   [data-inv-section='fiesta'] .inv-fiesta-info {
     align-items: center;
   }
+
+  [data-inv-section='iglesia'] .inv-acciones-lugar,
+  [data-inv-section='fiesta'] .inv-acciones-lugar {
+    align-items: center;
+  }
 }
 
 /* El día — iconos dorados (PNG, sin texto embebido) */
@@ -371,20 +388,34 @@
 
 .inv-sep-foto--hero-countdown {
   bottom: 0;
-  transform: translateY(42%);
+  transform: translateY(50%);
+  padding-inline: clamp(0.25rem, 3vw, 1.5rem);
 }
 
 .inv-sep-foto img {
   opacity: 1;
   filter: drop-shadow(0 1px 5px color-mix(in srgb, var(--inv-ink) 4%, transparent));
   width: 100%;
-  height: auto;
+  height: 32.7vh;
+  max-height: 32.7vh;
+  object-fit: contain;
   display: block;
+  margin-inline: auto;
 }
 
 @media (max-width: 859px) {
   .inv-sep-foto--hero-countdown {
-    transform: translateY(38%);
+    width: 100vw;
+    left: 50%;
+    right: auto;
+    padding-inline: 0;
+    transform: translateX(-50%) translateY(48%);
+  }
+
+  .inv-sep-foto--hero-countdown img {
+    width: 100%;
+    height: auto;
+    max-height: none;
   }
 }
 
