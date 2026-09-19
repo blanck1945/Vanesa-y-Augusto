@@ -8,6 +8,7 @@ import { InvReveal } from '../components/InvReveal'
 import { HeroPortada } from '../components/HeroPortada'
 import { Reloj } from '../components/Reloj'
 import { Section } from '../components/Section'
+import { SeparadorHojasLargas } from '../components/SeparadorHojasLargas'
 import { SepSlot } from '../components/SepHojas'
 import { SobreInvitacion } from '../components/SobreInvitacion'
 import { Button } from '../components/ui/Button'
@@ -228,19 +229,11 @@ export function InvitacionPage({
             </InvReveal>
           ) : null}
         </div>
-        {sobreListo ? (
-          <div className="inv-sep-foto inv-sep-foto--hero-countdown" aria-hidden>
-            <img
-              src="/decor/separadores/hojas-largas.png?v=4"
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        ) : null}
       </section>
 
-      <main>
+      <SeparadorHojasLargas variant="hero" active={sobreListo} />
+
+      <main className="inv-main-secciones">
         <Section
           tone="leaf"
           align="center"
@@ -252,6 +245,8 @@ export function InvitacionPage({
         >
           <Reloj fechaIso={CASAMIENTO.fechaIso} />
         </Section>
+
+        <SeparadorHojasLargas active={sobreListo} />
 
         <section
           className="inv-band inv-band--tall inv-band--pearl inv-band--fiesta inv-band--fiesta-bg inv-band--sep-arriba inv-band--sep-abajo"
@@ -282,6 +277,8 @@ export function InvitacionPage({
             </div>
           </div>
         </section>
+
+        <SeparadorHojasLargas active={sobreListo} />
 
         <Section
           tone="pearl"
@@ -318,6 +315,8 @@ export function InvitacionPage({
           </ol>
         </Section>
 
+        <SeparadorHojasLargas active={sobreListo} />
+
         <section
           className="inv-band inv-band--tall inv-band--mist inv-band--fiesta inv-band--fiesta-bg inv-band--iglesia inv-band--sep-arriba inv-band--sep-abajo"
           data-inv-section="iglesia"
@@ -342,6 +341,8 @@ export function InvitacionPage({
             <div className="inv-iglesia-spacer" aria-hidden />
           </div>
         </section>
+
+        <SeparadorHojasLargas active={sobreListo} />
 
         <section
           className="inv-band inv-band--tall inv-band--pearl inv-band--fiesta inv-band--fiesta-bg inv-band--sep-arriba inv-band--sep-abajo"
@@ -369,6 +370,8 @@ export function InvitacionPage({
             </div>
           </div>
         </section>
+
+        <SeparadorHojasLargas active={sobreListo} />
 
         <Section
           tone="mist"
@@ -405,6 +408,8 @@ export function InvitacionPage({
           </div>
         </Section>
 
+        <SeparadorHojasLargas active={sobreListo} />
+
         <Section
           tone="pearl"
           align="center"
@@ -433,6 +438,8 @@ export function InvitacionPage({
             ))}
           </ul>
         </Section>
+
+        <SeparadorHojasLargas active={sobreListo} />
 
         <Section
           tone="mist"
@@ -470,6 +477,8 @@ export function InvitacionPage({
           </div>
         </Section>
 
+        <SeparadorHojasLargas active={sobreListo} />
+
         <Section
           tone="pearl"
           align="center"
@@ -489,6 +498,8 @@ export function InvitacionPage({
             ))}
           </div>
         </Section>
+
+        <SeparadorHojasLargas active={sobreListo} />
 
         <section
           className="inv-rsvp inv-band--tall inv-band--rsvp-summer inv-band--sep-arriba"

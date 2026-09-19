@@ -372,50 +372,96 @@
   }
 }
 
-/* Separador custom (hero → cuenta regresiva), superpuesto al borde — no es sección extra */
-.inv-hero-intro {
+/* Separadores hojas largas — superpuestos entre secciones */
+.invitacion {
+  --inv-sep-overlap: clamp(2.5rem, 14vh, 7rem);
+}
+
+.inv-main-secciones {
   position: relative;
 }
 
 .inv-sep-foto {
   pointer-events: none;
-  z-index: 4;
   width: 100%;
-  position: absolute;
-  left: 0;
-  right: 0;
-}
-
-.inv-sep-foto--hero-countdown {
-  bottom: 0;
-  transform: translateY(50%);
-  padding-inline: clamp(0.25rem, 3vw, 1.5rem);
 }
 
 .inv-sep-foto img {
   opacity: 1;
   filter: drop-shadow(0 1px 5px color-mix(in srgb, var(--inv-ink) 4%, transparent));
   width: 100%;
-  height: 32.7vh;
-  max-height: 32.7vh;
   object-fit: contain;
   display: block;
   margin-inline: auto;
+}
+
+/* Hero → cuenta regresiva: hermano entre secciones, encima de ambas */
+.inv-sep-foto--hero-countdown {
+  position: relative;
+  z-index: 20;
+  height: 0;
+  overflow: visible;
+  padding-inline: clamp(0.25rem, 3vw, 1.5rem);
+}
+
+.inv-sep-foto--hero-countdown img {
+  height: 32.7vh;
+  max-height: 32.7vh;
+  transform: translateY(-50%);
+}
+
+/* Entre secciones: cero alto en la unión, imagen centrada con translateY(-50%) */
+.inv-sep-foto--overlap {
+  position: relative;
+  height: 0;
+  overflow: visible;
+  padding-inline: clamp(0.25rem, 3vw, 1.5rem);
+}
+
+.inv-sep-foto--overlap img {
+  height: var(--inv-sep-overlap);
+  max-height: var(--inv-sep-overlap);
+  transform: translateY(-50%);
+}
+
+.inv-band,
+.inv-rsvp {
+  position: relative;
+  z-index: 1;
+}
+
+/* Separadores siempre por encima del fondo de las bandas */
+.inv-sep-foto--overlap,
+.inv-sep-foto--hero-countdown {
+  z-index: 20;
 }
 
 @media (max-width: 859px) {
   .inv-sep-foto--hero-countdown {
     width: 100vw;
     left: 50%;
-    right: auto;
     padding-inline: 0;
-    transform: translateX(-50%) translateY(48%);
+    transform: translateX(-50%);
   }
 
   .inv-sep-foto--hero-countdown img {
     width: 100%;
     height: auto;
     max-height: none;
+    transform: translateY(-50%);
+  }
+
+  .inv-sep-foto--overlap {
+    width: 100vw;
+    left: 50%;
+    padding-inline: 0;
+    transform: translateX(-50%);
+  }
+
+  .inv-sep-foto--overlap img {
+    height: auto;
+    max-height: none;
+    transform: translateY(-50%);
   }
 }
 
