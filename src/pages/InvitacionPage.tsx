@@ -426,7 +426,11 @@ export function InvitacionPage({
             {CASAMIENTO.tips.items.map((tip) => (
               <li key={tip.titulo} className="inv-tip">
                 <p className="inv-tip-title">{tip.titulo}</p>
-                <p className="inv-copy">{tip.texto}</p>
+                {(Array.isArray(tip.texto) ? tip.texto : [tip.texto]).map((linea) => (
+                  <p key={linea} className="inv-copy">
+                    {linea}
+                  </p>
+                ))}
                 {tip.lista?.length ? (
                   <ul className="inv-tip-list">
                     {tip.lista.map((item) => (
@@ -527,7 +531,7 @@ export function InvitacionPage({
                     ? inv.nombreAcompanante
                       ? `¡Gracias! Confirmamos 2 personas: ${inv.nombre} y ${inv.nombreAcompanante}`
                       : '¡Gracias! Confirmamos tu asistencia (1 persona)'
-                    : 'Registramos que no vas a poder asistir — te vamos a extrañar'}
+                    : 'Registramos que no vas a poder asistir, te vamos a extrañar'}
                 </p>
               </InvReveal>
             ) : null}

@@ -13,7 +13,7 @@ export type ItinerarioItem = {
 
 export type TipItem = {
   titulo: string
-  texto: string
+  texto: string | string[]
   lista?: string[]
 }
 
@@ -115,13 +115,17 @@ export const CASAMIENTO = {
     items: [
       {
         titulo: 'Solo Adultos',
-        texto:
-          'Queremos que ese día solo tengan que preocuparse por pasársela increíble, el evento es exclusivo para adultos',
+        texto: [
+          'Queremos que ese día solo tengan que preocuparse por pasarla increíble',
+          'El evento es exclusivo para adultos',
+        ],
       },
       {
         titulo: 'Estacionamiento',
-        texto:
-          'Milión no cuenta con estacionamiento propio. Sin embargo, la casa está rodeada de múltiples opciones a pocos pasos:',
+        texto: [
+          'Milión no cuenta con estacionamiento propio',
+          'Sin embargo, la casa está rodeada de múltiples opciones a pocos pasos:',
+        ],
         lista: [
           'Marcelo T. de Alvear 1460',
           'Uruguay 1064',
@@ -163,7 +167,7 @@ export const CASAMIENTO = {
 
   regalos: {
     detalle:
-      'Lo más importante es compartir este día con ustedes. Si desean hacernos un regalo, pueden depositar en:',
+      'Lo más importante es compartir este día con ustedes si desean hacernos un regalo, pueden depositar en:',
     cuentas: [
       {
         moneda: 'Pesos',
