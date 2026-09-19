@@ -1,0 +1,406 @@
+@import 'tailwindcss';
+@import './styles/invitacion.css';
+
+/* Párrafos de cuerpo: mismo estilo que regalos (inv-guest-meta) */
+.inv-copy {
+  font-family: var(--inv-display);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--inv-ink-soft);
+}
+
+/* Nuestra historia — fotos 3 (Fontana) y 4 (Wimbledon): encuadrar las dos caras */
+[data-inv-section='historia'] .inv-carrusel-img[src$='/06.jpg'] {
+  object-fit: contain;
+  object-position: center center;
+}
+
+[data-inv-section='historia'] .inv-carrusel-img[src$='/08.jpg'] {
+  object-position: center 72%;
+}
+
+@media (max-width: 859px) {
+  [data-inv-section='historia'] .inv-carrusel-img[src$='/08.jpg'] {
+    object-position: center 76%;
+  }
+}
+
+.inv-mapa-btn {
+  margin-top: 0.85rem;
+}
+
+/* Galería — grid estilo IG con paleta de la invitación */
+.inv-galeria {
+  --inv-galeria-cell: 270.813px;
+  --inv-galeria-gap: 2px;
+  --inv-galeria-cols: 5;
+  --inv-galeria-track: calc(
+    var(--inv-galeria-cols) * var(--inv-galeria-cell) +
+      (var(--inv-galeria-cols) - 1) * var(--inv-galeria-gap)
+  );
+  min-height: 100vh;
+  background: var(--inv-pearl);
+  color: var(--inv-ink);
+  padding: 1.25rem 0 2rem;
+}
+
+.inv-galeria-header {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding-inline: 1rem;
+  text-align: center;
+}
+
+.inv-galeria-title {
+  font-family: var(--inv-display);
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 500;
+  margin: 0.35rem 0 1.1rem;
+}
+
+.inv-galeria-tabs {
+  display: flex;
+  justify-content: stretch;
+  gap: 0;
+  width: min(100%, var(--inv-galeria-track));
+  margin: 0.75rem auto 0;
+  border-top: 1px solid color-mix(in srgb, var(--inv-ink) 14%, transparent);
+}
+
+.inv-galeria-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.72rem 0.5rem;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  color: var(--inv-ink-soft);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.inv-galeria-tab--active {
+  color: var(--inv-ink);
+  border-bottom-color: color-mix(in srgb, var(--inv-leaf) 55%, var(--inv-summer-gold) 45%);
+}
+
+.inv-galeria-main {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inv-galeria-status {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.inv-galeria-status--error {
+  color: #9b1c1c;
+}
+
+/* Grid IG: celda 270.813×361.094 (3:4), 5 → 4 → 3 columnas */
+.inv-galeria-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: min(100%, var(--inv-galeria-track));
+  display: grid;
+  grid-template-columns: repeat(var(--inv-galeria-cols), minmax(0, 1fr));
+  gap: var(--inv-galeria-gap);
+}
+
+.inv-galeria-grid--posts .inv-galeria-card {
+  aspect-ratio: 3 / 4;
+}
+
+.inv-galeria-grid--reels .inv-galeria-card {
+  aspect-ratio: 9 / 16;
+}
+
+.inv-galeria-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--inv-sage) 70%, var(--inv-pearl) 30%);
+  cursor: pointer;
+}
+
+.inv-galeria-card img,
+.inv-galeria-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.inv-galeria-play {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: rgb(0 0 0 / 55%);
+  border-radius: 0.2rem;
+  pointer-events: none;
+}
+
+.inv-galeria-play::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 7px solid #fff;
+  transform: translateX(1px);
+}
+
+.inv-galeria-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.inv-galeria-upload .inv-album-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+  padding: 0.72rem 1.45rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--inv-leaf) 55%, var(--inv-summer-gold) 45%);
+  background: color-mix(in srgb, var(--inv-leaf) 55%, var(--inv-summer-gold) 45%);
+  color: #fff;
+  font-family: var(--inv-display);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--inv-summer-gold) 28%, transparent);
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.inv-galeria-upload .inv-album-btn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.inv-galeria-upload .inv-album-btn:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
+/* Álbum — feedback sin saltar layout */
+.inv-album-feedback {
+  min-height: 1.45rem;
+  margin: 0;
+}
+
+.inv-album-feedback--empty {
+  visibility: hidden;
+}
+
+.inv-galeria-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgb(0 0 0 / 72%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.inv-galeria-lightbox-inner {
+  position: relative;
+  max-width: min(1200px, 98vw);
+  max-height: 94vh;
+  width: 100%;
+}
+
+.inv-galeria-lightbox-inner img,
+.inv-galeria-lightbox-inner video {
+  width: 100%;
+  max-height: 88vh;
+  object-fit: contain;
+  display: block;
+  border-radius: 0.35rem;
+  background: #111;
+}
+
+.inv-galeria-lightbox-close {
+  position: absolute;
+  top: -2.2rem;
+  right: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.inv-galeria-lightbox-caption {
+  margin: 0.65rem 0 0;
+  text-align: center;
+  color: #fff;
+  font-family: var(--inv-sans);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1088px) {
+  .inv-galeria {
+    --inv-galeria-cols: 4;
+  }
+
+  .inv-galeria-tabs,
+  .inv-galeria-grid {
+    width: min(90vw, var(--inv-galeria-track));
+  }
+}
+
+@media (max-width: 815px) {
+  .inv-galeria {
+    --inv-galeria-cols: 3;
+  }
+}
+
+@media (max-width: 859px) {
+  .inv-galeria-header {
+    padding-inline: 1rem;
+  }
+}
+
+/* Dress code — siluetas hombre / mujer (misma altura, pies alineados) */
+.inv-vestimenta-siluetas {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(1rem, 4vw, 1.75rem);
+  width: min(22rem, 94vw);
+}
+
+.inv-vestimenta-silueta {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: clamp(6.5rem, 24vw, 8.75rem);
+}
+
+.inv-vestimenta-silueta img {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--inv-ink) 8%, transparent));
+}
+
+.inv-vestimenta-silueta--mujer {
+  position: relative;
+  top: 2px;
+}
+
+@media (max-width: 520px) {
+  .inv-vestimenta-silueta {
+    height: clamp(5.5rem, 28vw, 7rem);
+  }
+}
+
+[data-inv-section='iglesia'] .inv-fiesta-info,
+[data-inv-section='fiesta'] .inv-fiesta-info {
+  align-items: flex-start;
+}
+
+[data-inv-section='iglesia'] .inv-mapa-btn,
+[data-inv-section='fiesta'] .inv-mapa-btn {
+  display: inline-flex;
+}
+
+@media (max-width: 859px) {
+  [data-inv-section='iglesia'] .inv-fiesta-info,
+  [data-inv-section='fiesta'] .inv-fiesta-info {
+    align-items: center;
+  }
+}
+
+/* El día — iconos dorados (PNG, sin texto embebido) */
+.inv-itinerario-media {
+  width: 7.25rem;
+}
+
+.inv-itinerario-media img {
+  object-fit: contain;
+}
+
+@media (max-width: 520px) {
+  .inv-itinerario-media {
+    width: 6rem;
+  }
+}
+
+/* Separador custom (hero → cuenta regresiva), superpuesto al borde — no es sección extra */
+.inv-hero-intro {
+  position: relative;
+}
+
+.inv-sep-foto {
+  pointer-events: none;
+  z-index: 4;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.inv-sep-foto--hero-countdown {
+  bottom: 0;
+  transform: translateY(42%);
+}
+
+.inv-sep-foto img {
+  opacity: 1;
+  filter: drop-shadow(0 1px 5px color-mix(in srgb, var(--inv-ink) 4%, transparent));
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 859px) {
+  .inv-sep-foto--hero-countdown {
+    transform: translateY(38%);
+  }
+}
+
+/* Sin hojas/enredaderas plateadas en los costados */
+.inv-sep-slot {
+  display: none;
+}
+
+.inv-decor-sprig--l,
+.inv-decor-sprig--l-top,
+.inv-decor-sprig--r,
+.inv-decor-sprig--bl,
+.inv-decor-sprig--section-l,
+.inv-decor-sprig--section-r,
+.inv-decor-pressed--l-mid,
+.inv-decor-pressed--bl,
+.inv-decor-pressed--section-l {
+  display: none;
+}

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" fill="none" aria-hidden="true">
+  <g stroke="#5e5248" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      d="M100 36 L134 68 L124 78 L76 78 L66 68 Z"
+      stroke-width="1.7"
+      fill="#5e5248"
+      fill-opacity="0.07"
+    />
+    <path d="M66 68 L100 36 L134 68" stroke-width="2"/>
+    <path d="M76 78 L124 78" stroke-width="1.5" opacity="0.55"/>
+    <path d="M52 112 L148 112" stroke-width="1.4" opacity="0.42"/>
+    <path d="M66 68 L52 112 L100 204 L148 112 L134 68" stroke-width="2.1"/>
+    <path d="M100 36 L100 78" stroke-width="1.15" opacity="0.38"/>
+    <path d="M76 78 L52 112" stroke-width="1.05" opacity="0.32"/>
+    <path d="M124 78 L148 112" stroke-width="1.05" opacity="0.32"/>
+    <path d="M88 78 L66 68" stroke-width="0.95" opacity="0.28"/>
+    <path d="M112 78 L134 68" stroke-width="0.95" opacity="0.28"/>
+    <path d="M100 78 L100 204" stroke-width="1.15" opacity="0.36"/>
+    <path d="M76 112 L100 204 L124 112" stroke-width="1.05" opacity="0.3"/>
+    <path d="M52 112 L100 204" stroke-width="0.9" opacity="0.22"/>
+    <path d="M148 112 L100 204" stroke-width="0.9" opacity="0.22"/>
+    <path d="M100 204 L100 212" stroke-width="1.2" opacity="0.45"/>
+    <circle cx="100" cy="214" r="1.6" fill="#5e5248" fill-opacity="0.35"/>
+    <path d="M84 42 L86 38 M116 42 L114 38" stroke-width="0.95" opacity="0.38"/>
+    <path d="M100 28 L100 32" stroke-width="0.85" opacity="0.32"/>
+  </g>
+</svg>

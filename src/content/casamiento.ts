@@ -1,0 +1,173 @@
+/**
+ * Contenido estático de la invitación (textos, fechas, fotos, cuentas).
+ * Reconstruido a partir de la producción (bundle AppRoutes-DBE344fO.js) para
+ * mantener fidelidad con el sitio publicado en casamiento-vanesa-augusto.vercel.app.
+ */
+
+export type ItinerarioItem = {
+  hora: string
+  titulo: string
+  imagen: string
+  imagenAlt: string
+}
+
+export type TipItem = {
+  titulo: string
+  texto: string
+  lista?: string[]
+}
+
+export type CuentaRegaloInfo = {
+  moneda: string
+  alias: string
+  cbu: string
+  cuenta: string
+}
+
+export const CASAMIENTO = {
+  sobreFotos: [
+    '/sobre/01.jpg',
+    '/sobre/02.jpg',
+    '/sobre/03.jpg',
+    '/sobre/04.jpg',
+    '/sobre/05.jpg',
+    '/sobre/06.jpg',
+    '/sobre/07.jpg',
+    '/sobre/08.jpg',
+    '/sobre/09.jpg',
+  ],
+  titulo: 'Casamiento Vanesa y Augusto',
+  novios: 'Vanesa y Augusto',
+  fechaLabel: '19 DE DICIEMBRE DE 2026',
+  fechaIso: '2026-12-19T00:00:00',
+
+  historia: {
+    fotos: ['/sobre/02.jpg', '/sobre/04.jpg', '/sobre/06.jpg', '/sobre/08.jpg'],
+    parrafos: [
+      'Nos cruzamos hace unos años, sin saber que un café compartido iba a durar tanto como el último mate del domingo.',
+      'Entre viajes, risas y planes a medias fuimos armando un nosotros que hoy tiene ganas de fiesta, de familia y de prometerse delante de quienes más queremos.',
+      'Esta invitación es un pedacito de ese camino — gracias por ser parte.',
+    ],
+  },
+
+  itinerario: {
+    items: [
+      {
+        hora: '11:45 hs',
+        titulo: 'Ceremonia religiosa',
+        imagen: '/itinerario/ceremonia.png?v=2',
+        imagenAlt: 'Anillo en estuche — ceremonia',
+      },
+      {
+        hora: '13:30 hs',
+        titulo: 'Recepción',
+        imagen: '/itinerario/recepcion.png?v=2',
+        imagenAlt: 'Copas en brindis — recepción',
+      },
+      {
+        hora: '15:30 hs',
+        titulo: 'Fiesta',
+        imagen: '/itinerario/fiesta.png?v=2',
+        imagenAlt: 'Serpentinas — fiesta',
+      },
+    ] as ItinerarioItem[],
+  },
+
+  iglesia: {
+    horario: '11:45 HS',
+    lugar: 'Parroquia Nuestra Señora de Guadalupe',
+    direccion: 'Paraguay 3901, Palermo, CABA',
+    /** Basílica del Espíritu Santo — misma parroquia, pin correcto en Google Maps. */
+    mapsQuery: 'Basílica del Espíritu Santo, Paraguay 3901, Palermo, CABA',
+  },
+
+  fiesta: {
+    horario: '13:30 HS',
+    lugar: 'Milión',
+    direccion: 'Parana 1048, Recoleta, CABA',
+    mapsQuery: 'Parana 1048, Recoleta, CABA',
+    fotos: ['/millon/d.jpg', '/millon/h.jpg', '/millon/j.jpg', '/millon/l.jpg'],
+  },
+
+  vestimenta: {
+    elegante: 'Elegante',
+    notaNovia: 'Reservamos el color blanco para la novia.',
+    hombreAlt: 'Silueta de traje formal',
+    mujerAlt: 'Silueta de vestido de fiesta',
+  },
+
+  tips: {
+    items: [
+      {
+        titulo: 'Solo Adultos',
+        texto:
+          'Queremos que ese día solo tengan que preocuparse por pasársela increíble. El evento es exclusivo para adultos.',
+      },
+      {
+        titulo: 'Estacionamiento',
+        texto:
+          'Milión no cuenta con estacionamiento propio. Sin embargo, la casa está rodeada de múltiples opciones a pocos pasos:',
+        lista: [
+          'Marcelo T. de Alvear 1460',
+          'Uruguay 1064',
+          'Marcelo T. de Alvear 1566',
+          'Av. Santa Fe 1536',
+        ],
+      },
+      {
+        titulo: 'Menú especial',
+        texto: 'Contanos si tenés alguna restricción alimentaria al confirmar tu asistencia.',
+      },
+    ] as TipItem[],
+  },
+
+  rsvp: {
+    mensaje:
+      'Te esperamos para disfrutar un gran momento y ser parte de este nuevo capítulo de nuestras vidas.',
+    pregunta: '¿Nos acompañas?',
+    plazo: 'Confirmar antes del 19 de Noviembre de 2026.',
+    restriccionesContacto: 'Contactate con nosotros',
+    restriccionesWhatsapp: {
+      /** Número internacional sin + (Argentina). */
+      telefono: '541152201025',
+      mensaje:
+        'Hola, queria informar que tengo restriccion alimentaria para el casamiento de Vanesa y Augusto',
+      boton: 'WhatsApp',
+    },
+  },
+
+  albumColaborativo: {
+    titulo: 'Compartí tus fotos y videos',
+    descripcion:
+      'Hemos creado una carpeta compartida para que todos los invitados puedan subir las fotos y videos que tomen del gran día.',
+    nota: 'Porque no queremos perdernos ningún momento.',
+    boton: 'Subí tu foto o video',
+    /** URL de carpeta compartida externa (si está vacía, se usa el upload propio). */
+    url: '',
+  },
+
+  regalos: {
+    detalle:
+      'Lo más importante es compartir este día con ustedes. Si desean hacernos un regalo, pueden depositar en:',
+    cuentas: [
+      {
+        moneda: 'Pesos',
+        alias: 'augustoyvanesa',
+        cbu: '3840200500000039415943',
+        cuenta: '38402000003941594',
+      },
+      {
+        moneda: 'Dólares',
+        alias: 'augustoyvanesausd',
+        cbu: '3840200500000039416328',
+        cuenta: '38402000003941632',
+      },
+    ] as CuentaRegaloInfo[],
+  },
+
+  qr: {
+    titulo: 'QR para transferir',
+    detalle: 'Escaneá con tu app bancaria o billetera. También podés usar el alias de arriba.',
+    url: 'augustoyvanesa',
+  },
+}
