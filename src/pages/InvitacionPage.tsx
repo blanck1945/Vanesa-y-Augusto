@@ -197,6 +197,8 @@ export function InvitacionPage({
         ) : null}
       </section>
 
+      <SeparadorHojasLargas variant="medianas" active={sobreListo} />
+
       <section
         className={`inv-band inv-band--tall inv-band--pearl inv-hero-intro inv-band--sep-abajo${
           sobreListo ? ' inv-hero-intro--revealed' : ''

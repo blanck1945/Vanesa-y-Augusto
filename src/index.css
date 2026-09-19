@@ -382,6 +382,8 @@
 /* Separadores hojas largas — superpuestos entre secciones */
 .invitacion {
   --inv-sep-overlap: clamp(2.5rem, 14vh, 7rem);
+  /* Foto 2880×1440 (2:1) a ancho casi completo, altura proporcional */
+  --inv-sep-medianas-ancho: min(92vw, 48rem);
 }
 
 .inv-main-secciones {
@@ -417,6 +419,53 @@
   transform: translateY(-50%);
 }
 
+/* Portada → Nos casamos: dos ramas desde los costados, escala original 2:1 */
+.inv-sep-foto--medianas {
+  position: relative;
+  z-index: 20;
+  height: 0;
+  overflow: visible;
+  padding-inline: 0;
+}
+
+.inv-sep-medianas-pair {
+  position: relative;
+  width: 100%;
+  height: calc(var(--inv-sep-medianas-ancho) / 2);
+  transform: translateY(-50%);
+  overflow: visible;
+}
+
+.inv-sep-foto--medianas .inv-sep-medianas__rama {
+  position: absolute;
+  top: auto;
+  bottom: 10%;
+  display: block;
+  width: var(--inv-sep-medianas-ancho);
+  height: auto;
+  aspect-ratio: 2 / 1;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  object-fit: contain;
+}
+
+.inv-sep-medianas__rama--izq {
+  left: clamp(-0.75rem, -1.5vw, 0rem);
+  object-position: left center;
+  clip-path: inset(0 50% 0 0);
+  transform: rotate(-18deg);
+  transform-origin: 100% 50%;
+}
+
+.inv-sep-medianas__rama--der {
+  right: clamp(-0.75rem, -1.5vw, 0rem);
+  object-position: right center;
+  clip-path: inset(0 0 0 50%);
+  transform: rotate(18deg);
+  transform-origin: 0% 50%;
+}
+
 /* Entre secciones: cero alto en la unión, imagen centrada con translateY(-50%) */
 .inv-sep-foto--overlap {
   position: relative;
@@ -439,6 +488,7 @@
 
 /* Separadores siempre por encima del fondo de las bandas */
 .inv-sep-foto--overlap,
+.inv-sep-foto--medianas,
 .inv-sep-foto--hero-countdown {
   z-index: 20;
 }
@@ -469,6 +519,26 @@
     height: auto;
     max-height: none;
     transform: translateY(-50%);
+  }
+
+  .inv-sep-foto--medianas {
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .invitacion {
+    --inv-sep-medianas-ancho: 100vw;
+  }
+
+  .inv-sep-medianas__rama--izq {
+    left: -11vw;
+    transform: rotate(-14deg);
+  }
+
+  .inv-sep-medianas__rama--der {
+    right: -11vw;
+    transform: rotate(14deg);
   }
 }
 
