@@ -44,9 +44,8 @@ export const CASAMIENTO = {
   historia: {
     fotos: ['/sobre/02.jpg', '/sobre/04.jpg', '/historia/fontana.jpg?v=2', '/sobre/08.jpg'],
     parrafos: [
-      'Nos cruzamos hace unos años, sin saber que un café compartido iba a durar tanto como el último mate del domingo',
-      'Entre viajes, risas y planes a medias fuimos armando un nosotros que hoy tiene ganas de fiesta, de familia y de prometerse delante de quienes más queremos',
-      'Esta invitación es un pedacito de ese camino, gracias por ser parte',
+      'Nos conocimos hace 10 años, un Diciembre, sin imaginar todo lo que íbamos a vivir juntos. Desde entonces compartimos mudanzas, viajes, aventuras, risas y también momentos que nos enseñaron, una y otra vez, a acompañarnos y elegirnos. Con el tiempo, entre complicidad, desafíos y sueños compartidos, fuimos construyendo nuestra propia manera de estar juntos',
+      'Hoy sabemos que nuestro lugar favorito es ese lugar que construimos cuando estamos juntos. Un hogar que empezó siendo de dos y hoy compartimos con Madison. Después de tantos años, tantas historias y tanto recorrido, queremos celebrar que seguimos caminando en la misma dirección y que junto a ustedes todavía nos queda muchísimo por vivir',
     ],
   },
 
