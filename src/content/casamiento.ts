@@ -46,7 +46,7 @@ export const CASAMIENTO = {
     parrafos: [
       'Nos cruzamos hace unos años, sin saber que un café compartido iba a durar tanto como el último mate del domingo',
       'Entre viajes, risas y planes a medias fuimos armando un nosotros que hoy tiene ganas de fiesta, de familia y de prometerse delante de quienes más queremos',
-      'Esta invitación es un pedacito de ese camino — gracias por ser parte',
+      'Esta invitación es un pedacito de ese camino, gracias por ser parte',
     ],
   },
 
