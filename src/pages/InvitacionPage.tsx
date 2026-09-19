@@ -114,7 +114,7 @@ export function InvitacionPage({
     const conPareja = estado === 'si' && !!inv?.permitePareja && modoAsistencia === 'pareja'
     const nombrePareja = nombreAcompanante.trim()
     if (conPareja && !nombrePareja) {
-      setError('Si venís en pareja, indicá el nombre de tu acompañante.')
+      setError('Si venís en pareja, indicá el nombre de tu acompañante')
       return
     }
 
@@ -514,11 +514,9 @@ export function InvitacionPage({
                 <p className="inv-rsvp-ok">
                   {inv.estado === 'si'
                     ? inv.nombreAcompanante
-                      ? `¡Gracias! Confirmamos 2 personas: ${inv.nombre} y ${inv.nombreAcompanante}.`
-                      : '¡Gracias! Confirmamos tu asistencia (1 persona).'
-                    : inv.estado === 'no'
-                      ? 'Registramos que no vas a poder asistir. Te vamos a extrañar.'
-                      : 'Gracias. Dejaste anotado que todavía no lo sabés.'}
+                      ? `¡Gracias! Confirmamos 2 personas: ${inv.nombre} y ${inv.nombreAcompanante}`
+                      : '¡Gracias! Confirmamos tu asistencia (1 persona)'
+                    : 'Registramos que no vas a poder asistir — te vamos a extrañar'}
                 </p>
               </InvReveal>
             ) : null}
@@ -530,9 +528,8 @@ export function InvitacionPage({
                   value={estado}
                   onChange={(e) => setEstado(e.target.value as EstadoInvitacion)}
                   options={[
-                    { value: 'si', label: 'Sí' },
+                    { value: 'si', label: 'Si' },
                     { value: 'no', label: 'No' },
-                    { value: 'aun_no_lo_se', label: 'Aún no lo sé' },
                   ]}
                 />
 

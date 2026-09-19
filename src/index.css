@@ -11,8 +11,8 @@
 }
 
 /* Nuestra historia — fotos 3 (Fontana) y 4 (Wimbledon): encuadrar las dos caras */
-[data-inv-section='historia'] .inv-carrusel-img[src$='/06.jpg'] {
-  object-fit: contain;
+[data-inv-section='historia'] .inv-carrusel-img[src*='fontana.jpg'] {
+  object-fit: cover;
   object-position: center center;
 }
 

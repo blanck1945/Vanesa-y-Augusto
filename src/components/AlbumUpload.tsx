@@ -29,7 +29,7 @@ export function AlbumUpload({ label, token, onSuccess }: AlbumUploadProps) {
 
     try {
       await uploadAlbumFoto(file, token)
-      setMessage(`¡Gracias! Tu ${tipoMedia(file)} se subió correctamente.`)
+      setMessage(`¡Gracias! Tu ${tipoMedia(file)} se subió correctamente`)
       onSuccess?.()
     } catch (err) {
       setError(true)

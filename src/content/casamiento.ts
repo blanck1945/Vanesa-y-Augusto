@@ -42,11 +42,11 @@ export const CASAMIENTO = {
   fechaIso: '2026-12-19T00:00:00',
 
   historia: {
-    fotos: ['/sobre/02.jpg', '/sobre/04.jpg', '/sobre/06.jpg', '/sobre/08.jpg'],
+    fotos: ['/sobre/02.jpg', '/sobre/04.jpg', '/historia/fontana.jpg?v=2', '/sobre/08.jpg'],
     parrafos: [
-      'Nos cruzamos hace unos años, sin saber que un café compartido iba a durar tanto como el último mate del domingo.',
-      'Entre viajes, risas y planes a medias fuimos armando un nosotros que hoy tiene ganas de fiesta, de familia y de prometerse delante de quienes más queremos.',
-      'Esta invitación es un pedacito de ese camino — gracias por ser parte.',
+      'Nos cruzamos hace unos años, sin saber que un café compartido iba a durar tanto como el último mate del domingo',
+      'Entre viajes, risas y planes a medias fuimos armando un nosotros que hoy tiene ganas de fiesta, de familia y de prometerse delante de quienes más queremos',
+      'Esta invitación es un pedacito de ese camino — gracias por ser parte',
     ],
   },
 
@@ -85,7 +85,7 @@ export const CASAMIENTO = {
       end: '20261219T130000',
       timezone: 'America/Argentina/Buenos_Aires',
       location: 'Parroquia Nuestra Señora de Guadalupe, Paraguay 3901, Palermo, CABA',
-      details: 'Ceremonia religiosa del casamiento de Vanesa y Augusto.',
+      details: 'Ceremonia religiosa del casamiento de Vanesa y Augusto',
     },
   },
 
@@ -101,13 +101,13 @@ export const CASAMIENTO = {
       end: '20261219T230000',
       timezone: 'America/Argentina/Buenos_Aires',
       location: 'Milión, Parana 1048, Recoleta, CABA',
-      details: 'Celebración del casamiento de Vanesa y Augusto en Milión.',
+      details: 'Celebración del casamiento de Vanesa y Augusto en Milión',
     },
   },
 
   vestimenta: {
     elegante: 'Elegante',
-    notaNovia: 'Reservamos el color blanco para la novia.',
+    notaNovia: 'Reservamos el color blanco para la novia',
     hombreAlt: 'Silueta de traje formal',
     mujerAlt: 'Silueta de vestido de fiesta',
   },
@@ -117,7 +117,7 @@ export const CASAMIENTO = {
       {
         titulo: 'Solo Adultos',
         texto:
-          'Queremos que ese día solo tengan que preocuparse por pasársela increíble. El evento es exclusivo para adultos.',
+          'Queremos que ese día solo tengan que preocuparse por pasársela increíble, el evento es exclusivo para adultos',
       },
       {
         titulo: 'Estacionamiento',
@@ -132,16 +132,16 @@ export const CASAMIENTO = {
       },
       {
         titulo: 'Menú especial',
-        texto: 'Contanos si tenés alguna restricción alimentaria al confirmar tu asistencia.',
+        texto: 'Contanos si tenés alguna restricción alimentaria al confirmar tu asistencia',
       },
     ] as TipItem[],
   },
 
   rsvp: {
     mensaje:
-      'Te esperamos para disfrutar un gran momento y ser parte de este nuevo capítulo de nuestras vidas.',
+      'Te esperamos para disfrutar un gran momento y ser parte de este nuevo capítulo de nuestras vidas',
     pregunta: '¿Nos acompañas?',
-    plazo: 'Confirmar antes del 19 de Noviembre de 2026.',
+    plazo: 'Confirmar antes del 19 de Noviembre de 2026',
     restriccionesContacto: 'Contactate con nosotros',
     restriccionesWhatsapp: {
       /** Número internacional sin + (Argentina). */
@@ -155,8 +155,8 @@ export const CASAMIENTO = {
   albumColaborativo: {
     titulo: 'Compartí tus fotos y videos',
     descripcion:
-      'Hemos creado una carpeta compartida para que todos los invitados puedan subir las fotos y videos que tomen del gran día.',
-    nota: 'Porque no queremos perdernos ningún momento.',
+      'Hemos creado una carpeta compartida para que todos los invitados puedan subir las fotos y videos que tomen del gran día',
+    nota: 'Porque no queremos perdernos ningún momento',
     boton: 'Subí tu foto o video',
     /** URL de carpeta compartida externa (si está vacía, se usa el upload propio). */
     url: '',
@@ -183,7 +183,7 @@ export const CASAMIENTO = {
 
   qr: {
     titulo: 'QR para transferir',
-    detalle: 'Escaneá con tu app bancaria o billetera. También podés usar el alias de arriba.',
+    detalle: 'Escaneá con tu app bancaria o billetera — también podés usar el alias de arriba',
     url: 'augustoyvanesa',
   },
 }

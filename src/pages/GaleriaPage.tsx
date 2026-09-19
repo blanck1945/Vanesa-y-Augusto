@@ -103,7 +103,7 @@ export function GaleriaPage() {
         {error ? <p className="inv-guest-meta inv-galeria-status inv-galeria-status--error">{error}</p> : null}
         {!loading && !error && visibles.length === 0 ? (
           <p className="inv-guest-meta inv-galeria-status">
-            {filtro === 'fotos' ? 'Todavía no hay fotos.' : 'Todavía no hay videos.'}
+            {filtro === 'fotos' ? 'Todavía no hay fotos' : 'Todavía no hay videos'}
           </p>
         ) : null}
 
