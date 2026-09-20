@@ -342,6 +342,30 @@
   }
 }
 
+[data-inv-section='iglesia'] .inv-iglesia-content {
+  width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+[data-inv-section='iglesia'] .inv-iglesia-video-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+[data-inv-section='iglesia'] .inv-iglesia-video {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: min(70vh, 28rem);
+  height: auto;
+  margin-inline: auto;
+  border-radius: 0.35rem;
+}
+
 [data-inv-section='iglesia'] .inv-fiesta-info,
 [data-inv-section='fiesta'] .inv-fiesta-info {
   align-items: flex-start;
@@ -384,6 +408,8 @@
   --inv-sep-overlap: clamp(2.5rem, 14vh, 7rem);
   /* Foto 2880×1440 (2:1) a ancho casi completo, altura proporcional */
   --inv-sep-medianas-ancho: min(92vw, 48rem);
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 .inv-main-secciones {
@@ -495,10 +521,8 @@
 
 @media (max-width: 859px) {
   .inv-sep-foto--hero-countdown {
-    width: 100vw;
-    left: 50%;
+    width: 100%;
     padding-inline: 0;
-    transform: translateX(-50%);
   }
 
   .inv-sep-foto--hero-countdown img {
@@ -509,10 +533,8 @@
   }
 
   .inv-sep-foto--overlap {
-    width: 100vw;
-    left: 50%;
+    width: 100%;
     padding-inline: 0;
-    transform: translateX(-50%);
   }
 
   .inv-sep-foto--overlap img {
@@ -521,23 +543,17 @@
     transform: translateY(-50%);
   }
 
-  .inv-sep-foto--medianas {
-    width: 100vw;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
   .invitacion {
-    --inv-sep-medianas-ancho: 100vw;
+    --inv-sep-medianas-ancho: 88vw;
   }
 
   .inv-sep-medianas__rama--izq {
-    left: -11vw;
+    left: 0;
     transform: rotate(-14deg);
   }
 
   .inv-sep-medianas__rama--der {
-    right: -11vw;
+    right: 0;
     transform: rotate(14deg);
   }
 }

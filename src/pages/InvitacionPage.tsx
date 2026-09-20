@@ -325,22 +325,35 @@ export function InvitacionPage({
           data-inv-label="Ceremonia"
         >
           <SepSlot active={sobreListo} variant="caida-izq" desde="izq" />
-          <div className="inv-fiesta-layout">
-            <div className="inv-fiesta-info">
-              <InvReveal active={sobreListo}>
-                <p className="inv-label">Ceremonia</p>
-              </InvReveal>
-              <InvReveal active={sobreListo} delay={1}>
-                <p className="inv-meta">
-                  {CASAMIENTO.iglesia.horario} · {CASAMIENTO.iglesia.lugar}
-                </p>
-                <p className="inv-meta inv-meta--lugar">{CASAMIENTO.iglesia.direccion}</p>
-              </InvReveal>
-              <InvReveal active={sobreListo} delay={2}>
-                <BotonMapa query={CASAMIENTO.iglesia.mapsQuery} />
-              </InvReveal>
+          <div className="inv-iglesia-content">
+            <div className="inv-fiesta-layout">
+              <div className="inv-fiesta-info">
+                <InvReveal active={sobreListo}>
+                  <p className="inv-label">Ceremonia</p>
+                </InvReveal>
+                <InvReveal active={sobreListo} delay={1}>
+                  <p className="inv-meta">
+                    {CASAMIENTO.iglesia.horario} · {CASAMIENTO.iglesia.lugar}
+                  </p>
+                  <p className="inv-meta inv-meta--lugar">{CASAMIENTO.iglesia.direccion}</p>
+                </InvReveal>
+                <InvReveal active={sobreListo} delay={2}>
+                  <BotonMapa query={CASAMIENTO.iglesia.mapsQuery} />
+                </InvReveal>
+              </div>
             </div>
-            <div className="inv-iglesia-spacer" aria-hidden />
+            <InvReveal active={sobreListo} delay={3} className="inv-iglesia-video-wrap">
+              <video
+                className="inv-iglesia-video"
+                src={CASAMIENTO.iglesia.video}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label={CASAMIENTO.iglesia.videoLabel}
+              />
+            </InvReveal>
           </div>
         </section>
 

@@ -76,6 +76,8 @@ export const CASAMIENTO = {
     horario: '11:45 HS',
     lugar: 'Parroquia Nuestra Señora de Guadalupe',
     direccion: 'Paraguay 3901, Palermo, CABA',
+    video: '/iglesia/ceremonia.mp4',
+    videoLabel: 'Video de la parroquia',
     /** Basílica del Espíritu Santo — misma parroquia, pin correcto en Google Maps. */
     mapsQuery: 'Basílica del Espíritu Santo, Paraguay 3901, Palermo, CABA',
     calendar: {
