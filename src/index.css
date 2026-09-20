@@ -719,15 +719,17 @@
   animation: inv-loader-heart 2.6s ease-in-out infinite;
 }
 
-.inv-loader-caption {
-  margin: 0;
-  font-family: var(--inv-script);
-  font-size: 1.35rem;
-  font-style: italic;
-  font-weight: 500;
-  color: var(--inv-ink-soft);
-  letter-spacing: 0.02em;
-  animation: inv-loader-caption 2.6s ease-in-out infinite;
+.inv-loader-names {
+  animation: none;
+}
+
+.inv-loader-names .inv-name {
+  font-size: clamp(2rem, 8vw, 3.5rem);
+}
+
+.inv-loader-names .inv-amp {
+  animation: none;
+  font-size: clamp(1.35rem, 4.5vw, 2.25rem);
 }
 
 @keyframes inv-loader-ring-left {
@@ -778,12 +780,3 @@
   }
 }
 
-@keyframes inv-loader-caption {
-  0%,
-  100% {
-    opacity: 0.65;
-  }
-  50% {
-    opacity: 1;
-  }
-}

@@ -31,7 +31,13 @@ export function InvitacionLoader() {
           opacity="0.5"
         />
       </svg>
-      <p className="inv-loader-caption">Vanesa &amp; Augusto</p>
+      <div className="inv-names inv-loader-names">
+        <h1 className="inv-name">Vanesa</h1>
+        <span className="inv-amp" aria-hidden>
+          &amp;
+        </span>
+        <h1 className="inv-name">Augusto</h1>
+      </div>
     </div>
   )
 }
