@@ -1,14 +1,11 @@
 import { useRef, useState, type ChangeEvent } from 'react'
 import { uploadAlbumFoto } from '../data/api'
+import { albumMediaKind, validateAlbumUpload } from '../lib/albumUploadLimits'
 
 type AlbumUploadProps = {
   label: string
   token?: string
   onSuccess?: () => void
-}
-
-function tipoMedia(file: File): 'foto' | 'video' {
-  return file.type.startsWith('video/') ? 'video' : 'foto'
 }
 
 /** Botón + input file oculto para que los invitados suban fotos/videos al álbum colaborativo. */
@@ -23,13 +20,20 @@ export function AlbumUpload({ label, token, onSuccess }: AlbumUploadProps) {
     e.target.value = ''
     if (!file) return
 
+    const validationError = validateAlbumUpload(file)
+    if (validationError) {
+      setError(true)
+      setMessage(validationError)
+      return
+    }
+
     setUploading(true)
     setMessage(null)
     setError(false)
 
     try {
       await uploadAlbumFoto(file, token)
-      setMessage(`¡Gracias! Tu ${tipoMedia(file)} se subió correctamente`)
+      setMessage(`¡Gracias! Tu ${albumMediaKind(file)} se subió correctamente`)
       onSuccess?.()
     } catch (err) {
       setError(true)

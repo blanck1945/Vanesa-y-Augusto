@@ -38,20 +38,37 @@ export type UsuarioAdmin = {
   email: string
 }
 
-const API_BASE_URL: string =
+export const API_BASE_URL: string =
   (import.meta as unknown as { env?: Record<string, string | undefined> }).env
-    ?.VITE_API_BASE_URL ?? ''
+    ?.VITE_API_BASE_URL?.trim() ?? ''
+
+export function isApiConfigured(): boolean {
+  return API_BASE_URL.length > 0 || !import.meta.env.PROD
+}
+
+function apiMisconfiguredMessage(): string {
+  return 'La galería no está conectada a la API. Falta configurar VITE_API_BASE_URL en Vercel y volver a desplegar.'
+}
 
 async function parseResponse<T>(res: Response): Promise<T> {
+  const contentType = res.headers.get('content-type') ?? ''
   const text = await res.text()
   let data: unknown = null
+
   if (text) {
-    try {
-      data = JSON.parse(text)
-    } catch {
-      data = { message: text }
+    const looksJson =
+      contentType.includes('json') ||
+      text.trimStart().startsWith('{') ||
+      text.trimStart().startsWith('[')
+    if (looksJson) {
+      try {
+        data = JSON.parse(text)
+      } catch {
+        throw new Error('La API respondió con JSON inválido.')
+      }
     }
   }
+
   if (!res.ok) {
     const message =
       typeof data === 'object' && data && 'message' in data && (data as { message?: unknown }).message
@@ -59,6 +76,11 @@ async function parseResponse<T>(res: Response): Promise<T> {
         : `Error ${res.status}`
     throw new Error(message)
   }
+
+  if (data === null && /^\s*</.test(text)) {
+    throw new Error(apiMisconfiguredMessage())
+  }
+
   return data as T
 }
 
@@ -181,19 +203,33 @@ export function mediaUrl(url: string | null): string | null {
 }
 
 export async function listAlbumItems(limit = 200): Promise<{ items: AlbumItem[] }> {
+  if (import.meta.env.PROD && !API_BASE_URL) {
+    throw new Error(apiMisconfiguredMessage())
+  }
+
   let res: Response
   try {
     res = await fetch(`${API_BASE_URL}/api/album-fotos?limit=${limit}`)
   } catch {
     throw new Error('No se pudo conectar con el servidor de la galería.')
   }
-  return parseResponse(res)
+
+  const data = await parseResponse<{ items?: AlbumItem[] }>(res)
+  if (!Array.isArray(data.items)) {
+    throw new Error('La galería respondió con un formato inesperado.')
+  }
+
+  return { items: data.items }
 }
 
 export async function uploadAlbumFoto(
   file: File,
   token?: string,
 ): Promise<{ ok: true; id: number; originalName: string }> {
+  if (import.meta.env.PROD && !API_BASE_URL) {
+    throw new Error(apiMisconfiguredMessage())
+  }
+
   const form = new FormData()
   form.append('file', file)
   if (token && token.trim()) form.append('token', token.trim())

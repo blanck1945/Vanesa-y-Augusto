@@ -7,7 +7,7 @@ import { listAlbumItems, mediaUrl, type AlbumItem } from '../data/api'
 type FiltroMedia = 'fotos' | 'videos'
 
 function esVideo(item: AlbumItem): boolean {
-  return item.mimeType.startsWith('video/')
+  return (item.mimeType ?? '').startsWith('video/')
 }
 
 function IconGrid() {
@@ -45,7 +45,7 @@ export function GaleriaPage() {
     setError(null)
     try {
       const data = await listAlbumItems(200)
-      setItems(data.items.filter((it) => it.url))
+      setItems(data.items.filter((it) => Boolean(it.url)))
     } catch (err) {
       setError(err instanceof Error ? err.message : 'No se pudo cargar la galería')
     } finally {
