@@ -114,7 +114,9 @@ export const API_BASE_URL: string = import.meta.env.DEV
   : (import.meta.env.API_BASE_URL?.trim() ?? '')
 
 function apiPath(path: string): string {
-  return `${API_BASE_URL}${path}`
+  const base = API_BASE_URL.replace(/\/+$/, '')
+  const normalized = path.startsWith('/') ? path : `/${path}`
+  return base ? `${base}${normalized}` : normalized
 }
 
 export function isApiConfigured(): boolean {
@@ -311,7 +313,7 @@ export function invitacionLinkFor(token: string): string {
 // ---- Muestra / comentarios de testing ----
 
 export async function listMuestraComentarios(): Promise<MuestraComentario[]> {
-  return parseResponse(await fetch(`${API_BASE_URL}/api/muestra-comentarios`))
+  return parseResponse(await fetch(apiPath('/api/muestra-comentarios')))
 }
 
 export async function createMuestraComentario(input: {
@@ -322,7 +324,7 @@ export async function createMuestraComentario(input: {
   yPct: number
 }): Promise<MuestraComentario> {
   return parseResponse(
-    await fetch(`${API_BASE_URL}/api/muestra-comentarios`, {
+    await fetch(apiPath('/api/muestra-comentarios'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(input),
@@ -332,13 +334,13 @@ export async function createMuestraComentario(input: {
 
 export async function deleteMuestraComentario(id: number): Promise<{ ok: true }> {
   return parseResponse(
-    await fetch(`${API_BASE_URL}/api/muestra-comentarios/${id}`, { method: 'DELETE' }),
+    await fetch(apiPath(`/api/muestra-comentarios/${id}`), { method: 'DELETE' }),
   )
 }
 
 export async function clearMuestraComentarios(): Promise<{ ok: true }> {
   return parseResponse(
-    await fetch(`${API_BASE_URL}/api/muestra-comentarios`, { method: 'DELETE' }),
+    await fetch(apiPath('/api/muestra-comentarios'), { method: 'DELETE' }),
   )
 }
 
@@ -385,7 +387,7 @@ function mapAlbumItem(row: ApiAlbumItem): AlbumItem {
 export function mediaUrl(url: string | null): string | null {
   if (!url) return null
   if (/^https?:\/\//i.test(url)) return url
-  return `${API_BASE_URL}${url}`
+  return apiPath(url)
 }
 
 export async function listAlbumItems(limit = 200): Promise<{ items: AlbumItem[] }> {
