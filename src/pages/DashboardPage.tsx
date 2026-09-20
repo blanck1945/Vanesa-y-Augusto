@@ -22,6 +22,7 @@ import { Card } from '../components/ui/Card'
 import { Field } from '../components/ui/Field'
 import { Select } from '../components/ui/Select'
 import { Button } from '../components/ui/Button'
+import { Modal } from '../components/ui/Modal'
 import { Text } from '../components/ui/Text'
 
 function estadoLabel(estado: Invitacion['estado']): string {
@@ -407,10 +408,55 @@ export function DashboardPage() {
             </Button>
           ) : null}
         </div>
+        {importResult ? (
+          <div className="dash-import-result mt-3">
+            <Text className="text-sm">
+              <strong>{importResult.resumen.ok}</strong> creados,{' '}
+              <strong>{importResult.resumen.fallidos}</strong> errores
+            </Text>
+            {importResult.errores.length > 0 ? (
+              <ul className="dash-import-errors">
+                {importResult.errores.map((e) => (
+                  <li key={`${e.fila}-${e.mensaje}`}>
+                    Fila {e.fila}: {e.mensaje}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        ) : null}
+      </Card>
+
+      <Modal
+        open={csvPreview != null}
+        title="Revisá la importación"
+        onClose={resetCsvInput}
+        footer={
+          csvPreview ? (
+            <>
+              <Button
+                type="button"
+                disabled={importando || csvPreview.nuevos.length === 0}
+                onClick={() => void onConfirmarImportacion()}
+              >
+                {importando
+                  ? 'Importando…'
+                  : csvPreview.nuevos.length > 0
+                    ? `Importar ${csvPreview.nuevos.length} nuevos`
+                    : 'Nada nuevo para importar'}
+              </Button>
+              <Button type="button" variant="secondary" disabled={importando} onClick={resetCsvInput}>
+                Cancelar
+              </Button>
+            </>
+          ) : null
+        }
+      >
         {csvPreview ? (
-          <div className="dash-import-preview mt-4">
-            <Text className="mb-3 text-sm text-bp-body">
-              <strong>{csvPreview.resumen.nuevos}</strong> {csvPreview.resumen.nuevos === 1 ? 'invitado nuevo' : 'invitados nuevos'}
+          <>
+            <Text className="mb-4 text-sm text-bp-body">
+              <strong>{csvPreview.resumen.nuevos}</strong>{' '}
+              {csvPreview.resumen.nuevos === 1 ? 'invitado nuevo' : 'invitados nuevos'}
               {' · '}
               <strong>{csvPreview.resumen.existentes}</strong>{' '}
               {csvPreview.resumen.existentes === 1 ? 'ya existe' : 'ya existen'}
@@ -450,9 +496,7 @@ export function DashboardPage() {
                   {csvPreview.existentes.map((f) => (
                     <li key={`exist-${f.fila}-${f.nombre}`}>
                       {f.nombre}
-                      <span className="dash-import-preview-meta">
-                        coincide con «{f.existenteNombre}»
-                      </span>
+                      <span className="dash-import-preview-meta">coincide con «{f.existenteNombre}»</span>
                     </li>
                   ))}
                 </ul>
@@ -460,7 +504,7 @@ export function DashboardPage() {
             ) : null}
 
             {csvPreview.errores.length > 0 ? (
-              <ul className="dash-import-errors mt-2">
+              <ul className="dash-import-errors mt-3">
                 {csvPreview.errores.map((e) => (
                   <li key={`err-${e.fila}-${e.mensaje}`}>
                     Fila {e.fila}: {e.mensaje}
@@ -468,44 +512,9 @@ export function DashboardPage() {
                 ))}
               </ul>
             ) : null}
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Button
-                type="button"
-                disabled={importando || csvPreview.nuevos.length === 0}
-                onClick={() => void onConfirmarImportacion()}
-              >
-                {importando
-                  ? 'Importando…'
-                  : csvPreview.nuevos.length > 0
-                    ? `Importar ${csvPreview.nuevos.length} nuevos`
-                    : 'Nada nuevo para importar'}
-              </Button>
-              <Button type="button" variant="secondary" disabled={importando} onClick={resetCsvInput}>
-                Cancelar
-              </Button>
-            </div>
-          </div>
+          </>
         ) : null}
-
-        {importResult ? (
-          <div className="dash-import-result mt-3">
-            <Text className="text-sm">
-              <strong>{importResult.resumen.ok}</strong> creados,{' '}
-              <strong>{importResult.resumen.fallidos}</strong> errores
-            </Text>
-            {importResult.errores.length > 0 ? (
-              <ul className="dash-import-errors">
-                {importResult.errores.map((e) => (
-                  <li key={`${e.fila}-${e.mensaje}`}>
-                    Fila {e.fila}: {e.mensaje}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
-        ) : null}
-      </Card>
+      </Modal>
 
       <Card className="p-5">
         <Text as="h2" className="mb-3 text-lg text-bp-body">
