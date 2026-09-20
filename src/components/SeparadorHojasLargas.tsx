@@ -1,6 +1,8 @@
 type SeparadorHojasLargasProps = {
   /** hero: intro→countdown · medianas: portada→intro · overlap: entre secciones */
   variant?: 'hero' | 'medianas' | 'overlap'
+  /** Más alto en desktop (ej. alrededor de Fiesta) */
+  size?: 'default' | 'large'
   active?: boolean
 }
 
@@ -19,7 +21,11 @@ const SEPARADORES = {
   },
 } as const
 
-export function SeparadorHojasLargas({ variant = 'overlap', active = true }: SeparadorHojasLargasProps) {
+export function SeparadorHojasLargas({
+  variant = 'overlap',
+  size = 'default',
+  active = true,
+}: SeparadorHojasLargasProps) {
   if (!active) return null
 
   if (variant === 'medianas') {
@@ -35,9 +41,10 @@ export function SeparadorHojasLargas({ variant = 'overlap', active = true }: Sep
   }
 
   const sep = SEPARADORES[variant]
+  const sizeClass = size === 'large' ? ' inv-sep-foto--large' : ''
 
   return (
-    <div className={sep.className} aria-hidden>
+    <div className={`${sep.className}${sizeClass}`} aria-hidden>
       <img src={sep.src} alt="" loading="lazy" decoding="async" />
     </div>
   )

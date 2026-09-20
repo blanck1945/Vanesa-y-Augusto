@@ -595,6 +595,13 @@
   transform: translateY(-50%);
 }
 
+@media (min-width: 860px) {
+  .inv-sep-foto--overlap.inv-sep-foto--large img {
+    height: clamp(5rem, 22vh, 12rem);
+    max-height: clamp(5rem, 22vh, 12rem);
+  }
+}
+
 .inv-band,
 .inv-rsvp {
   position: relative;

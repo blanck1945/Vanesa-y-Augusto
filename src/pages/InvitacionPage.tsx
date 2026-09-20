@@ -362,7 +362,7 @@ export function InvitacionPage({
           </div>
         </section>
 
-        <SeparadorHojasLargas active={sobreListo} />
+        <SeparadorHojasLargas active={sobreListo} size="large" />
 
         <section
           className="inv-band inv-band--tall inv-band--pearl inv-band--fiesta inv-band--fiesta-bg inv-band--sep-arriba inv-band--sep-abajo"
@@ -390,7 +390,7 @@ export function InvitacionPage({
           </div>
         </section>
 
-        <SeparadorHojasLargas active={sobreListo} />
+        <SeparadorHojasLargas active={sobreListo} size="large" />
 
         <Section
           tone="mist"
