@@ -224,13 +224,13 @@ export function DashboardPage() {
     }
   }
 
-  async function onImportarCsv() {
-    if (!csvFile) return
+  async function onImportarCsv(file: File) {
     setImportando(true)
     setError(null)
     setImportResult(null)
+    setCsvFile(file)
     try {
-      const result = await importInvitacionesCsv(csvFile)
+      const result = await importInvitacionesCsv(file)
       setImportResult(result)
       if (result.creados.length > 0) {
         setInvitaciones((prev) => [...result.creados, ...prev])
@@ -242,6 +242,12 @@ export function DashboardPage() {
     } finally {
       setImportando(false)
     }
+  }
+
+  function onCsvSelected(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    void onImportarCsv(file)
   }
 
   async function onEnviarEmail(id: number) {
@@ -352,17 +358,24 @@ export function DashboardPage() {
           Columnas: <span className="font-mono">nombre, email, lado, invita</span> — lado: vanesa o augusto; invita: si/no
           o pareja/solo.
         </Text>
-        <div className="flex flex-wrap items-end gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <input
             ref={csvInputRef}
+            id="dash-csv-file"
             type="file"
-            accept=".csv,text/csv"
-            className="dash-csv-input"
-            onChange={(e) => setCsvFile(e.target.files?.[0] ?? null)}
+            accept=".csv,text/csv,text/plain,application/vnd.ms-excel"
+            className="dash-csv-input-hidden"
+            disabled={importando}
+            onChange={onCsvSelected}
           />
-          <Button type="button" disabled={!csvFile || importando} onClick={() => void onImportarCsv()}>
-            {importando ? 'Importando…' : 'Importar'}
-          </Button>
+          <label htmlFor="dash-csv-file" className={`dash-csv-picker${importando ? ' dash-csv-picker--busy' : ''}`}>
+            {importando ? 'Importando…' : 'Elegir CSV e importar'}
+          </label>
+          {csvFile && importando ? (
+            <Text muted className="text-sm">
+              {csvFile.name}
+            </Text>
+          ) : null}
           <Button type="button" variant="secondary" size="sm" onClick={descargarPlantillaCsv}>
             Descargar plantilla
           </Button>
