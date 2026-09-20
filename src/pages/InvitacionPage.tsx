@@ -496,7 +496,7 @@ export function InvitacionPage({
           </div>
         </Section>
 
-        <SeparadorHojasLargas active={sobreListo} />
+        <SeparadorHojasLargas variant="hero" active={sobreListo} />
 
         <Section
           tone="pearl"
