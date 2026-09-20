@@ -1,20 +1,5 @@
-import { useEffect, useState } from 'react'
-import { preloadInvitacionFonts } from '../lib/invitacionFonts'
-
 /** Pantalla de espera — anillos + ramita, paleta de la invitación. */
 export function InvitacionLoader() {
-  const [tipografiaLista, setTipografiaLista] = useState(false)
-
-  useEffect(() => {
-    let cancelled = false
-    void preloadInvitacionFonts().then(() => {
-      if (!cancelled) setTipografiaLista(true)
-    })
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
   return (
     <div className="inv-loader" role="status" aria-label="Preparando invitación">
       <svg className="inv-loader-svg" viewBox="0 0 120 120" fill="none" aria-hidden>
@@ -46,9 +31,6 @@ export function InvitacionLoader() {
           opacity="0.5"
         />
       </svg>
-      <p className={`inv-loader-caption${tipografiaLista ? ' inv-loader-caption--ready' : ''}`}>
-        Vanesa &amp; Augusto
-      </p>
     </div>
   )
 }
