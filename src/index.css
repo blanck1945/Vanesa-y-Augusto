@@ -342,27 +342,44 @@
   }
 }
 
-[data-inv-section='iglesia'] .inv-iglesia-content {
+[data-inv-section='iglesia'] .inv-fiesta-layout {
   width: 100%;
-  max-width: 40rem;
-  margin-inline: auto;
+}
+
+[data-inv-section='iglesia'] .inv-meta {
+  line-height: 1.35;
+  margin-bottom: 0.35rem;
+}
+
+[data-inv-section='iglesia'] .inv-meta--hora {
+  margin-bottom: 0.5rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+[data-inv-section='iglesia'] .inv-meta--nombre {
+  font-size: clamp(1.15rem, 2.8vw, 1.55rem);
+}
+
+[data-inv-section='iglesia'] .inv-meta--lugar {
+  margin-top: 0.15rem;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
 }
 
 [data-inv-section='iglesia'] .inv-iglesia-video-wrap {
   display: flex;
+  align-items: center;
   justify-content: center;
   width: 100%;
-  margin-top: 1.75rem;
-  margin-bottom: 1.25rem;
+  min-height: 0;
 }
 
 [data-inv-section='iglesia'] .inv-iglesia-video {
   display: block;
-  width: auto;
+  width: 100%;
   max-width: 100%;
-  max-height: min(70vh, 28rem);
+  max-height: min(75svh, 32rem);
   height: auto;
-  margin-inline: auto;
+  object-fit: contain;
   border-radius: 0.35rem;
 }
 
@@ -376,13 +393,54 @@
   display: inline-flex;
 }
 
+@media (min-width: 860px) {
+  [data-inv-section='iglesia'] .inv-fiesta-layout > .inv-fiesta-info {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  [data-inv-section='iglesia'] .inv-label,
+  [data-inv-section='iglesia'] .inv-meta {
+    text-align: left;
+    margin-inline: 0;
+  }
+
+  [data-inv-section='iglesia'] .inv-iglesia-video-wrap {
+    height: 100%;
+    min-height: 100%;
+  }
+}
+
 @media (max-width: 859px) {
-  [data-inv-section='iglesia'] .inv-fiesta-info,
+  [data-inv-section='iglesia'] .inv-fiesta-layout {
+    text-align: center;
+    justify-items: center;
+  }
+
+  [data-inv-section='iglesia'] .inv-fiesta-layout > .inv-fiesta-info {
+    order: 1;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 36rem;
+    margin-inline: auto;
+  }
+
+  [data-inv-section='iglesia'] .inv-fiesta-layout > .inv-reveal-media {
+    order: 2;
+    width: 100%;
+  }
+
+  [data-inv-section='iglesia'] .inv-label,
+  [data-inv-section='iglesia'] .inv-meta {
+    text-align: center;
+    margin-inline: auto;
+  }
+
   [data-inv-section='fiesta'] .inv-fiesta-info {
     align-items: center;
   }
 
-  [data-inv-section='iglesia'] .inv-acciones-lugar,
   [data-inv-section='fiesta'] .inv-acciones-lugar {
     align-items: center;
   }

@@ -325,24 +325,21 @@ export function InvitacionPage({
           data-inv-label="Ceremonia"
         >
           <SepSlot active={sobreListo} variant="caida-izq" desde="izq" />
-          <div className="inv-iglesia-content">
-            <div className="inv-fiesta-layout">
-              <div className="inv-fiesta-info">
-                <InvReveal active={sobreListo}>
-                  <p className="inv-label">Ceremonia</p>
-                </InvReveal>
-                <InvReveal active={sobreListo} delay={1}>
-                  <p className="inv-meta">
-                    {CASAMIENTO.iglesia.horario} · {CASAMIENTO.iglesia.lugar}
-                  </p>
-                  <p className="inv-meta inv-meta--lugar">{CASAMIENTO.iglesia.direccion}</p>
-                </InvReveal>
-                <InvReveal active={sobreListo} delay={2}>
-                  <BotonMapa query={CASAMIENTO.iglesia.mapsQuery} />
-                </InvReveal>
-              </div>
+          <div className="inv-fiesta-layout">
+            <div className="inv-fiesta-info">
+              <InvReveal active={sobreListo}>
+                <p className="inv-label">Ceremonia</p>
+              </InvReveal>
+              <InvReveal active={sobreListo} delay={1}>
+                <p className="inv-meta inv-meta--hora">{CASAMIENTO.iglesia.horario}</p>
+                <p className="inv-meta inv-meta--nombre">{CASAMIENTO.iglesia.lugar}</p>
+                <p className="inv-meta inv-meta--lugar">{CASAMIENTO.iglesia.direccion}</p>
+              </InvReveal>
+              <InvReveal active={sobreListo} delay={2}>
+                <BotonMapa query={CASAMIENTO.iglesia.mapsQuery} />
+              </InvReveal>
             </div>
-            <InvReveal active={sobreListo} delay={3} className="inv-iglesia-video-wrap">
+            <InvReveal active={sobreListo} delay={3} className="inv-reveal-media inv-iglesia-video-wrap">
               <video
                 className="inv-iglesia-video"
                 src={CASAMIENTO.iglesia.video}
@@ -423,7 +420,7 @@ export function InvitacionPage({
           </div>
         </Section>
 
-        <SeparadorHojasLargas active={sobreListo} />
+        <SeparadorHojasLargas variant="hero" active={sobreListo} />
 
         <Section
           tone="pearl"
