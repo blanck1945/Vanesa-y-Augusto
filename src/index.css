@@ -663,3 +663,13 @@
 .inv-decor-pressed--section-l {
   display: none;
 }
+
+/* Sobre: fondo visible mientras precarga el sello; sobre+sellos aparecen juntos */
+.inv-sobre--preparando .inv-sobre-hit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inv-sobre-hit {
+  transition: opacity 0.25s ease;
+}

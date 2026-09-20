@@ -22,6 +22,7 @@ import {
   rsvpInvitacion,
 } from '../data/api'
 import { applyInvitacionState, quitarSufijoPareja, whatsappHref } from '../lib/invitacionState'
+import { preloadSelloCera } from '../lib/sobreAssets'
 
 type InvitacionPageProps = {
   invitacionOverride?: Invitacion
@@ -48,6 +49,10 @@ export function InvitacionPage({
   const [restriccionesSi, setRestriccionesSi] = useState<'si' | 'no'>('no')
   const [done, setDone] = useState(false)
   const [sobreListo, setSobreListo] = useState(skipSobre || freezeSobre)
+
+  useEffect(() => {
+    if (!skipSobre) void preloadSelloCera()
+  }, [skipSobre])
 
   useEffect(() => {
     document.title = isDemo

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { SOBRE_SELLO_SRC, preloadSelloCera } from '../lib/sobreAssets'
 
 const AUTO_OPEN_MS = 5000
 const ABRIENDO_MS = 2800
@@ -36,6 +37,7 @@ export function SobreInvitacion({
   onCommentPlace,
 }: SobreInvitacionProps) {
   const [estado, setEstado] = useState<Estado>('cerrado')
+  const [visualListo, setVisualListo] = useState(false)
   const abriendoRef = useRef(false)
   const listoNotificadoRef = useRef(false)
   const rootRef = useRef<HTMLDivElement>(null)
@@ -52,6 +54,16 @@ export function SobreInvitacion({
   }
 
   useEffect(() => {
+    let cancelled = false
+    void preloadSelloCera().then(() => {
+      if (!cancelled) setVisualListo(true)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
     if (freeze) {
       abriendoRef.current = false
       listoNotificadoRef.current = false
@@ -60,11 +72,11 @@ export function SobreInvitacion({
   }, [freeze])
 
   useEffect(() => {
-    if (freeze || estado !== 'cerrado') return
+    if (freeze || estado !== 'cerrado' || !visualListo) return
     const id = window.setTimeout(abrir, AUTO_OPEN_MS)
     return () => window.clearTimeout(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [estado, freeze])
+  }, [estado, freeze, visualListo])
 
   useEffect(() => {
     if (estado !== 'abriendo') return
@@ -105,6 +117,7 @@ export function SobreInvitacion({
 
   const cls = [
     'inv-sobre',
+    !visualListo ? 'inv-sobre--preparando' : '',
     estado === 'abriendo' ? 'inv-sobre--abriendo' : '',
     freeze ? 'inv-sobre--freeze' : '',
     freeze && commentMode ? 'inv-sobre--commentable' : '',
@@ -139,7 +152,16 @@ export function SobreInvitacion({
         <div className="inv-sobre-solapa" aria-hidden>
           <div className="inv-sobre-solapa-cara" />
           <span className="inv-sobre-sello" aria-hidden>
-            <img className="inv-sobre-sello-img" src="/sobre/sello-cera.png" alt="" width={280} height={280} decoding="async" />
+            <img
+              className="inv-sobre-sello-img"
+              src={SOBRE_SELLO_SRC}
+              alt=""
+              width={280}
+              height={280}
+              loading="eager"
+              decoding="sync"
+              fetchPriority="high"
+            />
           </span>
           <svg className="inv-sobre-plegues" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
             <line x1="0" y1="0" x2="50" y2="100" />
