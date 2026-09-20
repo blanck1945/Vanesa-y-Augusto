@@ -371,9 +371,8 @@ export function InvitacionPage({
                 <p className="inv-label">Celebración</p>
               </InvReveal>
               <InvReveal active={sobreListo} delay={2}>
-                <p className="inv-meta">
-                  {CASAMIENTO.fiesta.horario} · {CASAMIENTO.fiesta.lugar}
-                </p>
+                <p className="inv-meta inv-meta--hora">{CASAMIENTO.fiesta.horario}</p>
+                <p className="inv-meta inv-meta--nombre">{CASAMIENTO.fiesta.lugar}</p>
                 <p className="inv-meta inv-meta--lugar">{CASAMIENTO.fiesta.direccion}</p>
               </InvReveal>
               <InvReveal active={sobreListo} delay={3}>
@@ -532,7 +531,7 @@ export function InvitacionPage({
               <div className="inv-rsvp-copy">
                 <p className="inv-guest-meta">{CASAMIENTO.rsvp.mensaje}</p>
                 <p className="inv-guest-meta">{CASAMIENTO.rsvp.pregunta}</p>
-                <p className="inv-guest-meta">{CASAMIENTO.rsvp.plazo}</p>
+                <p className="inv-rsvp-plazo">{CASAMIENTO.rsvp.plazo}</p>
               </div>
             </InvReveal>
 
