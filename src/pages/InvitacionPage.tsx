@@ -23,6 +23,7 @@ import {
   rsvpInvitacion,
 } from '../data/api'
 import { applyInvitacionState, quitarSufijoPareja, whatsappHref } from '../lib/invitacionState'
+import { preloadInvitacionFonts } from '../lib/invitacionFonts'
 import { preloadSelloCera } from '../lib/sobreAssets'
 
 type InvitacionPageProps = {
@@ -52,6 +53,7 @@ export function InvitacionPage({
   const [sobreListo, setSobreListo] = useState(skipSobre || freezeSobre)
 
   useEffect(() => {
+    void preloadInvitacionFonts()
     if (!skipSobre) void preloadSelloCera()
   }, [skipSobre])
 
