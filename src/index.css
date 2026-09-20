@@ -416,6 +416,18 @@
 }
 
 @media (min-width: 860px) {
+  [data-inv-section='fiesta'].inv-band {
+    padding-block: clamp(5.75rem, 8vh, 7rem);
+  }
+
+  [data-inv-section='historia'].inv-band {
+    padding-block: clamp(5.75rem, 8vh, 7rem);
+  }
+
+  [data-inv-section='itinerario'].inv-band {
+    padding-bottom: clamp(5.75rem, 8vh, 7rem);
+  }
+
   [data-inv-section='iglesia'] .inv-fiesta-layout > .inv-fiesta-info {
     justify-content: center;
     text-align: center;
@@ -596,9 +608,9 @@
 }
 
 @media (min-width: 860px) {
-  .inv-sep-foto--overlap.inv-sep-foto--large img {
-    height: clamp(5rem, 22vh, 12rem);
-    max-height: clamp(5rem, 22vh, 12rem);
+  .inv-sep-foto--overlap img {
+    height: 32.7vh;
+    max-height: 32.7vh;
   }
 }
 
