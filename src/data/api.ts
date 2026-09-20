@@ -25,6 +25,26 @@ export type ImportacionCsvResultado = {
   resumen: { ok: number; fallidos: number }
 }
 
+export type FilaCsvPreview = {
+  fila: number
+  nombre: string
+  email: string | null
+  lado: LadoInvitacion
+  permitePareja: boolean
+}
+
+export type FilaCsvExistente = FilaCsvPreview & {
+  existenteId: number
+  existenteNombre: string
+}
+
+export type PreviewImportacionCsv = {
+  nuevos: FilaCsvPreview[]
+  existentes: FilaCsvExistente[]
+  errores: { fila: number; mensaje: string }[]
+  resumen: { nuevos: number; existentes: number; invalidos: number }
+}
+
 export type RsvpInput = {
   estado: EstadoInvitacion
   nombreAcompanante?: string | null
@@ -72,6 +92,31 @@ type ApiBulkImportResult = {
   created: ApiInvitation[]
   errors: { row: number; message: string }[]
   summary: { ok: number; failed: number }
+}
+
+type ApiBulkPreviewRow = {
+  row: number
+  name: string
+  email: string | null
+  guestSide: LadoInvitacion
+  allowsPlusOne: boolean
+}
+
+type ApiBulkPreviewResult = {
+  nuevos: ApiBulkPreviewRow[]
+  existentes: (ApiBulkPreviewRow & { existingId: number; existingName: string })[]
+  errores: { row: number; message: string }[]
+  resumen: { nuevos: number; existentes: number; invalidos: number }
+}
+
+function mapPreviewRow(row: ApiBulkPreviewRow): FilaCsvPreview {
+  return {
+    fila: row.row,
+    nombre: row.name,
+    email: row.email,
+    lado: row.guestSide,
+    permitePareja: row.allowsPlusOne,
+  }
 }
 
 const STATUS_FROM_API: Record<ApiInvitationStatus, EstadoInvitacion> = {
@@ -221,13 +266,40 @@ export async function updateInvitacion(
   return mapInvitation(row)
 }
 
-export async function importInvitacionesCsv(file: File): Promise<ImportacionCsvResultado> {
+export async function previewInvitacionesCsv(file: File): Promise<PreviewImportacionCsv> {
   const form = new FormData()
   form.append('file', file)
-  const data = await parseResponse<ApiBulkImportResult>(
-    await fetch(apiPath('/api/invitations/bulk'), {
+  const data = await parseResponse<ApiBulkPreviewResult>(
+    await fetch(apiPath('/api/invitations/bulk/preview'), {
       method: 'POST',
       body: form,
+    }),
+  )
+  return {
+    nuevos: data.nuevos.map(mapPreviewRow),
+    existentes: data.existentes.map((row) => ({
+      ...mapPreviewRow(row),
+      existenteId: row.existingId,
+      existenteNombre: row.existingName,
+    })),
+    errores: data.errores.map((e) => ({ fila: e.row, mensaje: e.message })),
+    resumen: data.resumen,
+  }
+}
+
+export async function confirmarImportacionCsv(filas: FilaCsvPreview[]): Promise<ImportacionCsvResultado> {
+  const data = await parseResponse<ApiBulkImportResult>(
+    await fetch(apiPath('/api/invitations/bulk/confirm'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        rows: filas.map((f) => ({
+          name: f.nombre,
+          email: f.email,
+          guestSide: f.lado,
+          allowsPlusOne: f.permitePareja,
+        })),
+      }),
     }),
   )
   return {

@@ -382,6 +382,55 @@ html[data-admin-theme='dark'] .bp-select {
   cursor: wait;
 }
 
+.dash-import-preview {
+  border-top: 1px solid var(--dash-table-border);
+  padding-top: 1rem;
+}
+
+.dash-import-preview-block {
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--dash-table-border);
+  border-radius: 6px;
+  background: var(--bp-muted-bg);
+}
+
+.dash-import-preview-block--skip {
+  opacity: 0.85;
+}
+
+.dash-import-preview-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dash-table-head-color);
+}
+
+.dash-import-preview-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+
+.dash-import-preview-list li {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--dash-table-border);
+}
+
+.dash-import-preview-list li:last-child {
+  border-bottom: none;
+}
+
+.dash-import-preview-meta {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--dash-table-head-color);
+  margin-top: 0.1rem;
+}
+
 .dash-import-result {
   border-top: 1px solid var(--dash-table-border);
   padding-top: 0.75rem;

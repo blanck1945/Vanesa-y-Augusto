@@ -6,7 +6,8 @@ import {
   createInvitacion,
   deleteInvitacion,
   getSesionAdmin,
-  importInvitacionesCsv,
+  confirmarImportacionCsv,
+  previewInvitacionesCsv,
   invitacionLinkFor,
   listInvitaciones,
   sendInvitacionEmail,
@@ -15,6 +16,7 @@ import {
   type ImportacionCsvResultado,
   type Invitacion,
   type LadoInvitacion,
+  type PreviewImportacionCsv,
 } from '../data/api'
 import { Card } from '../components/ui/Card'
 import { Field } from '../components/ui/Field'
@@ -114,7 +116,8 @@ export function DashboardPage() {
   const [editandoId, setEditandoId] = useState<number | null>(null)
   const [editDraft, setEditDraft] = useState<EdicionInvitacion | null>(null)
   const [guardandoId, setGuardandoId] = useState<number | null>(null)
-  const [csvFile, setCsvFile] = useState<File | null>(null)
+  const [csvPreview, setCsvPreview] = useState<PreviewImportacionCsv | null>(null)
+  const [csvPreviewLoading, setCsvPreviewLoading] = useState(false)
   const [importando, setImportando] = useState(false)
   const [importResult, setImportResult] = useState<ImportacionCsvResultado | null>(null)
   const [enviandoId, setEnviandoId] = useState<number | null>(null)
@@ -224,30 +227,46 @@ export function DashboardPage() {
     }
   }
 
-  async function onImportarCsv(file: File) {
+  function resetCsvInput() {
+    setCsvPreview(null)
+    if (csvInputRef.current) csvInputRef.current.value = ''
+  }
+
+  async function onCsvSelected(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setCsvPreviewLoading(true)
+    setError(null)
+    setImportResult(null)
+    setCsvPreview(null)
+    try {
+      const preview = await previewInvitacionesCsv(file)
+      setCsvPreview(preview)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err))
+      resetCsvInput()
+    } finally {
+      setCsvPreviewLoading(false)
+    }
+  }
+
+  async function onConfirmarImportacion() {
+    if (!csvPreview || csvPreview.nuevos.length === 0) return
     setImportando(true)
     setError(null)
     setImportResult(null)
-    setCsvFile(file)
     try {
-      const result = await importInvitacionesCsv(file)
+      const result = await confirmarImportacionCsv(csvPreview.nuevos)
       setImportResult(result)
       if (result.creados.length > 0) {
         setInvitaciones((prev) => [...result.creados, ...prev])
       }
-      setCsvFile(null)
-      if (csvInputRef.current) csvInputRef.current.value = ''
+      resetCsvInput()
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err))
     } finally {
       setImportando(false)
     }
-  }
-
-  function onCsvSelected(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    void onImportarCsv(file)
   }
 
   async function onEnviarEmail(id: number) {
@@ -365,17 +384,15 @@ export function DashboardPage() {
             type="file"
             accept=".csv,text/csv,text/plain,application/vnd.ms-excel"
             className="dash-csv-input-hidden"
-            disabled={importando}
+            disabled={csvPreviewLoading || importando}
             onChange={onCsvSelected}
           />
-          <label htmlFor="dash-csv-file" className={`dash-csv-picker${importando ? ' dash-csv-picker--busy' : ''}`}>
-            {importando ? 'Importando…' : 'Elegir CSV e importar'}
+          <label
+            htmlFor="dash-csv-file"
+            className={`dash-csv-picker${csvPreviewLoading || importando ? ' dash-csv-picker--busy' : ''}`}
+          >
+            {csvPreviewLoading ? 'Analizando CSV…' : 'Elegir CSV'}
           </label>
-          {csvFile && importando ? (
-            <Text muted className="text-sm">
-              {csvFile.name}
-            </Text>
-          ) : null}
           <Button type="button" variant="secondary" size="sm" onClick={descargarPlantillaCsv}>
             Descargar plantilla
           </Button>
@@ -390,6 +407,87 @@ export function DashboardPage() {
             </Button>
           ) : null}
         </div>
+        {csvPreview ? (
+          <div className="dash-import-preview mt-4">
+            <Text className="mb-3 text-sm text-bp-body">
+              <strong>{csvPreview.resumen.nuevos}</strong> {csvPreview.resumen.nuevos === 1 ? 'invitado nuevo' : 'invitados nuevos'}
+              {' · '}
+              <strong>{csvPreview.resumen.existentes}</strong>{' '}
+              {csvPreview.resumen.existentes === 1 ? 'ya existe' : 'ya existen'}
+              {csvPreview.resumen.invalidos > 0 ? (
+                <>
+                  {' · '}
+                  <strong>{csvPreview.resumen.invalidos}</strong> con error
+                </>
+              ) : null}
+            </Text>
+
+            {csvPreview.nuevos.length > 0 ? (
+              <div className="dash-import-preview-block">
+                <Text as="h3" className="dash-import-preview-title">
+                  Se van a crear ({csvPreview.nuevos.length})
+                </Text>
+                <ul className="dash-import-preview-list">
+                  {csvPreview.nuevos.map((f) => (
+                    <li key={`nuevo-${f.fila}-${f.nombre}`}>
+                      {f.nombre}
+                      <span className="dash-import-preview-meta">
+                        {ladoLabel(f.lado)} · {f.permitePareja ? 'con pareja' : 'solo'}
+                        {f.email ? ` · ${f.email}` : ''}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
+            {csvPreview.existentes.length > 0 ? (
+              <div className="dash-import-preview-block dash-import-preview-block--skip">
+                <Text as="h3" className="dash-import-preview-title">
+                  Ya existen — se omiten ({csvPreview.existentes.length})
+                </Text>
+                <ul className="dash-import-preview-list">
+                  {csvPreview.existentes.map((f) => (
+                    <li key={`exist-${f.fila}-${f.nombre}`}>
+                      {f.nombre}
+                      <span className="dash-import-preview-meta">
+                        coincide con «{f.existenteNombre}»
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
+            {csvPreview.errores.length > 0 ? (
+              <ul className="dash-import-errors mt-2">
+                {csvPreview.errores.map((e) => (
+                  <li key={`err-${e.fila}-${e.mensaje}`}>
+                    Fila {e.fila}: {e.mensaje}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Button
+                type="button"
+                disabled={importando || csvPreview.nuevos.length === 0}
+                onClick={() => void onConfirmarImportacion()}
+              >
+                {importando
+                  ? 'Importando…'
+                  : csvPreview.nuevos.length > 0
+                    ? `Importar ${csvPreview.nuevos.length} nuevos`
+                    : 'Nada nuevo para importar'}
+              </Button>
+              <Button type="button" variant="secondary" disabled={importando} onClick={resetCsvInput}>
+                Cancelar
+              </Button>
+            </div>
+          </div>
+        ) : null}
+
         {importResult ? (
           <div className="dash-import-result mt-3">
             <Text className="text-sm">
