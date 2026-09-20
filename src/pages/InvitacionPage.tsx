@@ -10,6 +10,7 @@ import { Reloj } from '../components/Reloj'
 import { Section } from '../components/Section'
 import { SeparadorHojasLargas } from '../components/SeparadorHojasLargas'
 import { SepSlot } from '../components/SepHojas'
+import { InvitacionLoader } from '../components/InvitacionLoader'
 import { SobreInvitacion } from '../components/SobreInvitacion'
 import { Button } from '../components/ui/Button'
 import { Field } from '../components/ui/Field'
@@ -166,7 +167,7 @@ export function InvitacionPage({
   if (loading) {
     return (
       <div className="invitacion inv-loading">
-        <p>Cargando invitación…</p>
+        <InvitacionLoader />
       </div>
     )
   }

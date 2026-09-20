@@ -673,3 +673,117 @@
 .inv-sobre-hit {
   transition: opacity 0.25s ease;
 }
+
+.inv-sobre--preparando .inv-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* Loader casamiento — anillos + ramita */
+.inv-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  color: var(--inv-leaf);
+}
+
+.inv-loader-svg {
+  width: 5.5rem;
+  height: 5.5rem;
+}
+
+.inv-loader-ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+}
+
+.inv-loader-ring--left {
+  animation: inv-loader-ring-left 2.6s ease-in-out infinite;
+}
+
+.inv-loader-ring--right {
+  animation: inv-loader-ring-right 2.6s ease-in-out infinite;
+}
+
+.inv-loader-floral {
+  animation: inv-loader-floral 3.2s ease-in-out infinite;
+  transform-origin: 60px 42px;
+}
+
+.inv-loader-heart {
+  animation: inv-loader-heart 2.6s ease-in-out infinite;
+}
+
+.inv-loader-caption {
+  margin: 0;
+  font-family: var(--inv-script);
+  font-size: 1.35rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--inv-ink-soft);
+  letter-spacing: 0.02em;
+  animation: inv-loader-caption 2.6s ease-in-out infinite;
+}
+
+@keyframes inv-loader-ring-left {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translateX(2px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes inv-loader-ring-right {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translateX(-2px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes inv-loader-floral {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+}
+
+@keyframes inv-loader-heart {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+}
+
+@keyframes inv-loader-caption {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}

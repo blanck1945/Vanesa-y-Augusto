@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { InvitacionLoader } from './InvitacionLoader'
 import { SOBRE_SELLO_SRC, preloadSelloCera } from '../lib/sobreAssets'
 
 const AUTO_OPEN_MS = 5000
@@ -133,6 +134,7 @@ export function SobreInvitacion({
       data-inv-section="sobre"
       data-inv-label="Sobre"
     >
+      {!visualListo ? <InvitacionLoader /> : null}
       <button
         type="button"
         className="inv-sobre-hit"
