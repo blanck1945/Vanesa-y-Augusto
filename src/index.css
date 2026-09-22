@@ -394,14 +394,27 @@
   min-height: 0;
 }
 
+[data-inv-section='iglesia'] .inv-iglesia-video-frame {
+  width: 100%;
+  max-width: 100%;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: clamp(0.75rem, 3vw, 1rem);
+  isolation: isolate;
+  transform: translateZ(0);
+}
+
 [data-inv-section='iglesia'] .inv-iglesia-video {
+  --inv-iglesia-video-radius: clamp(0.75rem, 3vw, 1rem);
   display: block;
   width: 100%;
   max-width: 100%;
   max-height: min(75svh, 32rem);
   height: auto;
-  object-fit: contain;
-  border-radius: 0.35rem;
+  vertical-align: top;
+  border-radius: var(--inv-iglesia-video-radius);
+  clip-path: inset(0 round var(--inv-iglesia-video-radius));
+  -webkit-clip-path: inset(0 round var(--inv-iglesia-video-radius));
 }
 
 [data-inv-section='iglesia'] .inv-fiesta-info,
@@ -459,6 +472,10 @@
 }
 
 @media (max-width: 859px) {
+  [data-inv-section='iglesia'].inv-band {
+    padding-bottom: clamp(2.85rem, 9vh, 4.25rem);
+  }
+
   [data-inv-section='iglesia'] .inv-fiesta-layout {
     text-align: center;
     justify-items: center;

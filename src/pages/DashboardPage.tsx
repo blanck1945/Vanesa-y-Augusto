@@ -8,6 +8,7 @@ import {
   getSesionAdmin,
   confirmarImportacionCsv,
   previewInvitacionesCsv,
+  getInvitePublicBaseUrl,
   invitacionLinkFor,
   listInvitaciones,
   sendInvitacionEmail,
@@ -129,6 +130,7 @@ export function DashboardPage() {
   useEffect(() => {
     if (!usuario) return
     let cancelado = false
+    void getInvitePublicBaseUrl()
     ;(async () => {
       setLoading(true)
       setError(null)
@@ -169,6 +171,7 @@ export function DashboardPage() {
   }
 
   async function onCopiar(token: string) {
+    await getInvitePublicBaseUrl()
     const link = invitacionLinkFor(token)
     try {
       await navigator.clipboard.writeText(link)

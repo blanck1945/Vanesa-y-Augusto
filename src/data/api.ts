@@ -378,8 +378,42 @@ export async function loginUsuario(email: string, password: string): Promise<Usu
   return { id: data.user.id, nombre: data.user.name, email: data.user.email }
 }
 
+const DEFAULT_INVITE_PUBLIC_BASE = 'https://casamiento-vanesa-augusto.vercel.app'
+
+let cachedInvitePublicBase: string | null = null
+
+function invitePublicBaseFallback(): string {
+  const fromVite = import.meta.env.VITE_INVITE_PUBLIC_BASE_URL?.trim()
+  if (fromVite) return fromVite.replace(/\/+$/, '')
+  const { origin } = window.location
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin)) {
+    return DEFAULT_INVITE_PUBLIC_BASE
+  }
+  return origin.replace(/\/+$/, '')
+}
+
+/** Misma base que los emails (`INVITE_PUBLIC_BASE_URL` en la API). */
+export async function getInvitePublicBaseUrl(): Promise<string> {
+  if (cachedInvitePublicBase) return cachedInvitePublicBase
+  try {
+    const data = await parseResponse<{ publicBaseUrl: string }>(
+      await fetch(apiPath('/api/invitations/public-link-base')),
+    )
+    const base = data.publicBaseUrl?.trim()
+    if (base) {
+      cachedInvitePublicBase = base.replace(/\/+$/, '')
+      return cachedInvitePublicBase
+    }
+  } catch {
+    /* API caída o sin backend — fallback abajo */
+  }
+  cachedInvitePublicBase = invitePublicBaseFallback()
+  return cachedInvitePublicBase
+}
+
 export function invitacionLinkFor(token: string): string {
-  return `${window.location.origin}/i/${token}`
+  const origin = cachedInvitePublicBase ?? invitePublicBaseFallback()
+  return `${origin.replace(/\/+$/, '')}/i/${token}`
 }
 
 // ---- Muestra / comentarios de testing ----

@@ -348,16 +348,18 @@ export function InvitacionPage({
               </InvReveal>
             </div>
             <InvReveal active={sobreListo} delay={3} className="inv-reveal-media inv-iglesia-video-wrap">
-              <video
-                className="inv-iglesia-video"
-                src={CASAMIENTO.iglesia.video}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                aria-label={CASAMIENTO.iglesia.videoLabel}
-              />
+              <div className="inv-iglesia-video-frame">
+                <video
+                  className="inv-iglesia-video"
+                  src={CASAMIENTO.iglesia.video}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-label={CASAMIENTO.iglesia.videoLabel}
+                />
+              </div>
             </InvReveal>
           </div>
         </section>
