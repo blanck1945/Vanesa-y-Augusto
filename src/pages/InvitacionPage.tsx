@@ -16,6 +16,7 @@ import { Button } from '../components/ui/Button'
 import { Field } from '../components/ui/Field'
 import { Select } from '../components/ui/Select'
 import { CASAMIENTO } from '../content/casamiento'
+import { INVITE_SHARE, applyInviteShareMeta } from '../lib/inviteShareMeta'
 import {
   type EstadoInvitacion,
   type Invitacion,
@@ -58,9 +59,8 @@ export function InvitacionPage({
   }, [skipSobre])
 
   useEffect(() => {
-    document.title = isDemo
-      ? `${CASAMIENTO.novios} · Vista`
-      : `${CASAMIENTO.novios} · Casamiento`
+    applyInviteShareMeta()
+    document.title = isDemo ? `${CASAMIENTO.novios} · Vista` : INVITE_SHARE.title
     window.scrollTo(0, 0)
     const root = document.documentElement
     const prevGutter = root.style.scrollbarGutter
