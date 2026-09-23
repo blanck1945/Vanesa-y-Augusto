@@ -1,6 +1,15 @@
 @import 'tailwindcss';
 @import './styles/invitacion.css';
 
+/* Portada mobile: 100dvh crece al scrollear (barra del browser) y la foto cover “zoom”. */
+@media (max-width: 699px) {
+  .inv-hero.inv-hero--portada {
+    height: 100svh;
+    min-height: 100svh;
+    max-height: 100svh;
+  }
+}
+
 .inv-rsvp-ok {
   font-size: 1.05rem;
   font-style: italic;
