@@ -39,7 +39,7 @@ export default async function handler(request: Request): Promise<Response> {
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
     },
   })
 }

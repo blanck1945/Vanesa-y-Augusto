@@ -33,6 +33,8 @@ export function buildInvitePreviewHtml(input: { token: string; guestName?: strin
   <meta property="og:url" content="${safePageUrl}" />
   <meta property="og:image" content="${safeImage}" />
   <meta property="og:image:secure_url" content="${safeImage}" />
+  <meta property="og:image:width" content="500" />
+  <meta property="og:image:height" content="383" />
   <meta property="og:image:alt" content="${safeImageAlt}" />
   <meta property="og:locale" content="es_AR" />
   <meta name="twitter:card" content="summary_large_image" />

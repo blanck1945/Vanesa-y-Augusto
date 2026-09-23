@@ -3,8 +3,9 @@ export const INVITE_SHARE = {
   publicOrigin: 'https://casamiento-vanesa-augusto.vercel.app',
   title: 'Invitación casamiento Vanesa y Augusto',
   description: '19 de diciembre de 2026 · Abrí el link para ver la invitación y confirmar asistencia.',
-  imagePath: '/share/og-preview.png',
-  imageAlt: 'Vanesa y Augusto',
+  /** ?v= rompe caché de WhatsApp/Facebook que guardó la foto vieja (sobre/01.jpg). */
+  imagePath: '/share/og-preview.png?v=2',
+  imageAlt: 'Sobre con sello Vanesa y Augusto',
 } as const
 
 export function inviteShareImageUrl(): string {
