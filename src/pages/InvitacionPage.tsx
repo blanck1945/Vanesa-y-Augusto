@@ -16,7 +16,7 @@ import { Button } from '../components/ui/Button'
 import { Field } from '../components/ui/Field'
 import { Select } from '../components/ui/Select'
 import { CASAMIENTO } from '../content/casamiento'
-import { INVITE_SHARE, applyInviteShareMeta } from '../lib/inviteShareMeta'
+import { applyInviteShareMeta, inviteShareTitle } from '../lib/inviteShareMeta'
 import {
   type EstadoInvitacion,
   type Invitacion,
@@ -59,8 +59,8 @@ export function InvitacionPage({
   }, [skipSobre])
 
   useEffect(() => {
-    applyInviteShareMeta()
-    document.title = isDemo ? `${CASAMIENTO.novios} · Vista` : INVITE_SHARE.title
+    applyInviteShareMeta(isDemo ? undefined : inv?.nombre)
+    document.title = isDemo ? `${CASAMIENTO.novios} · Vista` : inviteShareTitle(inv?.nombre)
     window.scrollTo(0, 0)
     const root = document.documentElement
     const prevGutter = root.style.scrollbarGutter
@@ -71,7 +71,7 @@ export function InvitacionPage({
       root.style.scrollbarGutter = prevGutter
       root.style.overflowY = prevOverflow
     }
-  }, [isDemo])
+  }, [isDemo, inv?.nombre])
 
   useEffect(() => {
     if (!invitacionOverride) return
