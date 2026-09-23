@@ -1,7 +1,7 @@
 /** Vista previa al compartir `/i/:token` (WhatsApp, iMessage, etc.). */
 export const INVITE_SHARE = {
   publicOrigin: 'https://casamiento-vanesa-augusto.vercel.app',
-  title: 'Invitación Vanesa y Augusto',
+  title: 'Invitación casamiento Vanesa y Augusto',
   description: '19 de diciembre de 2026 · Abrí el link para ver la invitación y confirmar asistencia.',
   imagePath: '/sobre/01.jpg',
   imageAlt: 'Vanesa y Augusto',
@@ -13,7 +13,7 @@ export function inviteShareImageUrl(): string {
 
 export function inviteShareTitle(guestName?: string | null): string {
   const name = guestName?.trim()
-  if (name) return `${name} · Invitación Vanesa y Augusto`
+  if (name) return `${name} invitación casamiento Vanesa y Augusto`
   return INVITE_SHARE.title
 }
 
