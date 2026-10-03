@@ -285,8 +285,9 @@ export function DashboardPage() {
     setReseteandoId(inv.id)
     setError(null)
     try {
-      const actualizada = await resetRespuestaInvitacion(inv.id)
-      setInvitaciones((prev) => prev.map((i) => (i.id === inv.id ? actualizada : i)))
+      await resetRespuestaInvitacion(inv.id)
+      const data = await listInvitaciones()
+      setInvitaciones(data)
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err))
     } finally {

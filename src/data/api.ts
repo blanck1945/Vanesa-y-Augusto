@@ -229,7 +229,9 @@ async function parseResponse<T>(res: Response): Promise<T> {
 // ---- Invitaciones ----
 
 export async function listInvitaciones(): Promise<Invitacion[]> {
-  const rows = await parseResponse<ApiInvitation[]>(await fetch(apiPath('/api/invitations')))
+  const rows = await parseResponse<ApiInvitation[]>(
+    await fetch(apiPath('/api/invitations'), { cache: 'no-store' }),
+  )
   return rows.map(mapInvitation)
 }
 
@@ -346,7 +348,10 @@ export async function deleteInvitacion(id: number): Promise<{ ok: true }> {
 
 export async function resetRespuestaInvitacion(id: number): Promise<Invitacion> {
   const row = await parseResponse<ApiInvitation>(
-    await fetch(apiPath(`/api/invitations/${id}/reset-rsvp`), { method: 'POST' }),
+    await apiFetch(apiPath(`/api/invitations/${id}/reset-rsvp`), {
+      method: 'POST',
+      cache: 'no-store',
+    }),
   )
   return mapInvitation(row)
 }
@@ -354,7 +359,9 @@ export async function resetRespuestaInvitacion(id: number): Promise<Invitacion> 
 /** Slug (`maria-lopez`) o token hex legacy — la API acepta ambos. */
 export async function getInvitacionByPublicKey(publicKey: string): Promise<Invitacion> {
   const row = await parseResponse<ApiInvitation>(
-    await fetch(apiPath(`/api/invitations/by-token/${encodeURIComponent(publicKey)}`)),
+    await fetch(apiPath(`/api/invitations/by-token/${encodeURIComponent(publicKey)}`), {
+      cache: 'no-store',
+    }),
   )
   return mapInvitation(row)
 }

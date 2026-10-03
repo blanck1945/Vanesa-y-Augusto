@@ -119,6 +119,38 @@ export function InvitacionPage({
     }
   }, [publicKey, invitacionOverride])
 
+  useEffect(() => {
+    if (invitacionOverride || !publicKey) return
+    const refresh = () => {
+      void getInvitacionByPublicKey(publicKey)
+        .then((data) => {
+          applyInvitacionState(data, {
+            setInv,
+            setEstado,
+            setDone,
+            setNombreAcompanante,
+            setModoAsistencia,
+            setRestriccionesAlimentariasSi: setRestriccionesSi,
+          })
+        })
+        .catch(() => {
+          /* ignorar — el fetch inicial ya mostró error si falló */
+        })
+    }
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') refresh()
+    }
+    window.addEventListener('focus', refresh)
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      window.removeEventListener('focus', refresh)
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
+  }, [publicKey, invitacionOverride])
+
+  const respondioRsvp =
+    inv != null && inv.estado !== 'pendiente' && (inv.estado === 'si' || inv.estado === 'no')
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
     if (!publicKey && !isDemo) return
@@ -556,7 +588,7 @@ export function InvitacionPage({
               </div>
             </InvReveal>
 
-            {done && inv ? (
+            {respondioRsvp && inv ? (
               <InvReveal active={sobreListo} delay={1}>
                 <p className="inv-rsvp-ok">
                   {inv.estado === 'si'
