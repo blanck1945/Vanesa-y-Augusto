@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import {
   CSV_PLANTILLA_INVITADOS,
@@ -12,6 +12,7 @@ import {
   invitacionLinkFor,
   listInvitaciones,
   resetRespuestaInvitacion,
+  sortInvitacionesPorNombre,
   sendInvitacionEmail,
   sendInvitacionesPendientes,
   updateInvitacion,
@@ -331,6 +332,11 @@ export function DashboardPage() {
     }
   }
 
+  const invitacionesOrdenadas = useMemo(
+    () => sortInvitacionesPorNombre(invitaciones),
+    [invitaciones],
+  )
+
   const confSi = invitaciones.filter((i) => i.estado === 'si').length
   const pendientes = invitaciones.filter((i) => i.estado === 'pendiente').length
   const talVez = invitaciones.filter((i) => i.estado === 'aun_no_lo_se').length
@@ -609,7 +615,7 @@ export function DashboardPage() {
               </tr>
             </thead>
             <tbody>
-              {invitaciones.map((inv) => {
+              {invitacionesOrdenadas.map((inv) => {
                 const editando = editandoId === inv.id && editDraft != null
                 const puedeEnviar = !!inv.email?.trim()
                 const enviando = enviandoId === inv.id

@@ -228,11 +228,15 @@ async function parseResponse<T>(res: Response): Promise<T> {
 
 // ---- Invitaciones ----
 
+export function sortInvitacionesPorNombre(items: Invitacion[]): Invitacion[] {
+  return [...items].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }))
+}
+
 export async function listInvitaciones(): Promise<Invitacion[]> {
   const rows = await parseResponse<ApiInvitation[]>(
     await fetch(apiPath('/api/invitations'), { cache: 'no-store' }),
   )
-  return rows.map(mapInvitation)
+  return sortInvitacionesPorNombre(rows.map(mapInvitation))
 }
 
 export async function createInvitacion(
