@@ -347,7 +347,7 @@ export function DashboardPage() {
             Invitaciones
           </Text>
           <Text muted className="mt-1">
-            Hola, {usuario.nombre}. Creá invitados, importá un CSV o mandá invitaciones por email.
+            Hola, {usuario.nombre}. Creá invitados, importá CSV/Excel o mandá invitaciones por email.
           </Text>
         </div>
         <Button
@@ -397,9 +397,10 @@ export function DashboardPage() {
 
       <Card className="p-5 dash-import-card">
         <Text as="h2" className="mb-2 text-lg text-bp-body">
-          Importar CSV
+          Importar CSV o Excel
         </Text>
         <Text muted className="mb-3 text-sm">
+          Archivo <span className="font-mono">.csv</span> o <span className="font-mono">.xlsx</span> (primera hoja).
           Columnas: <span className="font-mono">nombre, email, lado, invita</span> — lado: vanesa o augusto; invita: si/no
           o pareja/solo.
         </Text>
@@ -408,7 +409,7 @@ export function DashboardPage() {
             ref={csvInputRef}
             id="dash-csv-file"
             type="file"
-            accept=".csv,text/csv,text/plain,application/vnd.ms-excel"
+            accept=".csv,.xlsx,.xls,text/csv,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
             className="dash-csv-input-hidden"
             disabled={csvPreviewLoading || importando}
             onChange={onCsvSelected}
@@ -417,7 +418,7 @@ export function DashboardPage() {
             htmlFor="dash-csv-file"
             className={`dash-csv-picker${csvPreviewLoading || importando ? ' dash-csv-picker--busy' : ''}`}
           >
-            {csvPreviewLoading ? 'Analizando CSV…' : 'Elegir CSV'}
+            {csvPreviewLoading ? 'Analizando archivo…' : 'Elegir CSV o Excel'}
           </label>
           <Button type="button" variant="secondary" size="sm" onClick={descargarPlantillaCsv}>
             Descargar plantilla
