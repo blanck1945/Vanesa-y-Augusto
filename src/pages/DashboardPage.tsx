@@ -11,6 +11,7 @@ import {
   getInvitePublicBaseUrl,
   invitacionLinkFor,
   listInvitaciones,
+  resetRespuestaInvitacion,
   sendInvitacionEmail,
   sendInvitacionesPendientes,
   updateInvitacion,
@@ -19,6 +20,7 @@ import {
   type LadoInvitacion,
   type PreviewImportacionCsv,
 } from '../data/api'
+import { invitacionPath } from '../lib/invitacionLink'
 import { Card } from '../components/ui/Card'
 import { Field } from '../components/ui/Field'
 import { Select } from '../components/ui/Select'
@@ -124,6 +126,7 @@ export function DashboardPage() {
   const [importResult, setImportResult] = useState<ImportacionCsvResultado | null>(null)
   const [enviandoId, setEnviandoId] = useState<number | null>(null)
   const [enviandoPendientes, setEnviandoPendientes] = useState(false)
+  const [reseteandoId, setReseteandoId] = useState<number | null>(null)
   const csvInputRef = useRef<HTMLInputElement>(null)
   const nombreInputRef = useRef<HTMLInputElement>(null)
 
@@ -170,12 +173,12 @@ export function DashboardPage() {
     }
   }
 
-  async function onCopiar(token: string) {
+  async function onCopiar(inv: Invitacion) {
     await getInvitePublicBaseUrl()
-    const link = invitacionLinkFor(token)
+    const link = invitacionLinkFor(inv)
     try {
       await navigator.clipboard.writeText(link)
-      setCopiedToken(token)
+      setCopiedToken(inv.token)
       window.setTimeout(() => setCopiedToken(null), 2000)
     } catch {
       setError('No se pudo copiar el link')
@@ -270,6 +273,24 @@ export function DashboardPage() {
       setError(err instanceof Error ? err.message : String(err))
     } finally {
       setImportando(false)
+    }
+  }
+
+  async function onResetearRespuesta(inv: Invitacion) {
+    if (inv.estado === 'pendiente') return
+    const ok = window.confirm(
+      `¿Resetear la respuesta de «${inv.nombre}»? Volverá a «Sin respuesta» y podrá confirmar de nuevo desde su link.`,
+    )
+    if (!ok) return
+    setReseteandoId(inv.id)
+    setError(null)
+    try {
+      const actualizada = await resetRespuestaInvitacion(inv.id)
+      setInvitaciones((prev) => prev.map((i) => (i.id === inv.id ? actualizada : i)))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err))
+    } finally {
+      setReseteandoId(null)
     }
   }
 
@@ -590,6 +611,8 @@ export function DashboardPage() {
                 const editando = editandoId === inv.id && editDraft != null
                 const puedeEnviar = !!inv.email?.trim()
                 const enviando = enviandoId === inv.id
+                const reseteando = reseteandoId === inv.id
+                const tieneRespuesta = inv.estado !== 'pendiente'
                 return (
                   <tr key={inv.id} className={editando ? 'dash-table-row--editing' : undefined}>
                     <td>
@@ -696,10 +719,21 @@ export function DashboardPage() {
                             >
                               {enviando ? 'Enviando…' : inv.emailEnviadoAt ? 'Reenviar' : 'Enviar email'}
                             </Button>
-                            <Button type="button" size="sm" variant="secondary" onClick={() => void onCopiar(inv.token)}>
+                            <Button type="button" size="sm" variant="secondary" onClick={() => void onCopiar(inv)}>
                               {copiedToken === inv.token ? 'Copiado' : 'Copiar link'}
                             </Button>
-                            <Button href={`/i/${inv.token}`} size="sm" variant="secondary">
+                            {tieneRespuesta ? (
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="secondary"
+                                disabled={reseteando}
+                                onClick={() => void onResetearRespuesta(inv)}
+                              >
+                                {reseteando ? 'Reseteando…' : 'Resetear respuesta'}
+                              </Button>
+                            ) : null}
+                            <Button href={invitacionPath(inv)} size="sm" variant="secondary">
                               Abrir
                             </Button>
                             <Button type="button" size="sm" variant="secondary" onClick={() => void onBorrar(inv.id)}>

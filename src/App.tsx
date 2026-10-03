@@ -12,7 +12,7 @@ export default function App() {
       <Route path="/" element={<Navigate to="/vista" replace />} />
       <Route path="/vista" element={<VistaPage />} />
       <Route path="/galeria" element={<GaleriaPage />} />
-      <Route path="/i/:token" element={<InvitacionPage />} />
+      <Route path="/i/:slug" element={<InvitacionPage />} />
       <Route element={<DashboardLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="dashboard" element={<DashboardPage />} />

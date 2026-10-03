@@ -432,6 +432,11 @@
   text-align: center;
 }
 
+[data-inv-section='fiesta'] .inv-fiesta-layout--sin-media {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
 [data-inv-section='iglesia'] .inv-mapa-btn,
 [data-inv-section='fiesta'] .inv-mapa-btn {
   display: inline-flex;

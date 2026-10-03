@@ -12,10 +12,10 @@ function resolveApiBase(): string {
   return fromEnv || DEFAULT_API_BASE
 }
 
-async function fetchGuestName(token: string): Promise<string | null> {
+async function fetchGuestName(publicKey: string): Promise<string | null> {
   const apiBase = resolveApiBase()
   try {
-    const res = await fetch(`${apiBase}/api/invitations/by-token/${encodeURIComponent(token)}`, {
+    const res = await fetch(`${apiBase}/api/invitations/by-token/${encodeURIComponent(publicKey)}`, {
       headers: { Accept: 'application/json' },
     })
     if (!res.ok) return null
@@ -28,13 +28,13 @@ async function fetchGuestName(token: string): Promise<string | null> {
 }
 
 export default async function handler(request: Request): Promise<Response> {
-  const token = new URL(request.url).searchParams.get('token')?.trim() ?? ''
-  if (!token) {
-    return new Response('Missing token', { status: 400 })
+  const publicKey = new URL(request.url).searchParams.get('token')?.trim() ?? ''
+  if (!publicKey) {
+    return new Response('Missing invitation key', { status: 400 })
   }
 
-  const guestName = await fetchGuestName(token)
-  const html = buildInvitePreviewHtml({ token, guestName })
+  const guestName = await fetchGuestName(publicKey)
+  const html = buildInvitePreviewHtml({ publicKey, guestName })
 
   return new Response(html, {
     headers: {

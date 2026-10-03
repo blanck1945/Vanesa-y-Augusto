@@ -20,9 +20,10 @@ import { applyInviteShareMeta, inviteShareTitle } from '../lib/inviteShareMeta'
 import {
   type EstadoInvitacion,
   type Invitacion,
-  getInvitacionByToken,
+  getInvitacionByPublicKey,
   rsvpInvitacion,
 } from '../data/api'
+import { invitacionPathSegment } from '../lib/invitacionLink'
 import { applyInvitacionState, quitarSufijoPareja, whatsappHref } from '../lib/invitacionState'
 import { preloadInvitacionFonts } from '../lib/invitacionFonts'
 import { preloadSelloCera } from '../lib/sobreAssets'
@@ -38,8 +39,10 @@ export function InvitacionPage({
   skipSobre = false,
   freezeSobre = false,
 }: InvitacionPageProps) {
-  const { token: tokenFromRoute = '' } = useParams()
-  const token = invitacionOverride?.token ?? tokenFromRoute
+  const { slug: slugFromRoute = '' } = useParams()
+  const publicKey = invitacionOverride
+    ? invitacionPathSegment(invitacionOverride)
+    : decodeURIComponent(slugFromRoute)
   const isDemo = !!invitacionOverride
 
   const [inv, setInv] = useState<Invitacion | null>(invitacionOverride ?? null)
@@ -89,13 +92,13 @@ export function InvitacionPage({
   }, [invitacionOverride, skipSobre, freezeSobre])
 
   useEffect(() => {
-    if (invitacionOverride || !token) return
+    if (invitacionOverride || !publicKey) return
     let cancelled = false
     ;(async () => {
       setLoading(true)
       setError(null)
       try {
-        const data = await getInvitacionByToken(token)
+        const data = await getInvitacionByPublicKey(publicKey)
         if (cancelled) return
         applyInvitacionState(data, {
           setInv,
@@ -114,11 +117,11 @@ export function InvitacionPage({
     return () => {
       cancelled = true
     }
-  }, [token, invitacionOverride])
+  }, [publicKey, invitacionOverride])
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
-    if (!token && !isDemo) return
+    if (!publicKey && !isDemo) return
 
     const conPareja = estado === 'si' && !!inv?.permitePareja && modoAsistencia === 'pareja'
     const nombrePareja = nombreAcompanante.trim()
@@ -148,7 +151,7 @@ export function InvitacionPage({
         return
       }
 
-      const updated = await rsvpInvitacion(token, {
+      const updated = await rsvpInvitacion(publicKey, {
         estado,
         nombreAcompanante: conPareja ? nombrePareja : null,
         restriccionesAlimentariasSi: restriccionesSi === 'si',
@@ -372,10 +375,18 @@ export function InvitacionPage({
           data-inv-label="Celebración"
         >
           <SepSlot active={sobreListo} variant="triple" desde="der" />
-          <div className="inv-fiesta-layout">
-            <InvReveal active={sobreListo} className="inv-reveal-media">
-              <CarruselFiesta images={CASAMIENTO.fiesta.fotos} photoLabel="Milión" dotsOutside="mobile" />
-            </InvReveal>
+          <div
+            className={
+              CASAMIENTO.fiesta.fotos.length
+                ? 'inv-fiesta-layout'
+                : 'inv-fiesta-layout inv-fiesta-layout--sin-media'
+            }
+          >
+            {CASAMIENTO.fiesta.fotos.length > 0 ? (
+              <InvReveal active={sobreListo} className="inv-reveal-media">
+                <CarruselFiesta images={CASAMIENTO.fiesta.fotos} photoLabel="Milión" dotsOutside="mobile" />
+              </InvReveal>
+            ) : null}
             <div className="inv-fiesta-info">
               <InvReveal active={sobreListo} delay={1}>
                 <p className="inv-label">Celebración</p>
@@ -491,7 +502,7 @@ export function InvitacionPage({
               </a>
             ) : (
               <a
-                href={token ? `/galeria?token=${encodeURIComponent(token)}` : '/galeria'}
+                href={publicKey ? `/galeria?token=${encodeURIComponent(publicKey)}` : '/galeria'}
                 className="inv-album-btn"
                 target="_blank"
                 rel="noopener noreferrer"

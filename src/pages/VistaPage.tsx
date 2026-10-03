@@ -7,6 +7,7 @@ function demoInvitacion(): Invitacion {
     id: 0,
     nombre: 'Invitado/a',
     token: 'vista-demo',
+    slug: 'vista-demo',
     estado: 'pendiente',
     lado: 'vanesa',
     permitePareja: true,

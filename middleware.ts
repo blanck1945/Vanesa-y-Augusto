@@ -5,7 +5,7 @@ const SOCIAL_CRAWLER =
   /facebookexternalhit|Facebot|WhatsApp|Twitterbot|LinkedInBot|Slackbot|TelegramBot|Discordbot|Applebot|Pinterestbot|Googlebot/i
 
 export const config = {
-  matcher: ['/i/:token'],
+  matcher: ['/i/:slug'],
 }
 
 /** Crawlers y “unfurl” (iMessage, herramientas de preview) suelen ir sin Sec-Fetch-*. */
@@ -23,10 +23,10 @@ export default function middleware(request: Request) {
   if (!wantsLinkPreviewHtml(request)) return
 
   const { pathname, origin } = new URL(request.url)
-  const token = pathname.replace(/^\/i\//, '').split('/')[0]?.trim()
-  if (!token) return
+  const publicKey = pathname.replace(/^\/i\//, '').split('/')[0]?.trim()
+  if (!publicKey) return
 
   const previewUrl = new URL('/api/invite-preview', origin)
-  previewUrl.searchParams.set('token', token)
+  previewUrl.searchParams.set('token', publicKey)
   return rewrite(previewUrl.toString())
 }

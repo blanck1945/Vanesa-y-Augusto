@@ -95,7 +95,9 @@ export const CASAMIENTO = {
     lugar: 'Milión',
     direccion: 'Parana 1048, Recoleta, CABA',
     mapsQuery: 'Parana 1048, Recoleta, CABA',
-    fotos: ['/millon/d.jpg', '/millon/h.jpg', '/millon/j.jpg', '/millon/l.jpg'],
+    /** Salón Milión — archivos en public/millon/ (no borrar). Para volver a mostrar, restaurar el array. */
+    // fotos: ['/millon/d.jpg', '/millon/h.jpg', '/millon/j.jpg', '/millon/l.jpg'],
+    fotos: [] as string[],
     calendar: {
       title: 'Fiesta — Vanesa y Augusto',
       start: '20261219T133000',

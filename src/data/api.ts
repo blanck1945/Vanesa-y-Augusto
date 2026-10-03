@@ -1,3 +1,5 @@
+import { invitacionPathSegment } from '../lib/invitacionLink'
+
 export type EstadoInvitacion = 'pendiente' | 'si' | 'no' | 'aun_no_lo_se'
 export type LadoInvitacion = 'vanesa' | 'augusto'
 
@@ -5,6 +7,7 @@ export type Invitacion = {
   id: number
   nombre: string
   token: string
+  slug: string
   estado: EstadoInvitacion
   lado: LadoInvitacion | null
   permitePareja: boolean
@@ -74,6 +77,7 @@ type ApiInvitation = {
   id: number
   name: string
   token: string
+  slug?: string
   status: ApiInvitationStatus
   guestSide: LadoInvitacion | null
   allowsPlusOne: boolean
@@ -138,6 +142,7 @@ function mapInvitation(row: ApiInvitation): Invitacion {
     id: row.id,
     nombre: row.name,
     token: row.token,
+    slug: row.slug?.trim() || row.token,
     estado: STATUS_FROM_API[row.status] ?? 'pendiente',
     lado: row.guestSide === 'vanesa' || row.guestSide === 'augusto' ? row.guestSide : null,
     permitePareja: row.allowsPlusOne,
@@ -339,19 +344,32 @@ export async function deleteInvitacion(id: number): Promise<{ ok: true }> {
   return parseResponse(await fetch(apiPath(`/api/invitations/${id}`), { method: 'DELETE' }))
 }
 
-export async function getInvitacionByToken(token: string): Promise<Invitacion> {
+export async function resetRespuestaInvitacion(id: number): Promise<Invitacion> {
   const row = await parseResponse<ApiInvitation>(
-    await fetch(apiPath(`/api/invitations/by-token/${encodeURIComponent(token)}`)),
+    await fetch(apiPath(`/api/invitations/${id}/reset-rsvp`), { method: 'POST' }),
   )
   return mapInvitation(row)
 }
 
+/** Slug (`maria-lopez`) o token hex legacy — la API acepta ambos. */
+export async function getInvitacionByPublicKey(publicKey: string): Promise<Invitacion> {
+  const row = await parseResponse<ApiInvitation>(
+    await fetch(apiPath(`/api/invitations/by-token/${encodeURIComponent(publicKey)}`)),
+  )
+  return mapInvitation(row)
+}
+
+/** @deprecated Usar getInvitacionByPublicKey */
+export async function getInvitacionByToken(token: string): Promise<Invitacion> {
+  return getInvitacionByPublicKey(token)
+}
+
 export async function rsvpInvitacion(
-  token: string,
+  publicKey: string,
   input: RsvpInput,
 ): Promise<Invitacion> {
   const row = await parseResponse<ApiInvitation>(
-    await fetch(apiPath(`/api/invitations/by-token/${encodeURIComponent(token)}/rsvp`), {
+    await fetch(apiPath(`/api/invitations/by-token/${encodeURIComponent(publicKey)}/rsvp`), {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -411,9 +429,9 @@ export async function getInvitePublicBaseUrl(): Promise<string> {
   return cachedInvitePublicBase
 }
 
-export function invitacionLinkFor(token: string): string {
+export function invitacionLinkFor(inv: { slug: string; token?: string }): string {
   const origin = cachedInvitePublicBase ?? invitePublicBaseFallback()
-  return `${origin.replace(/\/+$/, '')}/i/${token}`
+  return `${origin.replace(/\/+$/, '')}/i/${invitacionPathSegment(inv)}`
 }
 
 // ---- Muestra / comentarios de testing ----
