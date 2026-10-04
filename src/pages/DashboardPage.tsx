@@ -21,6 +21,7 @@ import {
   type LadoInvitacion,
   type PreviewImportacionCsv,
 } from '../data/api'
+import { formatDateTimeArgentina } from '../lib/fechaArgentina'
 import { invitacionPath } from '../lib/invitacionLink'
 import { Card } from '../components/ui/Card'
 import { Field } from '../components/ui/Field'
@@ -57,13 +58,6 @@ function restriccionesLabel(inv: Invitacion): string {
   if (inv.restriccionesAlimentariasSi == null) return '—'
   if (!inv.restriccionesAlimentariasSi) return 'No'
   return inv.restriccionesAlimentarias ? `Sí · ${inv.restriccionesAlimentarias}` : 'Sí'
-}
-
-function formatFecha(iso: string | null): string {
-  if (!iso) return '—'
-  const d = new Date(iso.replace(' ', 'T'))
-  if (Number.isNaN(d.getTime())) return iso
-  return d.toLocaleString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 }
 
 type EdicionInvitacion = {
@@ -706,7 +700,9 @@ export function DashboardPage() {
                         <div className="dash-email-cell">
                           <span>{inv.email || '—'}</span>
                           {inv.emailEnviadoAt ? (
-                            <span className="dash-email-badge">Enviado {formatFecha(inv.emailEnviadoAt)}</span>
+                            <span className="dash-email-badge">
+                              Enviado {formatDateTimeArgentina(inv.emailEnviadoAt)}
+                            </span>
                           ) : null}
                         </div>
                       )}
@@ -748,7 +744,7 @@ export function DashboardPage() {
                     </td>
                     <td>{(inv.permitePareja && inv.nombreAcompanante) || '—'}</td>
                     <td>{restriccionesLabel(inv)}</td>
-                    <td>{formatFecha(inv.respondidoAt)}</td>
+                    <td>{formatDateTimeArgentina(inv.respondidoAt)}</td>
                     <td className="dash-table-num">{personasEnTabla(inv)}</td>
                     <td>
                       <div className="flex flex-wrap gap-1">
