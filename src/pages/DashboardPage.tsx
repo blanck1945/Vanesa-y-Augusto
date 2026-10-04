@@ -467,7 +467,7 @@ export function DashboardPage() {
           <Text muted>Confirmó no</Text>
           <Text className="text-2xl text-bp-body">{confNo}</Text>
         </Card>
-        <Card className="dash-stats-span-2 p-4">
+        <Card className="p-4">
           <Text muted>Personas (sí)</Text>
           <Text className="text-2xl text-bp-body">{personasConfirmaronSi}</Text>
         </Card>
@@ -720,25 +720,6 @@ export function DashboardPage() {
         <Text muted>Todavía no hay invitaciones.</Text>
       ) : (
         <Card className="overflow-x-auto p-0">
-          <div className="dash-mobile-sort">
-            <Select
-              label="Ordenar lista"
-              value={`${tablaSortKey}:${tablaSortDir}`}
-              onChange={(e) => {
-                const [key, dir] = e.target.value.split(':') as [InvitacionSortKey, InvitacionSortDir]
-                setTablaSortKey(key)
-                setTablaSortDir(dir)
-              }}
-              options={[
-                { value: 'nombre:asc', label: 'Nombre (A → Z)' },
-                { value: 'nombre:desc', label: 'Nombre (Z → A)' },
-                { value: 'email:asc', label: 'Email (A → Z)' },
-                { value: 'email:desc', label: 'Email (Z → A)' },
-                { value: 'lado:asc', label: 'Lado (A → Z)' },
-                { value: 'lado:desc', label: 'Lado (Z → A)' },
-              ]}
-            />
-          </div>
           <table className="dash-table">
             <thead>
               <tr>
@@ -763,7 +744,7 @@ export function DashboardPage() {
                 const tieneRespuesta = inv.estado !== 'pendiente'
                 return (
                   <tr key={inv.id} className={editando ? 'dash-table-row--editing' : undefined}>
-                    <td data-label="Nombre">
+                    <td>
                       {editando ? (
                         <Field
                           value={editDraft.nombre}
@@ -774,7 +755,7 @@ export function DashboardPage() {
                         <span className="font-medium text-bp-body">{inv.nombre}</span>
                       )}
                     </td>
-                    <td data-label="Email">
+                    <td>
                       {editando ? (
                         <Field
                           type="email"
@@ -794,7 +775,7 @@ export function DashboardPage() {
                         </div>
                       )}
                     </td>
-                    <td data-label="Lado">
+                    <td>
                       {editando ? (
                         <Select
                           value={editDraft.lado}
@@ -806,7 +787,7 @@ export function DashboardPage() {
                         ladoLabel(inv.lado)
                       )}
                     </td>
-                    <td data-label="Invita">
+                    <td>
                       {editando ? (
                         <Select
                           value={editDraft.permitePareja ? 'pareja' : 'solo'}
@@ -823,16 +804,14 @@ export function DashboardPage() {
                         invitaLabel(inv)
                       )}
                     </td>
-                    <td data-label="Respuesta">
+                    <td>
                       <span className={estadoClass(inv.estado)}>{estadoLabel(inv.estado)}</span>
                     </td>
-                    <td data-label="Pareja">{(inv.permitePareja && inv.nombreAcompanante) || '—'}</td>
-                    <td data-label="Restricciones">{restriccionesLabel(inv)}</td>
-                    <td data-label="Respondió">{formatDateTimeArgentina(inv.respondidoAt)}</td>
-                    <td className="dash-table-num" data-label="Personas">
-                      {personasEnTabla(inv)}
-                    </td>
-                    <td className="dash-table-actions" data-label="Acciones">
+                    <td>{(inv.permitePareja && inv.nombreAcompanante) || '—'}</td>
+                    <td>{restriccionesLabel(inv)}</td>
+                    <td>{formatDateTimeArgentina(inv.respondidoAt)}</td>
+                    <td className="dash-table-num">{personasEnTabla(inv)}</td>
+                    <td>
                       <div className="flex flex-wrap gap-1">
                         {editando ? (
                           <>
