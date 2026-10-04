@@ -1,7 +1,14 @@
 import { invitacionPathSegment } from '../lib/invitacionLink'
 
 export type EstadoInvitacion = 'pendiente' | 'si' | 'no' | 'aun_no_lo_se'
-export type LadoInvitacion = 'vanesa' | 'augusto'
+export type LadoInvitacion = 'vanesa' | 'augusto' | 'patricia'
+
+const LADOS_INVITACION: LadoInvitacion[] = ['vanesa', 'augusto', 'patricia']
+
+function parseLadoInvitacion(value: string | null | undefined): LadoInvitacion | null {
+  const v = (value ?? '').trim().toLowerCase()
+  return (LADOS_INVITACION as string[]).includes(v) ? (v as LadoInvitacion) : null
+}
 
 export type Invitacion = {
   id: number
@@ -144,7 +151,7 @@ function mapInvitation(row: ApiInvitation): Invitacion {
     token: row.token,
     slug: row.slug?.trim() || row.token,
     estado: STATUS_FROM_API[row.status] ?? 'pendiente',
-    lado: row.guestSide === 'vanesa' || row.guestSide === 'augusto' ? row.guestSide : null,
+    lado: parseLadoInvitacion(row.guestSide),
     permitePareja: row.allowsPlusOne,
     nombreAcompanante: row.plusOneName,
     restriccionesAlimentariasSi: row.hasDietaryRestrictions,

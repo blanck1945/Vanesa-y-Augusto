@@ -48,9 +48,16 @@ function invitaLabel(inv: Invitacion): string {
   return inv.permitePareja ? 'Invitado + pareja' : 'Solo invitado'
 }
 
+const OPCIONES_LADO: { value: LadoInvitacion; label: string }[] = [
+  { value: 'vanesa', label: 'Vanesa' },
+  { value: 'augusto', label: 'Augusto' },
+  { value: 'patricia', label: 'Patricia' },
+]
+
 function ladoLabel(lado: Invitacion['lado']): string {
   if (lado === 'vanesa') return 'Vanesa'
   if (lado === 'augusto') return 'Augusto'
+  if (lado === 'patricia') return 'Patricia'
   return '—'
 }
 
@@ -366,6 +373,10 @@ export function DashboardPage() {
     () => resumenInvitadosPorLado(invitaciones, 'augusto'),
     [invitaciones],
   )
+  const resumenPatricia = useMemo(
+    () => resumenInvitadosPorLado(invitaciones, 'patricia'),
+    [invitaciones],
+  )
 
   return (
     <div className="dash-panel mx-auto flex flex-col gap-6">
@@ -417,7 +428,7 @@ export function DashboardPage() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Card className="p-4">
           <Text muted>Lado Vanesa</Text>
           <Text className="text-2xl text-bp-body">{resumenVanesa.personas}</Text>
@@ -446,6 +457,20 @@ export function DashboardPage() {
             con pareja
           </Text>
         </Card>
+        <Card className="p-4">
+          <Text muted>Lado Patricia</Text>
+          <Text className="text-2xl text-bp-body">{resumenPatricia.personas}</Text>
+          <Text muted className="text-sm">
+            {resumenPatricia.personas === 1 ? 'persona invitada' : 'personas invitadas'} ·{' '}
+            {resumenPatricia.invitaciones}{' '}
+            {resumenPatricia.invitaciones === 1 ? 'invitación' : 'invitaciones'}
+          </Text>
+          <Text muted className="mt-2 text-sm">
+            {resumenPatricia.invitacionesSolo} solo
+            {resumenPatricia.invitacionesSolo === 1 ? '' : 's'} · {resumenPatricia.invitacionesConPareja}{' '}
+            con pareja
+          </Text>
+        </Card>
       </div>
 
       {talVez > 0 ? (
@@ -460,7 +485,8 @@ export function DashboardPage() {
         </Text>
         <Text muted className="mb-3 text-sm">
           Archivo <span className="font-mono">.csv</span> o <span className="font-mono">.xlsx</span> (primera hoja).
-          Columnas: <span className="font-mono">nombre, email, lado, invita</span> — lado: vanesa o augusto; invita: si/no
+          Columnas: <span className="font-mono">nombre, email, lado, invita</span> — lado: vanesa, augusto o patricia;
+          invita: si/no
           o pareja/solo.
         </Text>
         <div className="flex flex-wrap items-center gap-3">
@@ -621,10 +647,7 @@ export function DashboardPage() {
               label="Lado"
               value={lado}
               onChange={(e) => setLado(e.target.value as LadoInvitacion)}
-              options={[
-                { value: 'vanesa', label: 'Vanesa' },
-                { value: 'augusto', label: 'Augusto' },
-              ]}
+              options={OPCIONES_LADO}
             />
           </div>
           <div className="sm:w-56">
@@ -712,10 +735,7 @@ export function DashboardPage() {
                         <Select
                           value={editDraft.lado}
                           onChange={(e) => setEditDraft({ ...editDraft, lado: e.target.value as LadoInvitacion })}
-                          options={[
-                            { value: 'vanesa', label: 'Vanesa' },
-                            { value: 'augusto', label: 'Augusto' },
-                          ]}
+                          options={OPCIONES_LADO}
                           aria-label="Lado"
                         />
                       ) : (
