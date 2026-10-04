@@ -1,6 +1,7 @@
+import { resolveSitePublicOrigin } from './siteOrigin'
+
 /** Vista previa al compartir `/i/:token` (WhatsApp, iMessage, etc.). */
 export const INVITE_SHARE = {
-  publicOrigin: 'https://casamiento-vanesa-augusto.vercel.app',
   title: 'Invitación casamiento Vanesa y Augusto',
   description: '19 de diciembre de 2026 · Abrí el link para ver la invitación y confirmar asistencia.',
   /** ?v= rompe caché de WhatsApp/Facebook que guardó la foto vieja (sobre/01.jpg). */
@@ -8,8 +9,9 @@ export const INVITE_SHARE = {
   imageAlt: 'Sobre con sello Vanesa y Augusto',
 } as const
 
-export function inviteShareImageUrl(): string {
-  return `${INVITE_SHARE.publicOrigin}${INVITE_SHARE.imagePath}`
+export function inviteShareImageUrl(publicOrigin?: string): string {
+  const origin = (publicOrigin ?? resolveSitePublicOrigin()).replace(/\/+$/, '')
+  return `${origin}${INVITE_SHARE.imagePath}`
 }
 
 export function inviteShareTitle(guestName?: string | null): string {
@@ -31,8 +33,9 @@ function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
 
 /** Refuerza OG/Twitter en runtime (og:url con el path actual). */
 export function applyInviteShareMeta(guestName?: string | null): void {
-  const image = inviteShareImageUrl()
-  const pageUrl = `${INVITE_SHARE.publicOrigin}${window.location.pathname}`
+  const origin = resolveSitePublicOrigin()
+  const image = inviteShareImageUrl(origin)
+  const pageUrl = `${origin}${window.location.pathname}`
   const title = inviteShareTitle(guestName)
 
   upsertMeta('name', 'description', INVITE_SHARE.description)

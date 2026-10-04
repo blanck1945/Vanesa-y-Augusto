@@ -1,3 +1,17 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "casamiento-vanesa-augusto.vercel.app" }],
+      "destination": "https://casamientovanesayaugusto.com/:path*",
+      "statusCode": 308
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.casamientovanesayaugusto.com" }],
+      "destination": "https://casamientovanesayaugusto.com/:path*",
+      "statusCode": 308
+    }
+  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }

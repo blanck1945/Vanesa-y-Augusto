@@ -34,7 +34,8 @@ export default async function handler(request: Request): Promise<Response> {
   }
 
   const guestName = await fetchGuestName(publicKey)
-  const html = buildInvitePreviewHtml({ publicKey, guestName })
+  const { origin } = new URL(request.url)
+  const html = buildInvitePreviewHtml({ publicKey, guestName, publicOrigin: origin })
 
   return new Response(html, {
     headers: {

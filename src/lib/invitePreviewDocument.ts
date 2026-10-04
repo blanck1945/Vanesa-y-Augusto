@@ -1,3 +1,4 @@
+import { SITE_PUBLIC_ORIGIN } from './siteOrigin'
 import { INVITE_SHARE, inviteShareImageUrl, inviteShareTitle } from './inviteShareMeta'
 
 export function escapeHtml(text: string): string {
@@ -9,11 +10,16 @@ export function escapeHtml(text: string): string {
 }
 
 /** HTML mínimo para crawlers (WhatsApp, etc.) — no ejecuta la SPA. */
-export function buildInvitePreviewHtml(input: { publicKey: string; guestName?: string | null }): string {
+export function buildInvitePreviewHtml(input: {
+  publicKey: string
+  guestName?: string | null
+  publicOrigin?: string
+}): string {
+  const origin = (input.publicOrigin ?? SITE_PUBLIC_ORIGIN).replace(/\/+$/, '')
   const title = inviteShareTitle(input.guestName)
   const description = INVITE_SHARE.description
-  const image = inviteShareImageUrl()
-  const pageUrl = `${INVITE_SHARE.publicOrigin}/i/${encodeURIComponent(input.publicKey)}`
+  const image = inviteShareImageUrl(origin)
+  const pageUrl = `${origin}/i/${encodeURIComponent(input.publicKey)}`
   const safeTitle = escapeHtml(title)
   const safeDescription = escapeHtml(description)
   const safeImage = escapeHtml(image)

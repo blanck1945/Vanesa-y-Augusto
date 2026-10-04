@@ -456,7 +456,7 @@ export async function loginUsuario(email: string, password: string): Promise<Usu
   return { id: data.user.id, nombre: data.user.name, email: data.user.email }
 }
 
-const DEFAULT_INVITE_PUBLIC_BASE = 'https://casamiento-vanesa-augusto.vercel.app'
+const DEFAULT_INVITE_PUBLIC_BASE = 'https://casamientovanesayaugusto.com'
 
 let cachedInvitePublicBase: string | null = null
 
