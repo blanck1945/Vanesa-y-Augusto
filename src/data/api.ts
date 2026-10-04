@@ -238,10 +238,10 @@ async function parseResponse<T>(res: Response): Promise<T> {
 export type InvitacionSortKey = 'nombre' | 'email' | 'lado'
 export type InvitacionSortDir = 'asc' | 'desc'
 
-const LADO_ORDEN: Record<LadoInvitacion, number> = {
-  vanesa: 0,
-  augusto: 1,
-  patricia: 2,
+function ladoEtiquetaOrden(l: LadoInvitacion | undefined): string {
+  if (l === 'augusto') return 'Augusto'
+  if (l === 'patricia') return 'Patricia'
+  return 'Vanesa'
 }
 
 function compareInvitaciones(
@@ -261,9 +261,7 @@ function compareInvitaciones(
     else if (!eb) cmp = -1
     else cmp = ea.localeCompare(eb, 'es', { sensitivity: 'base' })
   } else {
-    const la = a.lado ?? 'vanesa'
-    const lb = b.lado ?? 'vanesa'
-    cmp = LADO_ORDEN[la] - LADO_ORDEN[lb]
+    cmp = ladoEtiquetaOrden(a.lado).localeCompare(ladoEtiquetaOrden(b.lado), 'es', { sensitivity: 'base' })
     if (cmp === 0) {
       cmp = a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
     }

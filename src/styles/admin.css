@@ -333,13 +333,19 @@ html[data-admin-theme='dark'] .bp-select {
   cursor: pointer;
   border-radius: 0.25rem;
 }
-.dash-table-sort:hover {
-  color: var(--dash-body-color, #1a1a1f);
-}
+.dash-table-sort:hover,
 .dash-table-sort--active {
-  color: var(--dash-body-color, #1a1a1f);
+  color: var(--bp-body);
+}
+.dash-table-sort:focus-visible {
+  outline: 2px solid var(--bp-primary);
+  outline-offset: 2px;
+}
+.dash-table-sort-label {
+  white-space: nowrap;
 }
 .dash-table-sort-icon {
+  flex-shrink: 0;
   font-size: 0.65rem;
   opacity: 0.55;
   line-height: 1;

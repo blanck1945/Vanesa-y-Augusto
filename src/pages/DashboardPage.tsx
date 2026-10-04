@@ -118,8 +118,13 @@ function DashSortHeader({
   const indicator = !active ? '↕' : dir === 'asc' ? '↑' : '↓'
   return (
     <th scope="col" aria-sort={active ? (dir === 'asc' ? 'ascending' : 'descending') : 'none'}>
-      <button type="button" className={`dash-table-sort${active ? ' dash-table-sort--active' : ''}`} onClick={() => onSort(sortKey)}>
-        <span>{label}</span>
+      <button
+        type="button"
+        className={`dash-table-sort${active ? ' dash-table-sort--active' : ''}`}
+        onClick={() => onSort(sortKey)}
+        aria-label={`Ordenar por ${label}${active ? (dir === 'asc' ? ', ascendente' : ', descendente') : ''}`}
+      >
+        <span className="dash-table-sort-label">{label}</span>
         <span className="dash-table-sort-icon" aria-hidden>
           {indicator}
         </span>
