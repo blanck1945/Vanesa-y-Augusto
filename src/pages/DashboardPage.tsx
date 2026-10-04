@@ -719,7 +719,7 @@ export function DashboardPage() {
       ) : invitaciones.length === 0 ? (
         <Text muted>Todavía no hay invitaciones.</Text>
       ) : (
-        <Card className="dash-table-card p-0">
+        <Card className="overflow-x-auto p-0">
           <div className="dash-mobile-sort">
             <Select
               label="Ordenar lista"
@@ -739,7 +739,6 @@ export function DashboardPage() {
               ]}
             />
           </div>
-          <div className="dash-table-scroll">
           <table className="dash-table">
             <thead>
               <tr>
@@ -834,7 +833,7 @@ export function DashboardPage() {
                       {personasEnTabla(inv)}
                     </td>
                     <td className="dash-table-actions" data-label="Acciones">
-                      <div className="dash-table-actions-inner">
+                      <div className="flex flex-wrap gap-1">
                         {editando ? (
                           <>
                             <Button
@@ -898,7 +897,6 @@ export function DashboardPage() {
               })}
             </tbody>
           </table>
-          </div>
         </Card>
       )}
     </div>
