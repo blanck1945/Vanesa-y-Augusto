@@ -244,16 +244,21 @@ html[data-admin-theme='dark'] .bp-select {
 .overflow-hidden { overflow: hidden; }
 .overflow-x-auto { overflow-x: auto; }
 .overflow-y-auto { overflow-y: auto; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mb-2 { margin-bottom: 0.5rem; }
+.items-end { align-items: flex-end; }
 :where(.space-y-2 > * + *) { margin-top: 0.5rem; }
 :where(.space-y-4 > * + *) { margin-top: 1rem; }
 
 @media (min-width: 640px) {
   .sm\:px-8 { padding-left: 2rem; padding-right: 2rem; }
   .sm\:py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+  .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .sm\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .sm\:flex-row { flex-direction: row; }
   .sm\:items-end { align-items: flex-end; }
+  .sm\:w-44 { width: 11rem; }
   .sm\:w-56 { width: 14rem; }
 }
 
@@ -280,8 +285,202 @@ html[data-admin-theme='dark'] .bp-select {
 }
 
 .dash-panel {
-  width: 90%;
-  max-width: 90%;
+  width: 100%;
+  max-width: 72rem;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.dash-mobile-sort {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--dash-table-border);
+  background: var(--dash-table-head-bg);
+}
+
+.dash-mobile-sort .bp-field {
+  margin: 0;
+}
+
+.dash-table-card {
+  overflow: hidden;
+}
+
+.dash-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dash-table-actions-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.dash-import-card .flex.flex-wrap {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dash-import-card .flex.flex-wrap > * {
+  width: 100%;
+}
+
+.dash-import-card .dash-csv-picker {
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .dash-mobile-sort {
+    display: none;
+  }
+
+  .dash-import-card .flex.flex-wrap {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .dash-import-card .flex.flex-wrap > * {
+    width: auto;
+  }
+}
+
+@media (max-width: 639px) {
+  .dash-panel .text-2xl {
+    font-size: 1.35rem;
+    line-height: 1.75rem;
+  }
+
+  .dash-stats-span-2 {
+    grid-column: span 2;
+  }
+
+  .dash-table-scroll {
+    overflow-x: visible;
+  }
+
+  .dash-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .dash-table,
+  .dash-table tbody,
+  .dash-table tr,
+  .dash-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .dash-table tr {
+    margin: 0;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--dash-table-border);
+  }
+
+  .dash-table tr:last-child {
+    border-bottom: none;
+  }
+
+  .dash-table td {
+    display: grid;
+    grid-template-columns: minmax(5.5rem, 34%) 1fr;
+    gap: 0.35rem 0.75rem;
+    align-items: start;
+    padding: 0.45rem 0;
+    white-space: normal;
+    border-bottom: none;
+    text-align: left;
+  }
+
+  .dash-table td::before {
+    content: attr(data-label);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--dash-table-head-color);
+  }
+
+  .dash-table td.dash-table-num {
+    text-align: left;
+  }
+
+  .dash-table td.dash-table-actions {
+    display: block;
+    padding-top: 0.65rem;
+  }
+
+  .dash-table td.dash-table-actions::before {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .dash-table-actions-inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .dash-table-actions-inner .bp-btn-primary,
+  .dash-table-actions-inner .bp-btn-secondary {
+    width: 100%;
+    justify-content: center;
+    min-height: 2.5rem;
+  }
+
+  .dash-table .bp-field,
+  .dash-table .bp-input,
+  .dash-table .bp-select {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .dash-modal-backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .dash-modal {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .dash-modal-footer {
+    flex-direction: column;
+  }
+
+  .dash-modal-footer .bp-btn-primary,
+  .dash-modal-footer .bp-btn-secondary {
+    width: 100%;
+  }
+
+  .dash-panel form.flex-col .bp-btn-primary {
+    width: 100%;
+  }
+
+  .max-w-md form .bp-btn-primary {
+    width: 100%;
+  }
+}
+
+@media (min-width: 640px) {
+  .dash-panel {
+    width: 94%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dash-panel {
+    width: 90%;
+  }
 }
 
 .dash-table {
