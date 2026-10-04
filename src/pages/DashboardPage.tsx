@@ -98,6 +98,25 @@ function personasEnTabla(inv: Invitacion): string {
   return String(personasInvitadas(inv))
 }
 
+type ResumenInvitadosLado = {
+  invitaciones: number
+  invitacionesSolo: number
+  invitacionesConPareja: number
+  personas: number
+}
+
+function resumenInvitadosPorLado(items: Invitacion[], lado: LadoInvitacion): ResumenInvitadosLado {
+  const list = items.filter((i) => i.lado === lado)
+  const invitacionesSolo = list.filter((i) => !i.permitePareja).length
+  const invitacionesConPareja = list.filter((i) => i.permitePareja).length
+  return {
+    invitaciones: list.length,
+    invitacionesSolo,
+    invitacionesConPareja,
+    personas: list.reduce((acc, i) => acc + personasInvitadas(i), 0),
+  }
+}
+
 function descargarPlantillaCsv() {
   const blob = new Blob([CSV_PLANTILLA_INVITADOS], { type: 'text/csv;charset=utf-8' })
   const url = URL.createObjectURL(blob)
@@ -345,6 +364,15 @@ export function DashboardPage() {
   const personasConfirmaronSi = invitaciones.reduce((acc, i) => acc + personasConfirmadas(i), 0)
   const emailsPendientes = invitaciones.filter((i) => i.email && !i.emailEnviadoAt).length
 
+  const resumenVanesa = useMemo(
+    () => resumenInvitadosPorLado(invitaciones, 'vanesa'),
+    [invitaciones],
+  )
+  const resumenAugusto = useMemo(
+    () => resumenInvitadosPorLado(invitaciones, 'augusto'),
+    [invitaciones],
+  )
+
   return (
     <div className="dash-panel mx-auto flex flex-col gap-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -392,6 +420,37 @@ export function DashboardPage() {
         <Card className="p-4">
           <Text muted>Personas (sí)</Text>
           <Text className="text-2xl text-bp-body">{personasConfirmaronSi}</Text>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Card className="p-4">
+          <Text muted>Lado Vanesa</Text>
+          <Text className="text-2xl text-bp-body">{resumenVanesa.personas}</Text>
+          <Text muted className="text-sm">
+            {resumenVanesa.personas === 1 ? 'persona invitada' : 'personas invitadas'} ·{' '}
+            {resumenVanesa.invitaciones}{' '}
+            {resumenVanesa.invitaciones === 1 ? 'invitación' : 'invitaciones'}
+          </Text>
+          <Text muted className="mt-2 text-sm">
+            {resumenVanesa.invitacionesSolo} solo
+            {resumenVanesa.invitacionesSolo === 1 ? '' : 's'} · {resumenVanesa.invitacionesConPareja}{' '}
+            con pareja
+          </Text>
+        </Card>
+        <Card className="p-4">
+          <Text muted>Lado Augusto</Text>
+          <Text className="text-2xl text-bp-body">{resumenAugusto.personas}</Text>
+          <Text muted className="text-sm">
+            {resumenAugusto.personas === 1 ? 'persona invitada' : 'personas invitadas'} ·{' '}
+            {resumenAugusto.invitaciones}{' '}
+            {resumenAugusto.invitaciones === 1 ? 'invitación' : 'invitaciones'}
+          </Text>
+          <Text muted className="mt-2 text-sm">
+            {resumenAugusto.invitacionesSolo} solo
+            {resumenAugusto.invitacionesSolo === 1 ? '' : 's'} · {resumenAugusto.invitacionesConPareja}{' '}
+            con pareja
+          </Text>
         </Card>
       </div>
 
