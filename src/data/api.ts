@@ -235,8 +235,52 @@ async function parseResponse<T>(res: Response): Promise<T> {
 
 // ---- Invitaciones ----
 
+export type InvitacionSortKey = 'nombre' | 'email' | 'lado'
+export type InvitacionSortDir = 'asc' | 'desc'
+
+const LADO_ORDEN: Record<LadoInvitacion, number> = {
+  vanesa: 0,
+  augusto: 1,
+  patricia: 2,
+}
+
+function compareInvitaciones(
+  a: Invitacion,
+  b: Invitacion,
+  key: InvitacionSortKey,
+  dir: InvitacionSortDir,
+): number {
+  let cmp = 0
+  if (key === 'nombre') {
+    cmp = a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
+  } else if (key === 'email') {
+    const ea = (a.email ?? '').trim().toLowerCase()
+    const eb = (b.email ?? '').trim().toLowerCase()
+    if (!ea && !eb) cmp = 0
+    else if (!ea) cmp = 1
+    else if (!eb) cmp = -1
+    else cmp = ea.localeCompare(eb, 'es', { sensitivity: 'base' })
+  } else {
+    const la = a.lado ?? 'vanesa'
+    const lb = b.lado ?? 'vanesa'
+    cmp = LADO_ORDEN[la] - LADO_ORDEN[lb]
+    if (cmp === 0) {
+      cmp = a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
+    }
+  }
+  return dir === 'asc' ? cmp : -cmp
+}
+
+export function sortInvitaciones(
+  items: Invitacion[],
+  key: InvitacionSortKey = 'nombre',
+  dir: InvitacionSortDir = 'asc',
+): Invitacion[] {
+  return [...items].sort((a, b) => compareInvitaciones(a, b, key, dir))
+}
+
 export function sortInvitacionesPorNombre(items: Invitacion[]): Invitacion[] {
-  return [...items].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }))
+  return sortInvitaciones(items, 'nombre', 'asc')
 }
 
 export async function listInvitaciones(): Promise<Invitacion[]> {

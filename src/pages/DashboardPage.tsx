@@ -12,7 +12,9 @@ import {
   invitacionLinkFor,
   listInvitaciones,
   resetRespuestaInvitacion,
-  sortInvitacionesPorNombre,
+  sortInvitaciones,
+  type InvitacionSortDir,
+  type InvitacionSortKey,
   sendInvitacionEmail,
   sendInvitacionesPendientes,
   updateInvitacion,
@@ -99,6 +101,33 @@ function personasEnTabla(inv: Invitacion): string {
   return String(personasInvitadas(inv))
 }
 
+function DashSortHeader({
+  label,
+  sortKey,
+  activeKey,
+  dir,
+  onSort,
+}: {
+  label: string
+  sortKey: InvitacionSortKey
+  activeKey: InvitacionSortKey
+  dir: InvitacionSortDir
+  onSort: (key: InvitacionSortKey) => void
+}) {
+  const active = activeKey === sortKey
+  const indicator = !active ? '↕' : dir === 'asc' ? '↑' : '↓'
+  return (
+    <th scope="col" aria-sort={active ? (dir === 'asc' ? 'ascending' : 'descending') : 'none'}>
+      <button type="button" className={`dash-table-sort${active ? ' dash-table-sort--active' : ''}`} onClick={() => onSort(sortKey)}>
+        <span>{label}</span>
+        <span className="dash-table-sort-icon" aria-hidden>
+          {indicator}
+        </span>
+      </button>
+    </th>
+  )
+}
+
 type ResumenInvitadosLado = {
   invitaciones: number
   invitacionesSolo: number
@@ -148,6 +177,8 @@ export function DashboardPage() {
   const [enviandoId, setEnviandoId] = useState<number | null>(null)
   const [enviandoPendientes, setEnviandoPendientes] = useState(false)
   const [reseteandoId, setReseteandoId] = useState<number | null>(null)
+  const [tablaSortKey, setTablaSortKey] = useState<InvitacionSortKey>('nombre')
+  const [tablaSortDir, setTablaSortDir] = useState<InvitacionSortDir>('asc')
   const csvInputRef = useRef<HTMLInputElement>(null)
   const nombreInputRef = useRef<HTMLInputElement>(null)
 
@@ -352,9 +383,18 @@ export function DashboardPage() {
     }
   }
 
+  const onTablaSort = (key: InvitacionSortKey) => {
+    if (key === tablaSortKey) {
+      setTablaSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setTablaSortKey(key)
+      setTablaSortDir('asc')
+    }
+  }
+
   const invitacionesOrdenadas = useMemo(
-    () => sortInvitacionesPorNombre(invitaciones),
-    [invitaciones],
+    () => sortInvitaciones(invitaciones, tablaSortKey, tablaSortDir),
+    [invitaciones, tablaSortKey, tablaSortDir],
   )
 
   const confSi = invitaciones.filter((i) => i.estado === 'si').length
@@ -678,9 +718,9 @@ export function DashboardPage() {
           <table className="dash-table">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Lado</th>
+                <DashSortHeader label="Nombre" sortKey="nombre" activeKey={tablaSortKey} dir={tablaSortDir} onSort={onTablaSort} />
+                <DashSortHeader label="Email" sortKey="email" activeKey={tablaSortKey} dir={tablaSortDir} onSort={onTablaSort} />
+                <DashSortHeader label="Lado" sortKey="lado" activeKey={tablaSortKey} dir={tablaSortDir} onSort={onTablaSort} />
                 <th>Invita</th>
                 <th>Respuesta</th>
                 <th>Pareja</th>

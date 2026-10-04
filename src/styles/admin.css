@@ -318,6 +318,35 @@ html[data-admin-theme='dark'] .bp-select {
   color: var(--dash-table-head-color);
   background: var(--dash-table-head-bg);
 }
+.dash-table-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+.dash-table-sort:hover {
+  color: var(--dash-body-color, #1a1a1f);
+}
+.dash-table-sort--active {
+  color: var(--dash-body-color, #1a1a1f);
+}
+.dash-table-sort-icon {
+  font-size: 0.65rem;
+  opacity: 0.55;
+  line-height: 1;
+}
+.dash-table-sort--active .dash-table-sort-icon {
+  opacity: 1;
+}
 .dash-table-num {
   text-align: right;
 }
