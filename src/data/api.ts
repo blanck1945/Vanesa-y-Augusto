@@ -238,7 +238,7 @@ async function parseResponse<T>(res: Response): Promise<T> {
 export type InvitacionSortKey = 'nombre' | 'email' | 'lado'
 export type InvitacionSortDir = 'asc' | 'desc'
 
-function ladoEtiquetaOrden(l: LadoInvitacion | undefined): string {
+function ladoEtiquetaOrden(l: LadoInvitacion | null | undefined): string {
   if (l === 'augusto') return 'Augusto'
   if (l === 'patricia') return 'Patricia'
   return 'Vanesa'
