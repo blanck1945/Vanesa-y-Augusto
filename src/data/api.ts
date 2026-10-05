@@ -1,4 +1,5 @@
 import { invitacionPathSegment } from '../lib/invitacionLink'
+import { parseApiDateTime } from '../lib/fechaArgentina'
 
 export type EstadoInvitacion = 'pendiente' | 'si' | 'no' | 'aun_no_lo_se'
 export type LadoInvitacion = 'vanesa' | 'augusto' | 'patricia'
@@ -238,7 +239,7 @@ async function parseResponse<T>(res: Response): Promise<T> {
 
 // ---- Invitaciones ----
 
-export type InvitacionSortKey = 'nombre' | 'email' | 'lado'
+export type InvitacionSortKey = 'nombre' | 'email' | 'lado' | 'respondidoAt'
 export type InvitacionSortDir = 'asc' | 'desc'
 
 function ladoEtiquetaOrden(l: LadoInvitacion | null | undefined): string {
@@ -263,8 +264,20 @@ function compareInvitaciones(
     else if (!ea) cmp = 1
     else if (!eb) cmp = -1
     else cmp = ea.localeCompare(eb, 'es', { sensitivity: 'base' })
-  } else {
+  } else if (key === 'lado') {
     cmp = ladoEtiquetaOrden(a.lado).localeCompare(ladoEtiquetaOrden(b.lado), 'es', { sensitivity: 'base' })
+    if (cmp === 0) {
+      cmp = a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
+    }
+  } else {
+    const ta = a.respondidoAt ? parseApiDateTime(a.respondidoAt).getTime() : Number.NaN
+    const tb = b.respondidoAt ? parseApiDateTime(b.respondidoAt).getTime() : Number.NaN
+    const aOk = !Number.isNaN(ta)
+    const bOk = !Number.isNaN(tb)
+    if (!aOk && !bOk) cmp = 0
+    else if (!aOk) cmp = 1
+    else if (!bOk) cmp = -1
+    else cmp = ta - tb
     if (cmp === 0) {
       cmp = a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
     }

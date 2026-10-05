@@ -187,6 +187,7 @@ export function DashboardPage() {
   const [reseteandoId, setReseteandoId] = useState<number | null>(null)
   const [tablaSortKey, setTablaSortKey] = useState<InvitacionSortKey>('nombre')
   const [tablaSortDir, setTablaSortDir] = useState<InvitacionSortDir>('asc')
+  const [historialSortDir, setHistorialSortDir] = useState<InvitacionSortDir>('desc')
   const csvInputRef = useRef<HTMLInputElement>(null)
   const nombreInputRef = useRef<HTMLInputElement>(null)
 
@@ -405,7 +406,7 @@ export function DashboardPage() {
       setTablaSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))
     } else {
       setTablaSortKey(key)
-      setTablaSortDir('asc')
+      setTablaSortDir(key === 'respondidoAt' ? 'desc' : 'asc')
     }
   }
 
@@ -413,6 +414,16 @@ export function DashboardPage() {
     () => sortInvitaciones(invitaciones, tablaSortKey, tablaSortDir),
     [invitaciones, tablaSortKey, tablaSortDir],
   )
+
+  const historialRespuestas = useMemo(() => {
+    const conRespuesta = invitaciones.filter((i) => i.estado !== 'pendiente')
+    return sortInvitaciones(conRespuesta, 'respondidoAt', historialSortDir)
+  }, [invitaciones, historialSortDir])
+
+  const onHistorialSort = (_key: InvitacionSortKey) => {
+    void _key
+    setHistorialSortDir((d) => (d === 'desc' ? 'asc' : 'desc'))
+  }
 
   const confSi = invitaciones.filter((i) => i.estado === 'si').length
   const pendientes = invitaciones.filter((i) => i.estado === 'pendiente').length
@@ -534,6 +545,56 @@ export function DashboardPage() {
         <Text muted className="text-sm">
           Todavía no saben: {talVez}
         </Text>
+      ) : null}
+
+      {historialRespuestas.length > 0 ? (
+        <Card className="overflow-x-auto p-0">
+          <div className="border-b border-bp-border px-4 py-3">
+            <Text as="h2" className="text-lg text-bp-body">
+              Historial de respuestas
+            </Text>
+            <Text muted className="mt-1 text-sm">
+              Quienes ya respondieron el RSVP ({historialRespuestas.length}). Tocá la columna fecha para
+              invertir el orden.
+            </Text>
+          </div>
+          <table className="dash-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Respuesta</th>
+                <th>Lado</th>
+                <th className="dash-table-num">Personas</th>
+                <th>Pareja</th>
+                <DashSortHeader
+                  label="Respondió"
+                  sortKey="respondidoAt"
+                  activeKey="respondidoAt"
+                  dir={historialSortDir}
+                  onSort={onHistorialSort}
+                />
+              </tr>
+            </thead>
+            <tbody>
+              {historialRespuestas.map((inv, index) => (
+                <tr key={inv.id}>
+                  <td className="text-bp-muted">{index + 1}</td>
+                  <td>
+                    <span className="font-medium text-bp-body">{inv.nombre}</span>
+                  </td>
+                  <td>
+                    <span className={estadoClass(inv.estado)}>{estadoLabel(inv.estado)}</span>
+                  </td>
+                  <td>{ladoLabel(inv.lado)}</td>
+                  <td className="dash-table-num">{personasEnTabla(inv)}</td>
+                  <td>{(inv.permitePareja && inv.nombreAcompanante) || '—'}</td>
+                  <td>{formatDateTimeArgentina(inv.respondidoAt)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Card>
       ) : null}
 
       <Card className="p-5 dash-import-card">
@@ -743,7 +804,13 @@ export function DashboardPage() {
                 <th>Respuesta</th>
                 <th>Pareja</th>
                 <th>Restricciones</th>
-                <th>Respondió</th>
+                <DashSortHeader
+                  label="Respondió"
+                  sortKey="respondidoAt"
+                  activeKey={tablaSortKey}
+                  dir={tablaSortDir}
+                  onSort={onTablaSort}
+                />
                 <th className="dash-table-num">Personas</th>
                 <th>Acciones</th>
               </tr>
