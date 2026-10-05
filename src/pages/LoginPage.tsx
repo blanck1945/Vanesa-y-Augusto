@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { DASHBOARD_APP_NAME } from '../config/dashboardBrand'
 import { getSesionAdmin, loginUsuario, setSesionAdmin } from '../data/api'
 import { Card } from '../components/ui/Card'
 import { Field } from '../components/ui/Field'
@@ -35,7 +36,7 @@ export function LoginPage() {
     <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-6">
       <div>
         <Text as="h1" className="text-2xl text-bp-body">
-          Dashboard del casamiento
+          {DASHBOARD_APP_NAME}
         </Text>
         <Text muted className="mt-1">
           Ingresá para ver confirmaciones y copiar links de invitación.

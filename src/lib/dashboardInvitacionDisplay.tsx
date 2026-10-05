@@ -45,6 +45,19 @@ export function personasEnTabla(inv: Invitacion): string {
   return String(personasInvitadas(inv))
 }
 
+export function totalesPersonasInvitacion(invitaciones: Invitacion[]): {
+  confirmadasSi: number
+  invitadas: number
+} {
+  let confirmadasSi = 0
+  let invitadas = 0
+  for (const inv of invitaciones) {
+    confirmadasSi += personasConfirmadas(inv)
+    invitadas += personasInvitadas(inv)
+  }
+  return { confirmadasSi, invitadas }
+}
+
 export function DashSortHeader({
   label,
   sortKey,

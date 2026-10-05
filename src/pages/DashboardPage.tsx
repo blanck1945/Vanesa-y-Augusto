@@ -36,6 +36,7 @@ import {
   personasInvitadas,
   restriccionesLabel,
 } from '../lib/dashboardInvitacionDisplay'
+import { DashboardRatioPersonasSi } from '../components/dashboard/DashboardRatioPersonasSi'
 import { Card } from '../components/ui/Card'
 import { Field } from '../components/ui/Field'
 import { Select } from '../components/ui/Select'
@@ -377,6 +378,8 @@ export function DashboardPage() {
         </Text>
       </div>
 
+      {!loading && invitaciones.length > 0 ? <DashboardRatioPersonasSi invitaciones={invitaciones} /> : null}
+
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         <Card className="p-4">
           <Text muted>Personas invitadas</Text>
@@ -399,7 +402,10 @@ export function DashboardPage() {
         </Card>
         <Card className="p-4">
           <Text muted>Personas (sí)</Text>
-          <Text className="text-2xl text-bp-body">{personasConfirmaronSi}</Text>
+          <Text className="text-2xl text-bp-body">
+            {personasConfirmaronSi}
+            <span className="text-lg text-bp-muted">/{totalPersonasInvitadas}</span>
+          </Text>
         </Card>
       </div>
 

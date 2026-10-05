@@ -16,6 +16,7 @@ import {
   ladoLabel,
   personasEnTabla,
 } from '../lib/dashboardInvitacionDisplay'
+import { DashboardRatioPersonasSi } from '../components/dashboard/DashboardRatioPersonasSi'
 import { Card } from '../components/ui/Card'
 import { Text } from '../components/ui/Text'
 
@@ -67,6 +68,11 @@ export function DashboardHistorialPage() {
         <Text muted className="mt-1">
           Hola, {usuario.nombre}. Quienes ya respondieron el RSVP, del más reciente al más antiguo.
         </Text>
+        {!loading && invitaciones.length > 0 ? (
+          <div className="mt-2">
+            <DashboardRatioPersonasSi invitaciones={invitaciones} compact />
+          </div>
+        ) : null}
       </div>
 
       {error ? <Text className="text-red-700">{error}</Text> : null}
