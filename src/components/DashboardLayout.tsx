@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { applyAdminTheme, clearAdminTheme, getStoredAdminTheme, setAdminTheme, type AdminTheme } from '../admin/theme'
 import { AdminThemeToggle } from './AdminThemeToggle'
+import { DashboardNav } from './dashboard/DashboardNav'
 import '../styles/admin.css'
 
 /** Layout mínimo para las páginas admin (login / dashboard). */
 export function DashboardLayout() {
+  const location = useLocation()
+  const showDashboardNav = location.pathname.startsWith('/dashboard')
+
   const [theme, setTheme] = useState<AdminTheme>(() => {
     const stored = getStoredAdminTheme()
     applyAdminTheme(stored)
@@ -26,6 +30,7 @@ export function DashboardLayout() {
   return (
     <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-bp-bg">
       <div className="admin-topbar">
+        {showDashboardNav ? <DashboardNav /> : <span aria-hidden />}
         <AdminThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
       <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-y-auto px-4 py-6 sm:px-8 sm:py-8">

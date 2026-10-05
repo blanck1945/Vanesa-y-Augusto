@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { DashboardLayout } from './components/DashboardLayout'
+import { DashboardHistorialPage } from './pages/DashboardHistorialPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { GaleriaPage } from './pages/GaleriaPage'
 import { InvitacionPage } from './pages/InvitacionPage'
@@ -16,6 +17,7 @@ export default function App() {
       <Route element={<DashboardLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="dashboard/historial" element={<DashboardHistorialPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/vista" replace />} />
     </Routes>

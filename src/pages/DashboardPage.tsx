@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import {
   CSV_PLANTILLA_INVITADOS,
-  clearSesionAdmin,
   createInvitacion,
   deleteInvitacion,
   getSesionAdmin,
@@ -26,6 +25,17 @@ import {
 import { formatDateTimeArgentina } from '../lib/fechaArgentina'
 import { invitacionPath } from '../lib/invitacionLink'
 import { mensajeInvitacionWhatsApp, whatsappHref } from '../lib/invitacionState'
+import {
+  DashSortHeader,
+  estadoClass,
+  estadoLabel,
+  invitaLabel,
+  ladoLabel,
+  personasConfirmadas,
+  personasEnTabla,
+  personasInvitadas,
+  restriccionesLabel,
+} from '../lib/dashboardInvitacionDisplay'
 import { Card } from '../components/ui/Card'
 import { Field } from '../components/ui/Field'
 import { Select } from '../components/ui/Select'
@@ -33,42 +43,11 @@ import { Button } from '../components/ui/Button'
 import { Modal } from '../components/ui/Modal'
 import { Text } from '../components/ui/Text'
 
-function estadoLabel(estado: Invitacion['estado']): string {
-  if (estado === 'si') return 'Confirmó que sí'
-  if (estado === 'no') return 'Confirmó que no'
-  if (estado === 'aun_no_lo_se') return 'Aún no lo sabe'
-  return 'Sin respuesta'
-}
-
-function estadoClass(estado: Invitacion['estado']): string {
-  if (estado === 'si') return 'dash-estado dash-estado--si'
-  if (estado === 'no') return 'dash-estado dash-estado--no'
-  if (estado === 'aun_no_lo_se') return 'dash-estado dash-estado--talvez'
-  return 'dash-estado dash-estado--pendiente'
-}
-
-function invitaLabel(inv: Invitacion): string {
-  return inv.permitePareja ? 'Invitado + pareja' : 'Solo invitado'
-}
-
 const OPCIONES_LADO: { value: LadoInvitacion; label: string }[] = [
   { value: 'vanesa', label: 'Vanesa' },
   { value: 'augusto', label: 'Augusto' },
   { value: 'patricia', label: 'Patricia' },
 ]
-
-function ladoLabel(lado: Invitacion['lado']): string {
-  if (lado === 'vanesa') return 'Vanesa'
-  if (lado === 'augusto') return 'Augusto'
-  if (lado === 'patricia') return 'Patricia'
-  return '—'
-}
-
-function restriccionesLabel(inv: Invitacion): string {
-  if (inv.restriccionesAlimentariasSi == null) return '—'
-  if (!inv.restriccionesAlimentariasSi) return 'No'
-  return inv.restriccionesAlimentarias ? `Sí · ${inv.restriccionesAlimentarias}` : 'Sí'
-}
 
 type EdicionInvitacion = {
   nombre: string
@@ -86,54 +65,6 @@ function draftFromInvitacion(inv: Invitacion): EdicionInvitacion {
     email: inv.email ?? '',
     celular: inv.celular ?? '',
   }
-}
-
-/** Cupos de la invitación: 2 si incluye pareja, 1 si es solo invitado. */
-function personasInvitadas(inv: Invitacion): number {
-  return inv.permitePareja ? 2 : 1
-}
-
-/** Personas que confirmaron asistir (0 si no respondió sí). */
-function personasConfirmadas(inv: Invitacion): number {
-  if (inv.estado !== 'si') return 0
-  return inv.nombreAcompanante ? 2 : 1
-}
-
-function personasEnTabla(inv: Invitacion): string {
-  if (inv.estado === 'si') return String(personasConfirmadas(inv))
-  return String(personasInvitadas(inv))
-}
-
-function DashSortHeader({
-  label,
-  sortKey,
-  activeKey,
-  dir,
-  onSort,
-}: {
-  label: string
-  sortKey: InvitacionSortKey
-  activeKey: InvitacionSortKey
-  dir: InvitacionSortDir
-  onSort: (key: InvitacionSortKey) => void
-}) {
-  const active = activeKey === sortKey
-  const indicator = !active ? '↕' : dir === 'asc' ? '↑' : '↓'
-  return (
-    <th scope="col" aria-sort={active ? (dir === 'asc' ? 'ascending' : 'descending') : 'none'}>
-      <button
-        type="button"
-        className={`dash-table-sort${active ? ' dash-table-sort--active' : ''}`}
-        onClick={() => onSort(sortKey)}
-        aria-label={`Ordenar por ${label}${active ? (dir === 'asc' ? ', ascendente' : ', descendente') : ''}`}
-      >
-        <span className="dash-table-sort-label">{label}</span>
-        <span className="dash-table-sort-icon" aria-hidden>
-          {indicator}
-        </span>
-      </button>
-    </th>
-  )
 }
 
 type ResumenInvitadosLado = {
@@ -187,7 +118,6 @@ export function DashboardPage() {
   const [reseteandoId, setReseteandoId] = useState<number | null>(null)
   const [tablaSortKey, setTablaSortKey] = useState<InvitacionSortKey>('nombre')
   const [tablaSortDir, setTablaSortDir] = useState<InvitacionSortDir>('asc')
-  const [historialSortDir, setHistorialSortDir] = useState<InvitacionSortDir>('desc')
   const csvInputRef = useRef<HTMLInputElement>(null)
   const nombreInputRef = useRef<HTMLInputElement>(null)
 
@@ -415,16 +345,6 @@ export function DashboardPage() {
     [invitaciones, tablaSortKey, tablaSortDir],
   )
 
-  const historialRespuestas = useMemo(() => {
-    const conRespuesta = invitaciones.filter((i) => i.estado !== 'pendiente')
-    return sortInvitaciones(conRespuesta, 'respondidoAt', historialSortDir)
-  }, [invitaciones, historialSortDir])
-
-  const onHistorialSort = (_key: InvitacionSortKey) => {
-    void _key
-    setHistorialSortDir((d) => (d === 'desc' ? 'asc' : 'desc'))
-  }
-
   const confSi = invitaciones.filter((i) => i.estado === 'si').length
   const pendientes = invitaciones.filter((i) => i.estado === 'pendiente').length
   const talVez = invitaciones.filter((i) => i.estado === 'aun_no_lo_se').length
@@ -448,26 +368,13 @@ export function DashboardPage() {
 
   return (
     <div className="dash-panel mx-auto flex flex-col gap-6">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <Text as="h1" className="text-2xl text-bp-body">
-            Invitaciones
-          </Text>
-          <Text muted className="mt-1">
-            Hola, {usuario.nombre}. Creá invitados, importá CSV/Excel o mandá invitaciones por email.
-          </Text>
-        </div>
-        <Button
-          variant="secondary"
-          size="sm"
-          type="button"
-          onClick={() => {
-            clearSesionAdmin()
-            window.location.href = '/login'
-          }}
-        >
-          Salir
-        </Button>
+      <div>
+        <Text as="h1" className="text-2xl text-bp-body">
+          Invitaciones
+        </Text>
+        <Text muted className="mt-1">
+          Hola, {usuario.nombre}. Creá invitados, importá CSV/Excel o mandá invitaciones por email.
+        </Text>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
@@ -545,56 +452,6 @@ export function DashboardPage() {
         <Text muted className="text-sm">
           Todavía no saben: {talVez}
         </Text>
-      ) : null}
-
-      {historialRespuestas.length > 0 ? (
-        <Card className="overflow-x-auto p-0">
-          <div className="border-b border-bp-border px-4 py-3">
-            <Text as="h2" className="text-lg text-bp-body">
-              Historial de respuestas
-            </Text>
-            <Text muted className="mt-1 text-sm">
-              Quienes ya respondieron el RSVP ({historialRespuestas.length}). Tocá la columna fecha para
-              invertir el orden.
-            </Text>
-          </div>
-          <table className="dash-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Respuesta</th>
-                <th>Lado</th>
-                <th className="dash-table-num">Personas</th>
-                <th>Pareja</th>
-                <DashSortHeader
-                  label="Respondió"
-                  sortKey="respondidoAt"
-                  activeKey="respondidoAt"
-                  dir={historialSortDir}
-                  onSort={onHistorialSort}
-                />
-              </tr>
-            </thead>
-            <tbody>
-              {historialRespuestas.map((inv, index) => (
-                <tr key={inv.id}>
-                  <td className="text-bp-muted">{index + 1}</td>
-                  <td>
-                    <span className="font-medium text-bp-body">{inv.nombre}</span>
-                  </td>
-                  <td>
-                    <span className={estadoClass(inv.estado)}>{estadoLabel(inv.estado)}</span>
-                  </td>
-                  <td>{ladoLabel(inv.lado)}</td>
-                  <td className="dash-table-num">{personasEnTabla(inv)}</td>
-                  <td>{(inv.permitePareja && inv.nombreAcompanante) || '—'}</td>
-                  <td>{formatDateTimeArgentina(inv.respondidoAt)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Card>
       ) : null}
 
       <Card className="p-5 dash-import-card">
