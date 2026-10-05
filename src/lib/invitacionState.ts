@@ -30,3 +30,18 @@ export function quitarSufijoPareja(nombre: string): string {
 export function whatsappHref(telefono: string, mensaje: string): string {
   return `https://wa.me/${telefono.replace(/\D/g, '')}?text=${encodeURIComponent(mensaje)}`
 }
+
+export function mensajeInvitacionWhatsApp(nombreInvitado: string, link: string): string {
+  const nombre = nombreInvitado.trim() || 'Hola'
+  return [
+    `Hola ${nombre},`,
+    '',
+    'Te invitamos al casamiento de Vanesa y Augusto.',
+    '',
+    'Confirmá tu asistencia en este link personalizado:',
+    link,
+    '',
+    '¡Te esperamos!',
+    'Vanesa y Augusto',
+  ].join('\n')
+}

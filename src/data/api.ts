@@ -22,6 +22,7 @@ export type Invitacion = {
   restriccionesAlimentariasSi: boolean | null
   restriccionesAlimentarias: string | null
   email: string | null
+  celular: string | null
   emailEnviadoAt: string | null
   respondidoAt: string | null
   createdAt: string
@@ -92,6 +93,7 @@ type ApiInvitation = {
   hasDietaryRestrictions: boolean | null
   dietaryRestrictions: string | null
   email: string | null
+  phone: string | null
   emailSentAt: string | null
   respondedAt: string | null
   createdAt: string
@@ -157,6 +159,7 @@ function mapInvitation(row: ApiInvitation): Invitacion {
     restriccionesAlimentariasSi: row.hasDietaryRestrictions,
     restriccionesAlimentarias: row.dietaryRestrictions,
     email: row.email,
+    celular: row.phone,
     emailEnviadoAt: row.emailSentAt,
     respondidoAt: row.respondedAt,
     createdAt: row.createdAt,
@@ -309,6 +312,7 @@ export async function updateInvitacion(
   permitePareja: boolean,
   lado: LadoInvitacion,
   email?: string | null,
+  celular?: string | null,
 ): Promise<Invitacion> {
   const body: Record<string, unknown> = {
     name: nombre,
@@ -316,6 +320,7 @@ export async function updateInvitacion(
     guestSide: lado,
   }
   if (email !== undefined) body.email = email?.trim() || null
+  if (celular !== undefined) body.phone = celular?.trim() || null
   const row = await parseResponse<ApiInvitation>(
     await fetch(apiPath(`/api/invitations/${id}`), {
       method: 'PATCH',

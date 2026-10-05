@@ -13,6 +13,7 @@ function demoInvitacion(): Invitacion {
     permitePareja: true,
     nombreAcompanante: null,
     email: null,
+    celular: null,
     emailEnviadoAt: null,
     restriccionesAlimentariasSi: null,
     restriccionesAlimentarias: null,

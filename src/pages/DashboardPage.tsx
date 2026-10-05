@@ -25,6 +25,7 @@ import {
 } from '../data/api'
 import { formatDateTimeArgentina } from '../lib/fechaArgentina'
 import { invitacionPath } from '../lib/invitacionLink'
+import { mensajeInvitacionWhatsApp, whatsappHref } from '../lib/invitacionState'
 import { Card } from '../components/ui/Card'
 import { Field } from '../components/ui/Field'
 import { Select } from '../components/ui/Select'
@@ -74,6 +75,7 @@ type EdicionInvitacion = {
   lado: LadoInvitacion
   permitePareja: boolean
   email: string
+  celular: string
 }
 
 function draftFromInvitacion(inv: Invitacion): EdicionInvitacion {
@@ -82,6 +84,7 @@ function draftFromInvitacion(inv: Invitacion): EdicionInvitacion {
     lado: inv.lado ?? 'vanesa',
     permitePareja: inv.permitePareja,
     email: inv.email ?? '',
+    celular: inv.celular ?? '',
   }
 }
 
@@ -230,6 +233,14 @@ export function DashboardPage() {
     }
   }
 
+  async function whatsappUrlFor(inv: Invitacion): Promise<string | null> {
+    const celular = inv.celular?.trim()
+    if (!celular) return null
+    await getInvitePublicBaseUrl()
+    const link = invitacionLinkFor(inv)
+    return whatsappHref(celular, mensajeInvitacionWhatsApp(inv.nombre, link))
+  }
+
   async function onCopiar(inv: Invitacion) {
     await getInvitePublicBaseUrl()
     const link = invitacionLinkFor(inv)
@@ -280,6 +291,7 @@ export function DashboardPage() {
         editDraft.permitePareja,
         editDraft.lado,
         editDraft.email.trim() || null,
+        editDraft.celular.trim() || null,
       )
       setInvitaciones((prev) => prev.map((i) => (i.id === id ? actualizada : i)))
       setEditandoId(null)
@@ -725,6 +737,7 @@ export function DashboardPage() {
               <tr>
                 <DashSortHeader label="Nombre" sortKey="nombre" activeKey={tablaSortKey} dir={tablaSortDir} onSort={onTablaSort} />
                 <DashSortHeader label="Email" sortKey="email" activeKey={tablaSortKey} dir={tablaSortDir} onSort={onTablaSort} />
+                <th>Celular</th>
                 <DashSortHeader label="Lado" sortKey="lado" activeKey={tablaSortKey} dir={tablaSortDir} onSort={onTablaSort} />
                 <th>Invita</th>
                 <th>Respuesta</th>
@@ -739,6 +752,7 @@ export function DashboardPage() {
               {invitacionesOrdenadas.map((inv) => {
                 const editando = editandoId === inv.id && editDraft != null
                 const puedeEnviar = !!inv.email?.trim()
+                const puedeWhatsApp = !!inv.celular?.trim()
                 const enviando = enviandoId === inv.id
                 const reseteando = reseteandoId === inv.id
                 const tieneRespuesta = inv.estado !== 'pendiente'
@@ -773,6 +787,19 @@ export function DashboardPage() {
                             </span>
                           ) : null}
                         </div>
+                      )}
+                    </td>
+                    <td>
+                      {editando ? (
+                        <Field
+                          type="tel"
+                          value={editDraft.celular}
+                          onChange={(e) => setEditDraft({ ...editDraft, celular: e.target.value })}
+                          placeholder="54911…"
+                          aria-label="Celular WhatsApp"
+                        />
+                      ) : (
+                        inv.celular || '—'
                       )}
                     </td>
                     <td>
@@ -846,6 +873,20 @@ export function DashboardPage() {
                               onClick={() => void onEnviarEmail(inv.id)}
                             >
                               {enviando ? 'Enviando…' : inv.emailEnviadoAt ? 'Reenviar' : 'Enviar email'}
+                            </Button>
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="secondary"
+                              disabled={!puedeWhatsApp}
+                              onClick={() => {
+                                void whatsappUrlFor(inv).then((url) => {
+                                  if (url) window.open(url, '_blank', 'noopener,noreferrer')
+                                  else setError('Agregá un celular válido para WhatsApp')
+                                })
+                              }}
+                            >
+                              WhatsApp
                             </Button>
                             <Button type="button" size="sm" variant="secondary" onClick={() => void onCopiar(inv)}>
                               {copiedToken === inv.token ? 'Copiado' : 'Copiar link'}
