@@ -4,6 +4,7 @@ import { DASHBOARD_APP_NAME } from '../config/dashboardBrand'
 import { getSesionAdmin, loginUsuario, setSesionAdmin } from '../data/api'
 import { Card } from '../components/ui/Card'
 import { Field } from '../components/ui/Field'
+import { PasswordField } from '../components/ui/PasswordField'
 import { Button } from '../components/ui/Button'
 import { Text } from '../components/ui/Text'
 
@@ -45,9 +46,8 @@ export function LoginPage() {
       <Card className="p-5">
         <form onSubmit={(e) => void submit(e)} className="space-y-4">
           <Field label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="username" />
-          <Field
+          <PasswordField
             label="Contraseña"
-            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
