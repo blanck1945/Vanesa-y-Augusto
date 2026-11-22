@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './styles/invitacion.css';
+@import './styles/civil-flyer.css';
 
 /* Portada mobile: 100dvh crece al scrollear (barra del browser) y la foto cover “zoom”. */
 @media (max-width: 699px) {
