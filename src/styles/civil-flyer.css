@@ -114,8 +114,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: clamp(1.75rem, 6%, 2.75rem) clamp(1.35rem, 7%, 2.4rem);
-  gap: 0.35rem;
+  padding: clamp(2.6rem, 10%, 3.6rem) clamp(1.5rem, 9%, 2.6rem) clamp(2.8rem, 11%, 3.8rem);
+  gap: 0.28rem;
 }
 
 .civil-decor {
@@ -126,33 +126,167 @@
   overflow: hidden;
 }
 
-/* Hojas plateadas (mismo asset que la invitación) — sin flores */
+/* Bandas horizontales de hojas plateadas */
+.civil-decor-band {
+  position: absolute;
+  left: 50%;
+  width: min(118%, 22rem);
+  height: auto;
+  object-fit: contain;
+  opacity: 0.88;
+  filter: brightness(1.06) contrast(1.05);
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.civil-decor-band--top {
+  top: -2%;
+  width: min(130%, 24rem);
+  opacity: 0.92;
+}
+
+.civil-decor-band--top-soft {
+  top: 7%;
+  width: min(95%, 17rem);
+  opacity: 0.55;
+  transform: translateX(-50%) scaleX(-1);
+}
+
+.civil-decor-band--bottom {
+  bottom: -3%;
+  width: min(130%, 24rem);
+  opacity: 0.92;
+  transform: translateX(-50%) scaleY(-1);
+}
+
+.civil-decor-band--bottom-soft {
+  bottom: 6%;
+  width: min(95%, 17rem);
+  opacity: 0.55;
+  transform: translateX(-50%) scaleX(-1) scaleY(-1);
+}
+
+/* Hojas plateadas laterales (mitades del separador) */
 .civil-decor-rama {
   position: absolute;
-  top: 42%;
-  width: min(78%, 11.5rem);
+  width: min(82%, 12.5rem);
   height: auto;
   aspect-ratio: 2 / 1;
   object-fit: contain;
-  opacity: 0.78;
+  opacity: 0.82;
   filter: brightness(1.05) contrast(1.04);
   pointer-events: none;
 }
 
-.civil-decor-rama--izq {
-  left: clamp(-1.1rem, -6%, -0.35rem);
+.civil-decor-rama--izq,
+.civil-decor-rama--izq-alta,
+.civil-decor-rama--izq-baja {
+  left: clamp(-1.35rem, -7%, -0.4rem);
   object-position: left center;
   clip-path: inset(0 50% 0 0);
-  transform: translateY(-50%) rotate(-16deg);
   transform-origin: 100% 50%;
 }
 
-.civil-decor-rama--der {
-  right: clamp(-1.1rem, -6%, -0.35rem);
+.civil-decor-rama--der,
+.civil-decor-rama--der-alta,
+.civil-decor-rama--der-baja {
+  right: clamp(-1.35rem, -7%, -0.4rem);
   object-position: right center;
   clip-path: inset(0 0 0 50%);
-  transform: translateY(-50%) rotate(16deg);
   transform-origin: 0% 50%;
+}
+
+.civil-decor-rama--izq {
+  top: 48%;
+  transform: translateY(-50%) rotate(-16deg);
+}
+
+.civil-decor-rama--der {
+  top: 48%;
+  transform: translateY(-50%) rotate(16deg);
+}
+
+.civil-decor-rama--izq-alta {
+  top: 22%;
+  width: min(70%, 10rem);
+  opacity: 0.72;
+  transform: translateY(-50%) rotate(-22deg);
+}
+
+.civil-decor-rama--der-alta {
+  top: 22%;
+  width: min(70%, 10rem);
+  opacity: 0.72;
+  transform: translateY(-50%) rotate(22deg);
+}
+
+.civil-decor-rama--izq-baja {
+  top: 74%;
+  width: min(70%, 10rem);
+  opacity: 0.72;
+  transform: translateY(-50%) rotate(-10deg);
+}
+
+.civil-decor-rama--der-baja {
+  top: 74%;
+  width: min(70%, 10rem);
+  opacity: 0.72;
+  transform: translateY(-50%) rotate(10deg);
+}
+
+/* Enredaderas verticales en esquinas */
+.civil-decor-vine {
+  position: absolute;
+  width: min(18%, 3.4rem);
+  height: auto;
+  object-fit: contain;
+  opacity: 0.78;
+  filter: brightness(1.08) contrast(1.05);
+  pointer-events: none;
+}
+
+.civil-decor-vine--tl {
+  top: 10%;
+  left: 1%;
+  transform: rotate(-8deg);
+}
+
+.civil-decor-vine--tr {
+  top: 10%;
+  right: 1%;
+  transform: rotate(8deg);
+}
+
+.civil-decor-vine--bl {
+  bottom: 12%;
+  left: 1%;
+  transform: rotate(188deg);
+}
+
+.civil-decor-vine--br {
+  bottom: 12%;
+  right: 1%;
+  transform: rotate(-188deg);
+}
+
+/* Separadores de sección (dentro del contenido) */
+.civil-sep {
+  display: block;
+  width: min(78%, 13rem);
+  height: auto;
+  margin: 0.85rem 0 0.7rem;
+  object-fit: contain;
+  opacity: 0.9;
+  filter: brightness(1.05) contrast(1.04);
+  animation: civil-fade-up 1s 0.2s both;
+  pointer-events: none;
+}
+
+.civil-sep--sm {
+  width: min(58%, 9.5rem);
+  margin: 0.7rem 0 0.55rem;
+  opacity: 0.85;
+  animation-delay: 0.32s;
 }
 
 .civil-names {
@@ -186,15 +320,6 @@
   animation: civil-soft-pulse 5s ease-in-out infinite;
 }
 
-.civil-rule {
-  width: min(42%, 7rem);
-  height: 1px;
-  margin: 1.15rem 0 1rem;
-  background: var(--inv-rule);
-  border: 0;
-  animation: civil-fade-up 1s 0.18s both;
-}
-
 .civil-meta {
   display: flex;
   flex-direction: column;
@@ -225,7 +350,7 @@
   font-weight: 400;
   line-height: 1.25;
   color: var(--inv-ink);
-  margin: 1.15rem 0 0;
+  margin: 0.35rem 0 0;
   max-width: 18rem;
   animation: civil-fade-up 1s 0.38s both;
 }
@@ -246,14 +371,14 @@
   line-height: 1.45;
   color: var(--inv-ink-soft);
   max-width: 16.5rem;
-  margin: 1.35rem 0 0;
+  margin: 0.25rem 0 0;
   animation: civil-fade-up 1s 0.56s both;
 }
 
 .civil-sello {
   width: clamp(3.25rem, 14%, 4.25rem);
   height: auto;
-  margin-top: 1.35rem;
+  margin-top: 0.85rem;
   opacity: 0.92;
   filter: brightness(0.92) contrast(1.04) saturate(0.88);
   animation: civil-fade-up 1.05s 0.64s both;
