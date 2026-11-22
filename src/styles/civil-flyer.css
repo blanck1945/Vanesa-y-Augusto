@@ -126,46 +126,33 @@
   overflow: hidden;
 }
 
-.civil-decor img {
+/* Hojas plateadas (mismo asset que la invitación) — sin flores */
+.civil-decor-rama {
   position: absolute;
+  top: 42%;
+  width: min(78%, 11.5rem);
+  height: auto;
+  aspect-ratio: 2 / 1;
   object-fit: contain;
-  mix-blend-mode: multiply;
-  filter: saturate(0.95) contrast(1.02);
+  opacity: 0.78;
+  filter: brightness(1.05) contrast(1.04);
+  pointer-events: none;
 }
 
-.civil-decor-corner {
-  width: min(42%, 7.5rem);
-  opacity: 0.82;
+.civil-decor-rama--izq {
+  left: clamp(-1.1rem, -6%, -0.35rem);
+  object-position: left center;
+  clip-path: inset(0 50% 0 0);
+  transform: translateY(-50%) rotate(-16deg);
+  transform-origin: 100% 50%;
 }
 
-.civil-decor-corner--tl {
-  top: -3%;
-  left: -5%;
-  width: min(48%, 8.5rem);
-  opacity: 0.88;
-}
-
-.civil-decor-corner--br {
-  bottom: -5%;
-  right: -7%;
-  transform: rotate(180deg);
-}
-
-.civil-decor-sprig {
-  width: min(28%, 5.5rem);
-  opacity: 0.72;
-}
-
-.civil-decor-sprig--l {
-  top: 36%;
-  left: -8%;
-  transform: rotate(-18deg);
-}
-
-.civil-decor-sprig--r {
-  top: 40%;
-  right: -8%;
-  transform: rotate(18deg) scaleX(-1);
+.civil-decor-rama--der {
+  right: clamp(-1.1rem, -6%, -0.35rem);
+  object-position: right center;
+  clip-path: inset(0 0 0 50%);
+  transform: translateY(-50%) rotate(16deg);
+  transform-origin: 0% 50%;
 }
 
 .civil-eyebrow {

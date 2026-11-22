@@ -26,23 +26,13 @@ export function CivilPage() {
       <article className="civil-flyer" aria-label="Flyer matrimonio civil">
         <div className="civil-decor" aria-hidden="true">
           <img
-            className="civil-decor-corner civil-decor-corner--tl"
-            src="/decor/floral-corner.png"
+            className="civil-decor-rama civil-decor-rama--izq"
+            src="/decor/separadores/hojas-medianas.png?v=4"
             alt=""
           />
           <img
-            className="civil-decor-corner civil-decor-corner--br"
-            src="/decor/floral-corner.png"
-            alt=""
-          />
-          <img
-            className="civil-decor-sprig civil-decor-sprig--l"
-            src="/decor/floral-sprig.png"
-            alt=""
-          />
-          <img
-            className="civil-decor-sprig civil-decor-sprig--r"
-            src="/decor/floral-sprig.png"
+            className="civil-decor-rama civil-decor-rama--der"
+            src="/decor/separadores/hojas-medianas.png?v=4"
             alt=""
           />
         </div>
