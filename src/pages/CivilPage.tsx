@@ -54,7 +54,11 @@ export function CivilPage() {
 
           <p className="civil-invite">{CIVIL.invitacion}</p>
 
-          <img className="civil-sello" src="/sobre/sello-cera.png" alt="" />
+          <img
+            className="civil-sello"
+            src="/decor/monograma-va.jpg"
+            alt="Monograma Vanesa y Augusto"
+          />
         </div>
       </article>
     </div>

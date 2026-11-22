@@ -242,11 +242,13 @@
 }
 
 .civil-sello {
-  width: clamp(3.25rem, 14%, 4.25rem);
+  width: clamp(5.5rem, 28%, 8.5rem);
   height: auto;
-  margin-top: 0.85rem;
-  opacity: 0.92;
-  filter: brightness(0.92) contrast(1.04) saturate(0.88);
+  margin-top: 0.65rem;
+  opacity: 1;
+  /* JPG con fondo claro: se funde con la card arena */
+  mix-blend-mode: multiply;
+  filter: contrast(1.05) saturate(1.02);
   animation: civil-fade-up 1.05s 0.64s both;
 }
 
