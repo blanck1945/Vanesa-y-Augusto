@@ -409,8 +409,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .civil-names,
-  .civil-rule,
   .civil-meta,
+  .civil-sep,
   .civil-place,
   .civil-address,
   .civil-invite,
@@ -448,8 +448,8 @@
   }
 
   .civil-names,
-  .civil-rule,
   .civil-meta,
+  .civil-sep,
   .civil-place,
   .civil-address,
   .civil-invite,
