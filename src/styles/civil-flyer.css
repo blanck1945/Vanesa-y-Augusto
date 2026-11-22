@@ -155,17 +155,6 @@
   transform-origin: 0% 50%;
 }
 
-.civil-eyebrow {
-  font-family: var(--inv-script-alt);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(1.25rem, 3.8vw, 1.65rem);
-  letter-spacing: 0.04em;
-  color: var(--inv-leaf);
-  margin: 0 0 0.55rem;
-  animation: civil-fade-up 0.9s both;
-}
-
 .civil-names {
   display: flex;
   flex-direction: column;
@@ -230,26 +219,15 @@
   margin: 0.15rem 0 0;
 }
 
-.civil-place-label {
-  margin: 1.15rem 0 0;
-  font-family: var(--inv-body);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--inv-leaf);
-  animation: civil-fade-up 1s 0.38s both;
-}
-
 .civil-place {
   font-family: var(--inv-display);
   font-size: clamp(1.15rem, 3.4vw, 1.45rem);
   font-weight: 400;
   line-height: 1.25;
   color: var(--inv-ink);
-  margin: 0.45rem 0 0;
+  margin: 1.15rem 0 0;
   max-width: 18rem;
-  animation: civil-fade-up 1s 0.42s both;
+  animation: civil-fade-up 1s 0.38s both;
 }
 
 .civil-address {
@@ -305,11 +283,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .civil-eyebrow,
   .civil-names,
   .civil-rule,
   .civil-meta,
-  .civil-place-label,
   .civil-place,
   .civil-address,
   .civil-invite,
@@ -346,11 +322,9 @@
     page-break-inside: avoid;
   }
 
-  .civil-eyebrow,
   .civil-names,
   .civil-rule,
   .civil-meta,
-  .civil-place-label,
   .civil-place,
   .civil-address,
   .civil-invite,

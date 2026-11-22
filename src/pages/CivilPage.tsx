@@ -6,7 +6,7 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 export function CivilPage() {
   useEffect(() => {
     const prev = document.title
-    document.title = `Matrimonio civil — ${CIVIL.novios.ella} y ${CIVIL.novios.el}`
+    document.title = `${CIVIL.novios.ella} y ${CIVIL.novios.el} — Registro Civil`
     return () => {
       document.title = prev
     }
@@ -23,7 +23,7 @@ export function CivilPage() {
         </a>
       </div>
 
-      <article className="civil-flyer" aria-label="Flyer matrimonio civil">
+      <article className="civil-flyer" aria-label="Flyer Registro Civil">
         <div className="civil-decor" aria-hidden="true">
           <img
             className="civil-decor-rama civil-decor-rama--izq"
@@ -38,8 +38,6 @@ export function CivilPage() {
         </div>
 
         <div className="civil-flyer-inner">
-          <p className="civil-eyebrow">{CIVIL.eyebrow}</p>
-
           <div className="civil-names">
             <p className="civil-name">{CIVIL.novios.ella}</p>
             <p className="civil-amp" aria-hidden="true">
@@ -55,7 +53,6 @@ export function CivilPage() {
             <p className="civil-time">{CIVIL.horario}</p>
           </div>
 
-          <p className="civil-place-label">Lugar</p>
           <p className="civil-place">{CIVIL.lugar}</p>
           <p className="civil-address">{CIVIL.direccion}</p>
 
