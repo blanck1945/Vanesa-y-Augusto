@@ -3,12 +3,8 @@ import { CIVIL } from '../content/civil'
 
 const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CIVIL.mapsQuery)}`
 
-const HOJAS_MED = '/decor/separadores/hojas-medianas.png?v=4'
-const HOJAS_LARGAS = '/decor/separadores/hojas-largas.png?v=6'
 const HOJAS_CORTAS = '/decor/separadores/hojas-cortas.png?v=2'
 const DIVISOR = '/decor/separadores/divisor-hojas-separador.png?v=2'
-const RAMA_IZQ = '/decor/enredaderas/rama-izq.png'
-const RAMA_DER = '/decor/enredaderas/rama-der.png'
 
 export function CivilPage() {
   useEffect(() => {
@@ -31,26 +27,6 @@ export function CivilPage() {
       </div>
 
       <article className="civil-flyer" aria-label="Flyer Registro Civil">
-        <div className="civil-decor" aria-hidden="true">
-          <img className="civil-decor-band civil-decor-band--top" src={HOJAS_LARGAS} alt="" />
-          <img className="civil-decor-band civil-decor-band--top-soft" src={HOJAS_MED} alt="" />
-
-          <img className="civil-decor-rama civil-decor-rama--izq" src={HOJAS_MED} alt="" />
-          <img className="civil-decor-rama civil-decor-rama--der" src={HOJAS_MED} alt="" />
-          <img className="civil-decor-rama civil-decor-rama--izq-alta" src={HOJAS_MED} alt="" />
-          <img className="civil-decor-rama civil-decor-rama--der-alta" src={HOJAS_MED} alt="" />
-          <img className="civil-decor-rama civil-decor-rama--izq-baja" src={HOJAS_MED} alt="" />
-          <img className="civil-decor-rama civil-decor-rama--der-baja" src={HOJAS_MED} alt="" />
-
-          <img className="civil-decor-vine civil-decor-vine--tl" src={RAMA_IZQ} alt="" />
-          <img className="civil-decor-vine civil-decor-vine--tr" src={RAMA_DER} alt="" />
-          <img className="civil-decor-vine civil-decor-vine--bl" src={RAMA_IZQ} alt="" />
-          <img className="civil-decor-vine civil-decor-vine--br" src={RAMA_DER} alt="" />
-
-          <img className="civil-decor-band civil-decor-band--bottom" src={HOJAS_LARGAS} alt="" />
-          <img className="civil-decor-band civil-decor-band--bottom-soft" src={HOJAS_MED} alt="" />
-        </div>
-
         <div className="civil-flyer-inner">
           <div className="civil-names">
             <p className="civil-name">{CIVIL.novios.ella}</p>
@@ -70,7 +46,8 @@ export function CivilPage() {
           <img className="civil-sep civil-sep--sm" src={HOJAS_CORTAS} alt="" />
 
           <p className="civil-place">{CIVIL.lugar}</p>
-          <p className="civil-address">{CIVIL.direccion}</p>
+          <p className="civil-address">{CIVIL.calle}</p>
+          <p className="civil-city">{CIVIL.ciudad}</p>
 
           <img className="civil-sep" src={DIVISOR} alt="" />
 

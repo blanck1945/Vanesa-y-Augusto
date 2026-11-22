@@ -7,7 +7,8 @@ export const CIVIL = {
   fechaLabel: '18 DE DICIEMBRE DE 2026',
   horario: '11:30 HS',
   lugar: 'Registro Civil',
-  direccion: 'Uruguay 753, CABA',
+  calle: 'Uruguay 753',
+  ciudad: 'CABA',
   mapsQuery: 'Registro Civil, Uruguay 753, CABA',
   invitacion: 'Los esperamos para celebrar este momento con nosotros',
 } as const
