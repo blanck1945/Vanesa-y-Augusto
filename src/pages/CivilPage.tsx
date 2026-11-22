@@ -28,20 +28,21 @@ export function CivilPage() {
 
       <article className="civil-flyer" aria-label="Flyer Registro Civil">
         <div className="civil-flyer-inner">
-          <div className="civil-names">
-            <p className="civil-name">{CIVIL.novios.ella}</p>
-            <p className="civil-amp" aria-hidden="true">
-              y
-            </p>
-            <p className="civil-name">{CIVIL.novios.el}</p>
+          {/* Misma composición que la 1ª sección de la invitación (Presentación) */}
+          <div className="civil-hero">
+            <div className="inv-names">
+              <h1 className="inv-name">{CIVIL.novios.ella}</h1>
+              <span className="inv-amp" aria-hidden>
+                &amp;
+              </span>
+              <h1 className="inv-name">{CIVIL.novios.el}</h1>
+            </div>
+            <p className="inv-date">{CIVIL.fechaLabel}</p>
           </div>
 
           <img className="civil-sep" src={DIVISOR} alt="" />
 
-          <div className="civil-meta">
-            <p className="civil-date">{CIVIL.fechaLabel}</p>
-            <p className="civil-time">{CIVIL.horario}</p>
-          </div>
+          <p className="civil-time">{CIVIL.horario}</p>
 
           <img className="civil-sep civil-sep--sm" src={HOJAS_CORTAS} alt="" />
 
